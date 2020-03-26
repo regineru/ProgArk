@@ -29,6 +29,10 @@ public class Player {
 
     }
 
+    public void switchGravity(){ // should this be handled here?
+
+    }
+
 
 
     public TextureRegion getTexture(){return this.texture;} // TODO: maybe return single texture instead?
