@@ -4,21 +4,25 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-
+// Common setup goes into an abstract View class.
+// Child classes build the specific layouts required.
 public abstract class SuperView {
-    //This is the superclass for all views
+
+    // This is the superclass for all views
     protected OrthographicCamera camera;
     protected Vector3 mouse;
-    //Gsm to be created by Johanne
-    protected GameStateManager gsm;
 
-    //Constructor
-    public SuperView(GameStateManager gsm){
-        this.gsm = gsm;
+    // ViewController should be put here
+    protected ViewController viewController;
+
+    // Constructor
+    public SuperView(ViewController viewController){
+        this.viewController = viewController;
         camera = new OrthographicCamera();
         mouse = new Vector3();
     }
 
+    // Methods to be used by subclasses
     protected abstract void handleInput();
     public abstract void update(float dt);
     public abstract void render(SpriteBatch sb);
