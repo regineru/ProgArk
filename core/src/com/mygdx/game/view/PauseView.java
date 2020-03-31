@@ -6,18 +6,19 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.controller.PauseController;
 // Here we need the import of the game instance!
 
 public class PauseView extends SuperView{
-    protected ViewController viewController;
+    protected PauseController pauseController;
 
     // Make a simple background and a pause-button and put it in the assets folder!
     private Texture background;
     private Texture playBtn;
 
     // Constructor
-    public PauseView(ViewController viewController) {
-        this.viewController = viewController;
+    public PauseView(PauseController pauseController) {
+        this.pauseController = pauseController;
         camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
 
         // Change to suitable background.
@@ -29,7 +30,7 @@ public class PauseView extends SuperView{
     public void handleInput() {
         // For example, a play button, making the player return to the game
         if(Gdx.input.justTouched()){
-            viewController.set(new PlayView(viewController));
+            pauseController.ContinueGame();
         }
     }
 
