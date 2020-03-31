@@ -3,11 +3,11 @@ package com.mygdx.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.view.PlayView;
 
-public class MainMenuController {
+public class MenuController {
 
     private ViewController vc;
 
-    public MainMenuController(ViewController vc) {
+    public MenuController(ViewController vc) {
         this.vc = vc;
     }
 
@@ -21,7 +21,7 @@ public class MainMenuController {
     }
 
     public void playGamePressed(){
-        vc.set(new PlayView());
+        vc.set(new PlayView(new PlayController(vc)));
     }
 
     public void helpPressed(){

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
-    protected ViewController viewController;
+    protected PlayController playController;
 
     // Variables that can be used for our obstacles.
     private static final int OBSTACLE_SPACING = 125;
@@ -30,8 +30,8 @@ public class PlayView extends SuperView {
     // Make an array of the obstacles (obstacle must be made as a model).
     private Array<Obstacle> obstacles;
 
-    public PlayView(ViewController viewController){
-        this.viewController = viewController;
+    public PlayView(PlayController playController){
+        this.playController = playController;
 
         character = new Character(50, 300);
         camera.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
@@ -60,7 +60,7 @@ public class PlayView extends SuperView {
 
         //The playBtn needs to have an eventListener called btnPushed in order to switch to right view.
         if (Gdx.playBtn.btnPushed()) {
-            viewController.set(new PauseView(viewController));
+            playController.ChangeToPause(); //Have not been made yet
         }
     }
 
@@ -91,12 +91,12 @@ public class PlayView extends SuperView {
 
             // If character hits obstacle, change to menu state
             if(obstacle.collides(character.getBounds()))
-                viewController.set(new MenuState(viewController));
+                playController.GoToMenu(); //Have not been made yet
         }
 
         // If character hits ground, change to menu state
         if(character.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
-            viewController.set(new MenuState(viewController));
+            playController.GoToMenu() //Have not been made yet
         camera.update();
 
     }

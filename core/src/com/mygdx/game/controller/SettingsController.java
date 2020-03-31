@@ -1,5 +1,7 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.view.MenuView;
+
 public class SettingsController {
 
     private ViewController vc;
@@ -10,8 +12,8 @@ public class SettingsController {
 
     }
 
-    public BackToMenu(){
-        vc.set(new MenuView());
+    public void BackToMenu(){
+        vc.set(new MenuView(new MenuController(vc)));
     }
 
     public void ChangeSoundVolume(float volume){

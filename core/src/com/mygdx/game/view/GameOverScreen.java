@@ -3,11 +3,12 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.controller.GameOverController;
 // Here we need the game instance import!
 
 // This view will display the "Game over"-screen.
 public class GameOverScreen extends SuperView{
-    protected ViewController viewController;
+    protected GameOverController gameOverController;
 
     // Make a simple background and a game over-logo and put it in the assets folder!
     private Texture background;
@@ -16,8 +17,8 @@ public class GameOverScreen extends SuperView{
     private Texture backToMenuBtn;
 
     // Constructor
-    public GameOverScreen(ViewController viewController) {
-        this.viewController = viewController;
+    public GameOverScreen(GameOverController gameOverController) {
+        this.gameOverController = gameOverController;
         camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
         // Change to suitable background.
         background = new Texture("bg.png");
@@ -32,7 +33,7 @@ public class GameOverScreen extends SuperView{
         // For example, there could be a button that displays a "Back to menu" option.
         // Upon clicking it, the new view will be MenuView.
         if(Gdx.input.justTouched()){
-            viewController.set(new MenuView(viewController));
+            gameOverController.BackToMenu();
         }
     }
 

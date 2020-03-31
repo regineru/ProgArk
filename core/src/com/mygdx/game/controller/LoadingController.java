@@ -10,7 +10,7 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    public startGame(){
-        vc.set(new PlayView());
+    public void startGame(){
+        vc.set(new PlayView(new PlayController(vc)));
     }
 }

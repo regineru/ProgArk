@@ -12,12 +12,9 @@ public abstract class SuperView {
     protected OrthographicCamera camera;
     protected Vector3 mouse;
 
-    // ViewController should be put here
-    protected ViewController viewController;
 
     // Constructor
-    public SuperView(ViewController viewController){
-        this.viewController = viewController;
+    public SuperView(){
         camera = new OrthographicCamera();
         mouse = new Vector3();
     }
