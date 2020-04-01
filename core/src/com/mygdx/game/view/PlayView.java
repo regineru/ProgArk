@@ -129,7 +129,7 @@ public class PlayView extends SuperView {
         pauseBtn.dispose();
         for(Obstacle obstacle : obstacles)
             obstacle.dispose();
-        System.out.println("Play State Disposed");
+        System.out.println("Play View Disposed");
     }
 
     private void updateGround(){
