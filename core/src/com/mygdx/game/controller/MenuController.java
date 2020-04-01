@@ -2,6 +2,7 @@ package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.view.PlayView;
+import com.mygdx.game.view.SettingsView;
 
 public class MenuController {
 
@@ -17,7 +18,6 @@ public class MenuController {
 
     public void settingsPressed(){
         vc.set(new SettingsView());
-
     }
 
     public void playGamePressed(){

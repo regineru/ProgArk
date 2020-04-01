@@ -15,6 +15,8 @@ public class PauseView extends SuperView{
     // Make a simple background and a pause-button and put it in the assets folder!
     private Texture background;
     private Texture playBtn;
+    private Texture menuBtn;
+
 
     // Constructor
     public PauseView(PauseController pauseController) {
@@ -23,7 +25,9 @@ public class PauseView extends SuperView{
 
         // Change to suitable background.
         background = new Texture("bg.png");
+        // In PauseView, playBtn will have the continue-function.
         playBtn = new Texture("playBtn.png");
+        menuBtn = new Texture("menuBtn.png");
     }
 
     @Override
@@ -46,6 +50,7 @@ public class PauseView extends SuperView{
         sb.begin();
         sb.draw(background, 0,0);
         sb.draw(playBtn, camera.position.x - playBtn.getWidth() / 2, camera.position.y);
+        sb.draw(menuBtn, camera.position.x - playBtn.getWidth() / 2, camera.position.y+50);
         sb.end();
     }
 
@@ -53,6 +58,7 @@ public class PauseView extends SuperView{
     public void dispose() {
         background.dispose();
         playBtn.dispose();
+        menuBtn.dispose();
         System.out.println("Pause View Disposed");
     }
 }
