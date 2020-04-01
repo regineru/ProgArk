@@ -3,38 +3,50 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.controller.GameOverController;
+import com.mygdx.game.interactiveElements.MenuBtn;
 // Here we need the game instance import!
 
-// This view will display the "Game over"-screen.
 public class GameOverScreen extends SuperView{
     protected GameOverController gameOverController;
+    private Stage stage;
+    private MenuBtn menuBtn;
 
     // Make a simple background and a game over-logo and put it in the assets folder!
     private Texture background;
-    private Texture gameOver;
-    // Need to make a backToMenu-button and put it in assets folder!
-    private Texture backToMenuBtn;
+    private Texture gameOver; // NB: Not a button, just text on screen
 
     // Constructor
     public GameOverScreen(GameOverController gameOverController) {
         this.gameOverController = gameOverController;
+        this.menuBtn = new MenuBtn();
+
         camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
-        // Change to suitable background.
         background = new Texture("bg.png");
         gameOver = new Texture("gameOver.png");
 
-        // This btn has not been made yet.
-        backToMenuBtn = new Texture("backToMenuBtn.png");
+        // Setting up the stage, adding the actors (buttons)
+        stage = new Stage(new ScreenViewport());
+        stage.addActor(menuBtn);
+        Gdx.input.setInputProcessor(stage);
+
+        // Position the button
+        menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y);
     }
 
     @Override
     public void handleInput() {
-        // For example, there could be a button that displays a "Back to menu" option.
-        // Upon clicking it, the new view will be MenuView.
-        if(Gdx.input.justTouched()){
-            gameOverController.BackToMenu();
-        }
+        menuBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("MenuBtn is pressed.");
+                gameOverController.BackToMenu();
+            }
+        });
     }
 
     @Override
@@ -49,7 +61,6 @@ public class GameOverScreen extends SuperView{
         sb.begin();
         sb.draw(background, 0,0);
         sb.draw(gameOver, camera.position.x - gameOver.getWidth() / 2, camera.position.y);
-        sb.draw(backToMenuBtn, camera.position.x - backToMenuBtn.getWidth() / 2, camera.position.y);
         sb.end();
     }
 
@@ -57,7 +68,6 @@ public class GameOverScreen extends SuperView{
     public void dispose() {
         background.dispose();
         gameOver.dispose();
-        backToMenuBtn.dispose();
         System.out.println("Game Over View Disposed");
     }
 }
