@@ -6,18 +6,26 @@ import com.mygdx.game.controller.LoadingController;
 // LoadingScreen can be displayed when a while-loop is true in another controller.
 
 public class LoadingScreen extends SuperView{
+
     protected LoadingController loadingController;
     private Texture loadingTexture;
     private Texture background;
 
     // Constructor
     public LoadingScreen(LoadingController loadingController){
+
         this.loadingController = loadingController;
+
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
 
         background = new Texture("bg.png");
         loadingTexture = new Texture("loadingTexture.png");
+    }
+
+    @Override
+    protected void handleInput() {
+
     }
 
     @Override
