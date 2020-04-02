@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
@@ -49,7 +50,7 @@ public class MenuView extends SuperView{
         helpBtn.setPosition(camera.position.x - helpBtn.getWidth() / 2, camera.position.y+60);
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
-        camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
         // Change to suitable background later (and put background in asset-folder!!!)
         background = new Texture("bg.png");
@@ -89,7 +90,7 @@ public class MenuView extends SuperView{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("helpBtn is pressed.");
-                menuController.helpPressed();
+                // menuController.helpPressed();
             }
         });
     }

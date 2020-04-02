@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 // Here we need the game instance import!
@@ -25,7 +26,7 @@ public class GameOverScreen extends SuperView{
         this.gameOverController = gameOverController;
         this.menuBtn = new MenuBtn();
 
-        camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
         background = new Texture("bg.png");
         gameOver = new Texture("gameOver.png");
 

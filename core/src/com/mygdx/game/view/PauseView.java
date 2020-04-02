@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PauseController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
@@ -27,7 +28,7 @@ public class PauseView extends SuperView{
     // Constructor
     public PauseView(PauseController pauseController) {
         this.pauseController = pauseController;
-        camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
         this.playBtn = new PlayBtn();
         this.menuBtn = new MenuBtn();

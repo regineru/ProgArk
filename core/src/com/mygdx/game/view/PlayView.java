@@ -8,13 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.controller.GameController;
+import com.mygdx.game.ImpossibleGravity;
+// import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
+import com.mygdx.game.model.Player;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
-    protected GameController gameController;
+    protected ViewController gameController;
     private Stage stage;
     private PauseBtn pauseBtn;
 
@@ -26,7 +29,7 @@ public class PlayView extends SuperView {
 
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
-    private Character character;
+    private Player character;
     private Texture background;
 
     // Ground could be the platform our character is running on.
@@ -36,34 +39,38 @@ public class PlayView extends SuperView {
 
 
     // Make an array of the obstacles (obstacle must be made as a model).
-    private Array<Obstacle> obstacles;
+    // private Array<Obstacle> obstacles;
 
-    public PlayView(GameController gameController){
+    public PlayView(ViewController vc){
 
-        this.gameController = gameController;
-        this.pauseBtn = new PauseBtn();
+        this.gameController = vc;
+        // this.pauseBtn = new PauseBtn();
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        stage.addActor(pauseBtn);
+        // stage.addActor(pauseBtn);
         Gdx.input.setInputProcessor(stage);
 
         // Position the button
-        pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
+        // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
         // MODEL PEOPLE put your player/character here.
-        character = new Character(50, 300);
-        camera.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
-        background = new Texture("bg.png");
-        ground = new Texture("ground.png");
+        character = new Player();
+        System.out.println("player created");
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+        // background = new Texture("bg.png");
+        // ground = new Texture("ground.png");
         groundPos1 = new Vector2(camera.position.x - camera.viewportWidth / 2, GROUND_Y_OFFSET);
-        groundPos2 = new Vector2((camera.position.x - camera.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
+        // groundPos2 = new Vector2((camera.position.x - camera.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         // GENERATING NEW OBSTACLES
+        /*
         obstacles = new Array<Obstacle>();
         for(int i = 1; i <= OBSTACLE_COUNT; i++){
             obstacles.add(new Obstacle(i * (OBSTACLE_SPACING + Obstacle.OBSTACLE_WIDTH)));
         }
+
+         */
     }
 
     @Override
@@ -82,7 +89,7 @@ public class PlayView extends SuperView {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("PauseBtn is pressed.");
-                gameController.pauseGame();
+                // gameController.pauseGame();
             }
         });
     }
@@ -90,9 +97,9 @@ public class PlayView extends SuperView {
     @Override
     public void update(float dt) {
         // Input from player
-        handleInput();
+        // handleInput();
         // Animation of ground. We need the
-        updateGround();
+        // updateGround();
 
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
@@ -100,6 +107,7 @@ public class PlayView extends SuperView {
         camera.position.x = character.getPosition().x + 80;
 
         // This is for making the obstacles "move", and then repositioning them
+        /*
         for(int i = 0; i < obstacles.size; i++){
             Obstacle obstacle = obstacles.get(i);
 
@@ -113,10 +121,15 @@ public class PlayView extends SuperView {
                 gameController.gameover(); //Have not been made yet
         }
 
+         */
+
         // If character hits ground, change to menu state
+        /*
         if(character.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
             gameController.gameover(); //Have not been made yet
         camera.update();
+
+         */
 
     }
 
@@ -124,18 +137,22 @@ public class PlayView extends SuperView {
     // Each view is responsible for knowing what it needs to draw.
     // Here we draw the background, character, obstacles and ground.
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(camera.combined);
+        // System.out.println("playview render");
+        // sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
+        // sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
 
+        /*
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getTopTube(), obstacle.getPosTopTube().x, obstacle.getPosTopTube().y);
             sb.draw(obstacle.getBottomTube(), obstacle.getPosBotTube().x, obstacle.getPosBotTube().y);
         }
 
-        sb.draw(ground, groundPos1.x, groundPos1.y);
-        sb.draw(ground, groundPos2.x, groundPos2.y);
+         */
+
+        // sb.draw(ground, groundPos1.x, groundPos1.y);
+        // sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
     }
 
@@ -152,8 +169,11 @@ public class PlayView extends SuperView {
         background.dispose();
         character.dispose();
         ground.dispose();
+        /*
         for(Obstacle obstacle : obstacles)
             obstacle.dispose();
+
+         */
         System.out.println("Play View Disposed");
     }
 
