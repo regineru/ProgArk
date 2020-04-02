@@ -10,14 +10,16 @@ import com.mygdx.game.model.Player;
 import com.mygdx.game.view.PlayView;
 
 public class ImpossibleGravity extends ApplicationAdapter {
-	SpriteBatch batch;
+
+	private SpriteBatch batch;
 
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 480;
 	public static final String TITLE = "Impossible Gravity";
 
+	public static final int GRAVITY = 5;
+
 	private ViewController vc;
-	private Player character;
 	
 	@Override
 	public void create () {
@@ -25,19 +27,12 @@ public class ImpossibleGravity extends ApplicationAdapter {
 		vc = new ViewController();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		vc.push(new PlayView(vc));
-		// character = new Player();
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		vc.update(Gdx.graphics.getDeltaTime());
-		/*
-		batch.begin();
-		batch.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
-		batch.end();
-
-		 */
 		vc.render(batch);
 	}
 	

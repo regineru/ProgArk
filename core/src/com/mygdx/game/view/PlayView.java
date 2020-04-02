@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 // import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Player;
@@ -18,6 +17,7 @@ import com.mygdx.game.model.Player;
 
 public class PlayView extends SuperView {
     protected ViewController gameController;
+    private PlayerController pc;
     private Stage stage;
     private PauseBtn pauseBtn;
 
@@ -44,6 +44,7 @@ public class PlayView extends SuperView {
     public PlayView(ViewController vc){
 
         this.gameController = vc;
+        this.pc = new PlayerController(vc);
         // this.pauseBtn = new PauseBtn();
 
         // Setting up the stage, adding the actors (buttons)
@@ -56,7 +57,6 @@ public class PlayView extends SuperView {
 
         // MODEL PEOPLE put your player/character here.
         character = new Player();
-        System.out.println("player created");
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
         // background = new Texture("bg.png");
         // ground = new Texture("ground.png");
@@ -79,12 +79,11 @@ public class PlayView extends SuperView {
         // The action is defined in the model-class of the character.
 
         if (Gdx.input.justTouched()) {
-            // E.g. for our character/player, it should jump, shift gravity etc. The character-related methods should be made in the model!
-            character.jump();
+            pc.touch(character);
         }
 
         // Put the rest of the actions here
-
+/*
         pauseBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -92,12 +91,16 @@ public class PlayView extends SuperView {
                 // gameController.pauseGame();
             }
         });
+
+ */
+
+
     }
+
 
     @Override
     public void update(float dt) {
-        // Input from player
-        // handleInput();
+        handleInput();
         // Animation of ground. We need the
         // updateGround();
 
@@ -137,7 +140,6 @@ public class PlayView extends SuperView {
     // Each view is responsible for knowing what it needs to draw.
     // Here we draw the background, character, obstacles and ground.
     public void render(SpriteBatch sb) {
-        // System.out.println("playview render");
         // sb.setProjectionMatrix(camera.combined);
         sb.begin();
         // sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);

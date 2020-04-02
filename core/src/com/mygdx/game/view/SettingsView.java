@@ -44,6 +44,8 @@ public class SettingsView extends SuperView{
         background = new Texture("bg.png");
 
     }
+
+
     @Override
     public void handleInput() {
         menuBtn.addListener(new ClickListener() {
