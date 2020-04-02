@@ -2,6 +2,7 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.LoadingController;
 // LoadingScreen can be displayed when a while-loop is true in another controller.
 
@@ -17,7 +18,7 @@ public class LoadingScreen extends SuperView{
         this.loadingController = loadingController;
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
-        camera.setToOrtho(false, GameInstance.WIDTH / 2, GameInstance.HEIGHT / 2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
         background = new Texture("bg.png");
         loadingTexture = new Texture("loadingTexture.png");

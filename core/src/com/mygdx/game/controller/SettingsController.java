@@ -1,13 +1,14 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.model.SettingsModel;
 import com.mygdx.game.view.MenuView;
 
 public class SettingsController {
 
     private ViewController vc;
-    private Settingsmodel model;
+    private SettingsModel model;
 
-    public SettingsController(ViewController vc, SettingsModel model) {
+    public SettingsController(ViewController vc) {
         this.vc = vc;
 
     }
