@@ -11,7 +11,7 @@ public class BottomSpikes extends Obstacle {
 
     public BottomSpikes() {
         this.spikes = new Texture("bottomSpikes.png");
-        this.position = new Vector2(50, 0);
+        this.position = new Vector2(50, 0); // x-pos må endres
     }
 
     @Override

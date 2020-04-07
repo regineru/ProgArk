@@ -16,8 +16,8 @@ public class ObstacleFatory {
     private int chosenObstacle;
 
     //private static final int noSpike = 0;
-    private static final int topSpike = 1;
-    private static final int bottomSpike = 2;
+    private static final int topSpike = 0;
+    private static final int bottomSpike = 1;
 
     public ObstacleFatory() {
         random = new Random();

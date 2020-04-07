@@ -43,7 +43,6 @@ public class PlayView extends SuperView {
     private Vector2 groundPos1, groundPos2;
 
 
-
     // Make an array of the obstacles (obstacle must be made as a model).
     // private Array<Obstacle> obstacles;
 
@@ -71,7 +70,7 @@ public class PlayView extends SuperView {
 
         // GENERATING NEW OBSTACLES
         obstacleFatory = new ObstacleFatory();
-        obstacle = obstacleFatory.generateObstacle();
+        obstacle = obstacleFatory.generateObstacle(); // TODO: får kun laget en obstacle på denne måten, må flyttes til update() senere?
 
         /*
         obstacles = new Array<Obstacle>();
@@ -102,10 +101,7 @@ public class PlayView extends SuperView {
         });
 
  */
-
-
     }
-
 
     @Override
     public void update(float dt) {
@@ -153,7 +149,7 @@ public class PlayView extends SuperView {
         sb.begin();
         // sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
-        sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y);
+        sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
 
         /*
         for(Obstacle obstacle : obstacles) {
