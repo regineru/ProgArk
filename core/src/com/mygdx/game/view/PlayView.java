@@ -139,7 +139,7 @@ public class PlayView extends SuperView {
         // sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
-        sb.draw(world.getBackground(), camera.position.x - (camera.viewportWidth / 2), 0);
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
         sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
 
