@@ -11,7 +11,11 @@ import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
+import com.mygdx.game.model.BottomSpikes;
+import com.mygdx.game.model.Obstacle;
+import com.mygdx.game.model.ObstacleFatory;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.model.TopSpikes;
 import com.mygdx.game.model.World;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
@@ -32,7 +36,8 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private World world;
-
+    private ObstacleFatory obstacleFatory;
+    private Obstacle obstacle;
 
     // Make an array of the obstacles (obstacle must be made as a model).
     //private Array<Obstacle> obstacles;
@@ -60,6 +65,9 @@ public class PlayView extends SuperView {
         world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth / 2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
 
         // GENERATING NEW OBSTACLES
+        obstacleFatory = new ObstacleFatory();
+        obstacle = obstacleFatory.generateObstacle(); // TODO: får kun laget en obstacle på denne måten, må flyttes til update() senere?
+
         /*
         obstacles = new Array<Obstacle>();
         for(int i = 1; i <= OBSTACLE_COUNT; i++){
@@ -89,10 +97,7 @@ public class PlayView extends SuperView {
         });
 
  */
-
-
     }
-
 
     @Override
     public void update(float dt) {
@@ -144,6 +149,7 @@ public class PlayView extends SuperView {
         sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
 
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
+        sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
 
         /*
         for(Obstacle obstacle : obstacles) {
@@ -170,6 +176,8 @@ public class PlayView extends SuperView {
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
         character.dispose();
+        obstacle.dispose();
+
         /*
         for(Obstacle obstacle : obstacles)
             obstacle.dispose();
