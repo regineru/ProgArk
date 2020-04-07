@@ -12,6 +12,8 @@ import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.BottomSpikes;
+import com.mygdx.game.model.Obstacle;
+import com.mygdx.game.model.ObstacleFatory;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.TopSpikes;
 
@@ -33,8 +35,8 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private Texture background;
-    private TopSpikes topSpikes;
-    private BottomSpikes bottomSpikes;
+    private ObstacleFatory obstacleFatory;
+    private Obstacle obstacle;
 
     // Ground could be the platform our character is running on.
     private Texture ground;
@@ -68,8 +70,8 @@ public class PlayView extends SuperView {
         // groundPos2 = new Vector2((camera.position.x - camera.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         // GENERATING NEW OBSTACLES
-        topSpikes = new TopSpikes();
-        bottomSpikes = new BottomSpikes();
+        obstacleFatory = new ObstacleFatory();
+        obstacle = obstacleFatory.generateObstacle();
 
         /*
         obstacles = new Array<Obstacle>();
@@ -151,8 +153,8 @@ public class PlayView extends SuperView {
         sb.begin();
         // sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
-        sb.draw(topSpikes.getSpikes(), topSpikes.getPosition().x, topSpikes.getPosition().y);
-        sb.draw(bottomSpikes.getSpikes(), bottomSpikes.getPosition().x, bottomSpikes.getPosition().y);
+        sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y);
+
         /*
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getTopTube(), obstacle.getPosTopTube().x, obstacle.getPosTopTube().y);
@@ -179,7 +181,7 @@ public class PlayView extends SuperView {
         background.dispose();
         character.dispose();
         ground.dispose();
-        topSpikes.dispose();
+        obstacle.dispose();
         /*
         for(Obstacle obstacle : obstacles)
             obstacle.dispose();

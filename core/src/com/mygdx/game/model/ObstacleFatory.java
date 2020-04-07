@@ -12,23 +12,30 @@ import java.util.Random;
 
 public class ObstacleFatory {
 
-    private Array <Obstacle> obstacles = new Array();
-    private Random random = new Random();
+    private Random random;
+    private int chosenObstacle;
 
-    private static final int topSpike = 0;
-    private static final int bottomSpike = 1;
-/*
+    //private static final int noSpike = 0;
+    private static final int topSpike = 1;
+    private static final int bottomSpike = 2;
+
+    public ObstacleFatory() {
+        random = new Random();
+    }
+
     public Obstacle generateObstacle() {
 
+        chosenObstacle = random.nextInt(2);
 
-        random = generer random tall mellom 0 og 1:
+        //if (chosenObstacle == 0) {
+            //return null;
 
-        if (random = 0) {
-            spike = new TopSpikes();
+        if (chosenObstacle == 0) {
+            return new TopSpikes();
+        } else if (chosenObstacle == 1) {
+            return new BottomSpikes();
         }
+        return null;
+    }
 
-        if (1) {
-
-        }
-      */
 }
