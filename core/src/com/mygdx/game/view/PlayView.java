@@ -12,6 +12,7 @@ import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.model.World;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
@@ -30,16 +31,11 @@ public class PlayView extends SuperView {
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
-    private Texture background;
-
-    // Ground could be the platform our character is running on.
-    private Texture ground;
-    private Vector2 groundPos1, groundPos2;
-
+    private World world;
 
 
     // Make an array of the obstacles (obstacle must be made as a model).
-    // private Array<Obstacle> obstacles;
+    //private Array<Obstacle> obstacles;
 
     public PlayView(ViewController vc){
 
@@ -55,13 +51,13 @@ public class PlayView extends SuperView {
         // Position the button
         // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
-        // MODEL PEOPLE put your player/character here.
+        world = new World();
         character = new Player();
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-        // background = new Texture("bg.png");
-        // ground = new Texture("ground.png");
-        groundPos1 = new Vector2(camera.position.x - camera.viewportWidth / 2, GROUND_Y_OFFSET);
-        // groundPos2 = new Vector2((camera.position.x - camera.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
+
+        //TODO fix dimentions for background
+        world.setGroundPos1(new Vector2(camera.position.x - camera.viewportWidth / 2, GROUND_Y_OFFSET));
+        world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth / 2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
 
         // GENERATING NEW OBSTACLES
         /*
@@ -101,8 +97,8 @@ public class PlayView extends SuperView {
     @Override
     public void update(float dt) {
         handleInput();
-        // Animation of ground. We need the
-        // updateGround();
+        // TODO Animation of ground. We need the
+        //updateGround(); and/or updateBackground();
 
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
@@ -142,7 +138,11 @@ public class PlayView extends SuperView {
     public void render(SpriteBatch sb) {
         // sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        // sb.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
+
+        sb.draw(world.getBackground(), camera.position.x - (camera.viewportWidth / 2), 0);
+        sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
+        sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
+
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
 
         /*
@@ -152,25 +152,24 @@ public class PlayView extends SuperView {
         }
 
          */
-
-        // sb.draw(ground, groundPos1.x, groundPos1.y);
-        // sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
     }
 
+    //TODO Regine
+    /*
     private void updateGround(){
-        if(camera.position.x - (camera.viewportWidth / 2) > groundPos1.x + ground.getWidth())
-            groundPos1.add(ground.getWidth() * 2, 0);
-        if(camera.position.x - (camera.viewportWidth / 2) > groundPos2.x + ground.getWidth())
-            groundPos2.add(ground.getWidth() * 2, 0);
+        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos1().x + world.getGround().getWidth())
+            world.getGroundPos1().add(world.getGround().getWidth() * 2, 0);
+        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos2().x + world.getGround().getWidth())
+            world.getGroundPos2().add(world.getGround().getWidth() * 2, 0);
     }
+     */
 
     @Override
     public void dispose(){
         // Remember to dispose of everything drawn on the screen.
-        background.dispose();
+        world.dispose();
         character.dispose();
-        ground.dispose();
         /*
         for(Obstacle obstacle : obstacles)
             obstacle.dispose();
