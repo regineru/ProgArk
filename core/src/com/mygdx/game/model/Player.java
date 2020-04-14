@@ -16,28 +16,40 @@ public class Player {
     private int gravity;
     private Vector3 velocity;
     private int score;
+    private int SPEED;
 
     public Player(){
         this.texture = new Texture("player.png"); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2,ImpossibleGravity.HEIGHT/2,0);
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - texture.getWidth()/2,ImpossibleGravity.HEIGHT/2 - texture.getHeight()/2,0);
         this.bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
+        this.SPEED = 10; // this needs to be updated
         this.velocity = new Vector3(0, 0, 0);
         this.score = 0;
         this.jump = false;
     }
 
+    public void start() {
+        this.velocity.add(SPEED, 0, 0);
+    }
+
     public void update(float dt){
 
         this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x;
 
-        if (this.jump){
-            if (this.gravity > 0) {
-                this.velocity.y -= this.gravity;
-            } else {
-                this.velocity.y += this.gravity;
-            }
+        this.velocity.add(0, gravity, 0);
+
+        if (this.position.y <= 50 && velocity.y < 0){
+            this.velocity.y = 0;
+            this.position.y = 50;
         }
+
+        if (this.position.y >= 430 && velocity.y > 0){
+            this.velocity.y = 0;
+            this.position.y = 430;
+        }
+
 
 
         this.bounds.setPosition(this.position.x, this.position.y); // update bounds to players position
@@ -49,11 +61,10 @@ public class Player {
     public void jump(){
         if (this.velocity.y == 0){
             if (this.gravity < 0) {
-                this.velocity.y -= 35;
+                this.velocity.add(0, 15, 0);
             } else if (this.gravity > 0){
-                this.velocity.y += 35;
+                this.velocity.add(0, -15, 0);
             }
-            this.jump = true;
         }
     }
 
