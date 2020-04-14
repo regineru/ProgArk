@@ -17,7 +17,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 	public static final int HEIGHT = 480; //height of the screen
 	public static final String TITLE = "Impossible Gravity";
 
-	public static final int GRAVITY = 5;
+	public static final int GRAVITY = -1;
 
 	private ViewController vc;
 	

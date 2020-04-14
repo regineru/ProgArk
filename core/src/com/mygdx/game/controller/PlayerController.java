@@ -16,6 +16,10 @@ public class PlayerController {
         player.jump();
     }
 
+    public void swipe(Player player, int deltaY) {
+        player.switchGravity(deltaY);
+    }
+
     public void gameOver(){
         vc.set(new GameOverScreen(new GameOverController(vc)));
     }

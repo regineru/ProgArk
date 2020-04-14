@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
@@ -38,6 +39,7 @@ public class PlayView extends SuperView {
     private World world;
     private ObstacleFatory obstacleFatory;
     private Obstacle obstacle;
+    private int touchPos;
 
     // Make an array of the obstacles (obstacle must be made as a model).
     //private Array<Obstacle> obstacles;
@@ -82,7 +84,12 @@ public class PlayView extends SuperView {
         // Every input from the user should call on a function for the character.
         // The action is defined in the model-class of the character.
 
-        if (Gdx.input.justTouched()) {
+        int deltaY = swipe();
+
+        if (deltaY != 0) {
+            System.out.println(deltaY);
+            pc.swipe(character, deltaY);
+        } else if (Gdx.input.justTouched()) {
             pc.touch(character);
         }
 
@@ -97,6 +104,14 @@ public class PlayView extends SuperView {
         });
 
  */
+    }
+
+
+    public int swipe() {
+        if (Gdx.input.justTouched() && (Gdx.input.getDeltaY() > 10 || Gdx.input.getDeltaY() < -10)) {
+            return Gdx.input.getDeltaY();
+        }
+        return 0;
     }
 
     @Override
@@ -148,7 +163,7 @@ public class PlayView extends SuperView {
         sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
         sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
 
-        sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
+        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
         sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
 
         /*

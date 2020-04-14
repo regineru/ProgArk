@@ -1,6 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
@@ -9,7 +10,9 @@ import static java.lang.Math.abs;
 
 public class Player {
 
+    // TODO: make the texture into a sprite
     private Texture texture;
+    private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
     private boolean jump;
@@ -19,9 +22,9 @@ public class Player {
     private int SPEED;
 
     public Player(){
-        this.texture = new Texture("player.png"); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - texture.getWidth()/2,ImpossibleGravity.HEIGHT/2 - texture.getHeight()/2,0);
-        this.bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.player = new Sprite(new Texture("player.png")); // placeholder
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,ImpossibleGravity.HEIGHT/2 - this.player.getTexture().getHeight()/2,0);
+        this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.SPEED = 10; // this needs to be updated
         this.velocity = new Vector3(0, 0, 0);
@@ -69,20 +72,23 @@ public class Player {
     }
 
     // called from controller based on input
-    public void switchGravity(){
-        this.gravity = -this.gravity;
+    public void switchGravity(int deltaY){
+        if (deltaY*this.gravity > 0 && this.velocity.y == 0) {
+            this.gravity = -this.gravity;
+            this.player.flip(false, true);
+        }
     }
 
 
 
-    public Texture getTexture(){return this.texture;}
+    public Sprite getSprite(){return this.player;}
 
     public int getScore(){return this.score;}
 
     public Vector3 getPosition(){return this.position;}
 
     public void dispose(){
-        this.texture.dispose();
+        this.player.getTexture().dispose();
     }
 
 
