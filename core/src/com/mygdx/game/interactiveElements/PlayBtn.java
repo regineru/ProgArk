@@ -21,4 +21,13 @@ public class PlayBtn extends Actor {
         playTexRegionDrawable = new TextureRegionDrawable(playTextureRegion);
         playBtn = new ImageButton(playTexRegionDrawable);
     }
+
+    public Texture getPlayBtn(){
+        return playTexture;
+    }
+
+    public void dispose() {
+        playTexture.dispose();
+
+    }
 }

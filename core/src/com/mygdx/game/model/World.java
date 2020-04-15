@@ -3,6 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.ImpossibleGravity;
 
 public class World {
 
@@ -63,6 +64,9 @@ public class World {
 
     public void setGroundPos2(Vector2 groundPos2) {
         this.groundPos2 = groundPos2;
+    }
+
+    public void update(float dt) {
     }
 
 

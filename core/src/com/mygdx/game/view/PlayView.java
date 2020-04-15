@@ -58,11 +58,10 @@ public class PlayView extends SuperView {
 
         world = new World();
         character = new Player();
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
 
-        //TODO fix dimentions for background
-        world.setGroundPos1(new Vector2(camera.position.x - camera.viewportWidth / 2, GROUND_Y_OFFSET));
-        world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth / 2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
+        world.setGroundPos1(new Vector2(camera.position.x - camera.viewportWidth/2, GROUND_Y_OFFSET));
+        world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth/2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
 
         // GENERATING NEW OBSTACLES
         obstacleFatory = new ObstacleFactory();
@@ -82,9 +81,14 @@ public class PlayView extends SuperView {
         // Every input from the user should call on a function for the character.
         // The action is defined in the model-class of the character.
 
+        pc.touch(character);
+
+        /*
         if (Gdx.input.justTouched()) {
             pc.touch(character);
         }
+
+         */
 
         // Put the rest of the actions here
 /*
@@ -102,8 +106,15 @@ public class PlayView extends SuperView {
     @Override
     public void update(float dt) {
         handleInput();
-        // TODO Animation of ground. We need the
-        //updateGround(); and/or updateBackground();
+
+        /*
+        //TODO update ground
+        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos1().x + world.getGround().getWidth())
+            world.getGroundPos1().add(world.getGround().getWidth() * 2, 0);
+        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos2().x + world.getGround().getWidth())
+            world.getGroundPos2().add(world.getGround().getWidth() * 2, 0);
+
+         */
 
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
@@ -161,16 +172,6 @@ public class PlayView extends SuperView {
          */
         sb.end();
     }
-
-    //TODO Regine
-    /*
-    private void updateGround(){
-        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos1().x + world.getGround().getWidth())
-            world.getGroundPos1().add(world.getGround().getWidth() * 2, 0);
-        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos2().x + world.getGround().getWidth())
-            world.getGroundPos2().add(world.getGround().getWidth() * 2, 0);
-    }
-     */
 
     @Override
     public void dispose(){
