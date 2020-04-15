@@ -13,13 +13,14 @@ import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
+import com.mygdx.game.model.World;
 // Here we need the import of the game instance!
 
 public class MenuView extends SuperView{
 
     protected MenuController menuController;
     private Stage stage;
-    private Texture background;
+    private World world;
 
     // Import the necessary buttons for this view
     private PlayBtn playBtn;
@@ -52,8 +53,7 @@ public class MenuView extends SuperView{
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
-        // Change to suitable background later (and put background in asset-folder!!!)
-        background = new Texture("bg.png");
+        world = new World();
     }
 
     @Override
@@ -61,6 +61,10 @@ public class MenuView extends SuperView{
         // Add listeners to buttons
         // May have to move the listeners outside of a handleInput()-method.
         // Double clicks can be detected using getTapCount()playBtn.addListener(new ClickListener(){
+
+        if(Gdx.input.justTouched()){
+            menuController.playGamePressed();
+        }
 
         playBtn.addListener(new ClickListener() {
             @Override
@@ -104,15 +108,17 @@ public class MenuView extends SuperView{
     // Draws background, the play button
     // Should add all the menu options later, but at least a "PLAY" button or something.
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(camera.combined);
+         
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
+        sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
         sb.end();
     }
 
     @Override
     public void dispose() {
-        background.dispose();
+        world.dispose();
+        playBtn.dispose();
         System.out.println("Menu View Disposed");
     }
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.ImpossibleGravity;
 
 // Common setup goes into an abstract View class.
 // Child classes build the specific layouts required.
@@ -15,6 +16,8 @@ public abstract class SuperView {
 
     // Constructor
     public SuperView(){
+
+        //Prøver å zoome ut kamera, men får det ikke til
         camera = new OrthographicCamera();
         mouse = new Vector3();
     }
