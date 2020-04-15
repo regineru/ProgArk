@@ -21,6 +21,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 
 	public static final double GRAVITY = 0;
 
+
 	private ViewController vc;
 	private MenuController mc;
 	

@@ -13,21 +13,6 @@ public class TopSpikes extends Obstacle {
 
     public TopSpikes() {
         this.spikes = new Texture("topSpikes.png");
-        this.position = new Vector3(200, ImpossibleGravity.HEIGHT - spikes.getHeight()/2, 0); // x-pos må endres
-    }
-
-    @Override
-    public Texture getSpikes() {
-        return spikes;
-    }
-
-    @Override
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    @Override
-    public void dispose() {
-        this.spikes.dispose();
+        this.position = new Vector3(ImpossibleGravity.WIDTH + 1, ImpossibleGravity.HEIGHT - spikes.getHeight()/2, 0);
     }
 }
