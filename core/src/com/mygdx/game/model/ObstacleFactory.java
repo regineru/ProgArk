@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by henrikforb on 07. April 2020.
  **/
 
-public class ObstacleFatory {
+public class ObstacleFactory {
 
     private Random random;
     private int chosenObstacle;
@@ -19,7 +19,7 @@ public class ObstacleFatory {
     private static final int topSpike = 0;
     private static final int bottomSpike = 1;
 
-    public ObstacleFatory() {
+    public ObstacleFactory() {
         random = new Random();
     }
 
@@ -27,14 +27,13 @@ public class ObstacleFatory {
 
         chosenObstacle = random.nextInt(2);
 
-        //if (chosenObstacle == 0) {
-            //return null;
-
         if (chosenObstacle == 0) {
             return new TopSpikes();
+
         } else if (chosenObstacle == 1) {
             return new BottomSpikes();
         }
+
         return null;
     }
 

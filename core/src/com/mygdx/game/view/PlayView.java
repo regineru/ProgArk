@@ -13,7 +13,7 @@ import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.BottomSpikes;
 import com.mygdx.game.model.Obstacle;
-import com.mygdx.game.model.ObstacleFatory;
+import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.TopSpikes;
 import com.mygdx.game.model.World;
@@ -36,7 +36,7 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private World world;
-    private ObstacleFatory obstacleFatory;
+    private ObstacleFactory obstacleFatory;
     private Obstacle obstacle;
 
     // Make an array of the obstacles (obstacle must be made as a model).
@@ -64,7 +64,7 @@ public class PlayView extends SuperView {
         world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth/2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
 
         // GENERATING NEW OBSTACLES
-        obstacleFatory = new ObstacleFatory();
+        obstacleFatory = new ObstacleFactory();
         obstacle = obstacleFatory.generateObstacle(); // TODO: får kun laget en obstacle på denne måten, må flyttes til update() senere?
 
         /*
@@ -119,6 +119,7 @@ public class PlayView extends SuperView {
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
         character.update(dt);
+        obstacle.update(dt);
         camera.position.x = character.getPosition().x + 80;
 
         // This is for making the obstacles "move", and then repositioning them
