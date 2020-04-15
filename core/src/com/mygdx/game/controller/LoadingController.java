@@ -11,6 +11,6 @@ public class LoadingController {
     }
 
     public void startGame(){
-        vc.set(new PlayView(new PlayController(vc)));
+        vc.set(new PlayView(vc));
     }
 }
