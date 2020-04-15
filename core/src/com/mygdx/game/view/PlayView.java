@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 // import com.mygdx.game.controller.GameController;
@@ -18,6 +19,7 @@ import com.mygdx.game.model.Player;
 import com.mygdx.game.model.TopSpikes;
 import com.mygdx.game.model.World;
 
+
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
@@ -26,21 +28,16 @@ public class PlayView extends SuperView {
     private Stage stage;
     private PauseBtn pauseBtn;
 
-    // Variables that can be used for our obstacles.
-    // NOT SURE IF THESE BELONG HERE - MODEL PEOPLE CAN YOU LOOK AT THIS?
-    private static final int OBSTACLE_SPACING = 125;
-    private static final int OBSTACLE_COUNT = 4;
     private static final int GROUND_Y_OFFSET = -50;
 
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private World world;
-    private ObstacleFactory obstacleFatory;
-    private Obstacle obstacle;
 
-    // Make an array of the obstacles (obstacle must be made as a model).
-    //private Array<Obstacle> obstacles;
+    private ObstacleFactory obstacleFatory;
+    private Array<Obstacle> obstacles;
+    private long lastObstacle;
 
     public PlayView(ViewController vc){
 
@@ -65,15 +62,9 @@ public class PlayView extends SuperView {
 
         // GENERATING NEW OBSTACLES
         obstacleFatory = new ObstacleFactory();
-        obstacle = obstacleFatory.generateObstacle(); // TODO: får kun laget en obstacle på denne måten, må flyttes til update() senere?
-
-        /*
         obstacles = new Array<Obstacle>();
-        for(int i = 1; i <= OBSTACLE_COUNT; i++){
-            obstacles.add(new Obstacle(i * (OBSTACLE_SPACING + Obstacle.OBSTACLE_WIDTH)));
-        }
-
-         */
+        obstacles.add(obstacleFatory.generateObstacle());
+        lastObstacle = System.currentTimeMillis();
     }
 
     @Override
@@ -119,72 +110,63 @@ public class PlayView extends SuperView {
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
         character.update(dt);
-        obstacle.update(dt);
         camera.position.x = character.getPosition().x + 80;
 
-        // This is for making the obstacles "move", and then repositioning them
-        /*
-        for(int i = 0; i < obstacles.size; i++){
-            Obstacle obstacle = obstacles.get(i);
 
-            // When obstacle is out of camera view, reposition to other end
-            if(camera.position.x - (camera.viewportWidth / 2) > obstacle.getPosTopTube().x + obstacle.getTopTube().getWidth()){
-                obstacle.reposition(obstacle.getPosTopTube().x  + ((Obstacle.TUBE_WIDTH + OBSTACLE_SPACING) * OBSTACLE_COUNT));
+
+        for (Obstacle obstacle : obstacles) {
+            if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+                lastObstacle = System.currentTimeMillis();
+                obstacles.add(obstacleFatory.generateObstacle());
+
             }
+            obstacle.update(dt);
 
-            // If character hits obstacle, change to menu state
-            if(obstacle.collides(character.getBounds()))
-                gameController.gameover(); //Have not been made yet
-        }
+        camera.update();
 
-         */
 
-        // If character hits ground, change to menu state
+
+
+            // If character hits ground, change to menu state
         /*
         if(character.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
             gameController.gameover(); //Have not been made yet
         camera.update();
 
          */
-
+        }
     }
 
-    @Override
-    // Each view is responsible for knowing what it needs to draw.
-    // Here we draw the background, character, obstacles and ground.
-    public void render(SpriteBatch sb) {
-        //sb.setProjectionMatrix(camera.combined);
-        sb.begin();
+        @Override
+        // Each view is responsible for knowing what it needs to draw.
+        // Here we draw the background, character, obstacles and ground.
+        public void render (SpriteBatch sb){
+            //sb.setProjectionMatrix(camera.combined);
+            sb.begin();
 
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
-        sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
+            sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth() / 4, world.getBackground().getHeight() / 4);
+            sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
+            sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
 
-        sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
-        sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+            sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
 
-        /*
-        for(Obstacle obstacle : obstacles) {
-            sb.draw(obstacle.getTopTube(), obstacle.getPosTopTube().x, obstacle.getPosTopTube().y);
-            sb.draw(obstacle.getBottomTube(), obstacle.getPosBotTube().x, obstacle.getPosBotTube().y);
+            for (Obstacle obstacle : obstacles) {
+                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+            }
+
+            sb.end();
         }
 
-         */
-        sb.end();
-    }
 
     @Override
     public void dispose(){
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
         character.dispose();
-        obstacle.dispose();
-
-        /*
-        for(Obstacle obstacle : obstacles)
+        for (Obstacle obstacle : obstacles) {
             obstacle.dispose();
+        }
 
-         */
         System.out.println("Play View Disposed");
     }
 
