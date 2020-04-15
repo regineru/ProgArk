@@ -21,7 +21,7 @@ public class MenuController {
     }
 
     public void playGamePressed(){
-        vc.set(new PlayView(new PlayController(vc)));
+        vc.set(new PlayView(new GameController(vc)));
     }
 
     public void helpPressed(){

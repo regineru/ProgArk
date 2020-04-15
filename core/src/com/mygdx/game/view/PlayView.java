@@ -91,12 +91,12 @@ public class PlayView extends SuperView {
 
             // If character hits obstacle, change to menu state
             if(obstacle.collides(character.getBounds()))
-                playController.GoToMenu(); //Have not been made yet
+                playController.GameOver(); //Have not been made yet
         }
 
         // If character hits ground, change to menu state
         if(character.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
-            playController.GoToMenu() //Have not been made yet
+            playController.GameOver(); //Have not been made yet
         camera.update();
 
     }
