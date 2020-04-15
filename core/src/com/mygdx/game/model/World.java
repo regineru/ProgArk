@@ -2,14 +2,15 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.ImpossibleGravity;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+
+import javax.swing.JPasswordField;
 
 public class World {
 
     private Texture background;
-    private Texture ground;
-    private Vector2 groundPos1, groundPos2;
+    private Array<Ground> grounds;
 
     private Music music;
     private static float VOLUME;
@@ -19,7 +20,8 @@ public class World {
 
     public World() {
         background = new Texture("background.png"); //locally saved
-        ground = new Texture("ground.png"); //locally saved
+        grounds = new Array<Ground>();
+        grounds.add(new Ground());
 
         /* Trenger en musikkfil for at dette skal kunne brukes
         music = Gdx.audio.newMusic("musikkfil.mp3");
@@ -39,8 +41,8 @@ public class World {
 
      */
 
-    public Texture getGround() {
-        return ground;
+    public Array getGrounds() {
+        return grounds;
     }
 
     /* Might need this to select different backgrounds
@@ -50,28 +52,25 @@ public class World {
 
      */
 
-    public Vector2 getGroundPos1() {
-        return groundPos1;
-    }
-
-    public Vector2 getGroundPos2() {
-        return groundPos2;
-    }
-
-    public void setGroundPos1(Vector2 groundPos1) {
-        this.groundPos1 = groundPos1;
-    }
-
-    public void setGroundPos2(Vector2 groundPos2) {
-        this.groundPos2 = groundPos2;
+    public Vector3 getGroundPos() { //last added grounds position
+        return grounds.peek().getGroundPos();
     }
 
     public void update(float dt) {
-    }
+        for (Ground ground : grounds){
+            ground.update(dt);
+        }
 
+        if(grounds.peek().getGroundPos().x < 0) {
+            grounds.add(new Ground(new Vector3(grounds.peek().getGroundPos().x+grounds.peek().getGround().getWidth(), Ground.GROUND_Y_OFFSET, 0)));
+        }
+    }
 
     public void dispose() {
-        this.background.dispose();
-        this.ground.dispose();
+        background.dispose();
+        for (Ground ground : grounds) {
+            ground.dispose();
+        }
     }
+
 }

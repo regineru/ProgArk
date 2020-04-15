@@ -20,7 +20,6 @@ public class MenuView extends SuperView{
 
     protected MenuController menuController;
     private Stage stage;
-    private World world;
 
     // Import the necessary buttons for this view
     private PlayBtn playBtn;
@@ -52,8 +51,6 @@ public class MenuView extends SuperView{
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-
-        world = new World();
     }
 
     @Override

@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 // import com.mygdx.game.controller.GameController;
@@ -12,6 +14,7 @@ import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.BottomSpikes;
+import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
@@ -35,9 +38,9 @@ public class PlayView extends SuperView {
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
-    private World world;
     private ObstacleFactory obstacleFatory;
     private Obstacle obstacle;
+    private Array<Ground> grounds = world.getGrounds();
 
     // Make an array of the obstacles (obstacle must be made as a model).
     //private Array<Obstacle> obstacles;
@@ -56,12 +59,8 @@ public class PlayView extends SuperView {
         // Position the button
         // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
-        world = new World();
         character = new Player();
         camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
-
-        world.setGroundPos1(new Vector2(camera.position.x - camera.viewportWidth/2, GROUND_Y_OFFSET));
-        world.setGroundPos2(new Vector2((camera.position.x - camera.viewportWidth/2) + world.getGround().getWidth(), GROUND_Y_OFFSET));
 
         // GENERATING NEW OBSTACLES
         obstacleFatory = new ObstacleFactory();
@@ -83,6 +82,9 @@ public class PlayView extends SuperView {
 
         pc.touch(character);
 
+        if (Gdx.input.justTouched()){
+            character.jump();
+        }
         /*
         if (Gdx.input.justTouched()) {
             pc.touch(character);
@@ -107,19 +109,11 @@ public class PlayView extends SuperView {
     public void update(float dt) {
         handleInput();
 
-        /*
-        //TODO update ground
-        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos1().x + world.getGround().getWidth())
-            world.getGroundPos1().add(world.getGround().getWidth() * 2, 0);
-        if(camera.position.x - (camera.viewportWidth / 2) > world.getGroundPos2().x + world.getGround().getWidth())
-            world.getGroundPos2().add(world.getGround().getWidth() * 2, 0);
-
-         */
-
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
         character.update(dt);
         obstacle.update(dt);
+        world.update(dt);
         camera.position.x = character.getPosition().x + 80;
 
         // This is for making the obstacles "move", and then repositioning them
@@ -157,9 +151,10 @@ public class PlayView extends SuperView {
         sb.begin();
 
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.draw(world.getGround(), world.getGroundPos1().x, world.getGroundPos1().y);
-        sb.draw(world.getGround(), world.getGroundPos2().x, world.getGroundPos2().y);
 
+        for (Ground ground : grounds) {
+            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+        }
         sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
         sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
 
