@@ -35,6 +35,6 @@ public abstract class Obstacle {
     }
 
     public void dispose() {
-        this.spikes.dispose();
+        spikes.dispose();
     }
 }

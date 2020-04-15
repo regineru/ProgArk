@@ -108,13 +108,13 @@ public class PlayView extends SuperView {
         camera.position.x = character.getPosition().x + 80;
 
         for (Obstacle obstacle : obstacles) {
-            if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
-                lastObstacle = System.currentTimeMillis();
-                obstacles.add(obstacleFatory.generateObstacle());
-
-            }
             obstacle.update(dt);
+        }
 
+        if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+            lastObstacle = System.currentTimeMillis();
+            obstacles.add(obstacleFatory.generateObstacle());
+        }
         camera.update();
 
             // If character hits ground, change to menu state
@@ -124,7 +124,7 @@ public class PlayView extends SuperView {
         camera.update();
 
          */
-        }
+
     }
 
         @Override
