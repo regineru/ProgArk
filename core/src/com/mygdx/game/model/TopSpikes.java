@@ -1,7 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
 
@@ -13,7 +13,7 @@ public class TopSpikes extends Obstacle {
 
     public TopSpikes() {
         this.spikes = new Texture("topSpikes.png");
-        this.position = new Vector2(200, ImpossibleGravity.HEIGHT - spikes.getHeight()/2); // x-pos må endres
+        this.position = new Vector3(200, ImpossibleGravity.HEIGHT - spikes.getHeight()/2, 0); // x-pos må endres
     }
 
     @Override
@@ -22,7 +22,7 @@ public class TopSpikes extends Obstacle {
     }
 
     @Override
-    public Vector2 getPosition() {
+    public Vector3 getPosition() {
         return position;
     }
 

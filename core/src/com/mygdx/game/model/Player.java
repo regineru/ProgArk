@@ -62,8 +62,6 @@ public class Player {
         this.gravity = -this.gravity;
     }
 
-
-
     public Texture getTexture(){return this.texture;}
 
     public int getScore(){return this.score;}
