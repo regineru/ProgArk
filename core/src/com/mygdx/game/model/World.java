@@ -1,19 +1,19 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-
-import javax.swing.JPasswordField;
 
 public class World {
 
     private Texture background;
     private Array<Ground> grounds;
 
-    private Music music;
-    private static float VOLUME;
+    //private Sound sound;
 
     //TODO make background depended on input to variate between different backgrounds/modes
     private static int BG_MODE;
@@ -23,11 +23,12 @@ public class World {
         grounds = new Array<Ground>();
         grounds.add(new Ground());
 
-        /* Trenger en musikkfil for at dette skal kunne brukes
-        music = Gdx.audio.newMusic("musikkfil.mp3");
-        music.setLooping(true);
-        music.setVolume(1F);
-        music.play();
+        /* TODO Sound is working but is starting multiple times over each other
+            and is delaying the game
+
+        sound = Gdx.audio.newSound(Gdx.files.internal("marioTrack.mp3"));
+        sound.play(1f);
+
          */
     }
 
@@ -68,9 +69,9 @@ public class World {
 
     public void dispose() {
         background.dispose();
+        //sound.dispose();
         for (Ground ground : grounds) {
             ground.dispose();
         }
     }
-
 }

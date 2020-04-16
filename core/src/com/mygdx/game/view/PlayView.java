@@ -1,5 +1,6 @@
 package com.mygdx.game.view;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,8 +31,6 @@ public class PlayView extends SuperView {
     private Stage stage;
     private PauseBtn pauseBtn;
 
-    private static final int GROUND_Y_OFFSET = -50;
-
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
@@ -59,7 +58,7 @@ public class PlayView extends SuperView {
         // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
         character = new Player();
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         // GENERATING NEW OBSTACLES
         obstacleFatory = new ObstacleFactory();
@@ -121,8 +120,6 @@ public class PlayView extends SuperView {
         character.update(dt);
         world.update(dt);
 
-        camera.position.x = character.getPosition().x + 80;
-
 
         for (Obstacle obstacle : obstacles) {
             obstacle.update(dt);
@@ -132,6 +129,7 @@ public class PlayView extends SuperView {
             lastObstacle = System.currentTimeMillis();
             obstacles.add(obstacleFatory.generateObstacle());
         }
+        camera.position.set(character.getPosition().x, character.getPosition().y, 0);
         camera.update();
 
             // If character hits ground, change to menu state
@@ -151,16 +149,16 @@ public class PlayView extends SuperView {
         // Each view is responsible for knowing what it needs to draw.
         // Here we draw the background, character, obstacles and ground.
         public void render (SpriteBatch sb){
-            //sb.setProjectionMatrix(camera.combined);
+            sb.setProjectionMatrix(camera.combined);
             sb.begin();
 
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
+            sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
-        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
+            sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-        for (Ground ground : grounds) {
+            for (Ground ground : grounds) {
             sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
-        }
+            }
        
             for (Obstacle obstacle : obstacles) {
                 sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);

@@ -7,8 +7,6 @@ import com.mygdx.game.view.PauseView;
 public class GameController {
 
     ViewController vc;
-    Player players;
-    World world;
 
 
     public GameController(ViewController vc) {

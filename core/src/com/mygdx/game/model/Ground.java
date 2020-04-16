@@ -11,12 +11,11 @@ public class Ground {
 
     private Texture ground;
     private Vector3 groundPos;
-    private static final int MOVEMENT = -100;
-    public static final int GROUND_Y_OFFSET = -50;
+    public static final int GROUND_Y_OFFSET = 0;
 
     public Ground(){
         ground = new Texture("ground.png");
-        groundPos = new Vector3(0, GROUND_Y_OFFSET, 0);
+        groundPos = new Vector3(0, 0, 0);
     }
 
     public Ground(Vector3 groundPos) {
@@ -42,7 +41,7 @@ public class Ground {
     }
 
     public void update(float dt){
-        groundPos.add(MOVEMENT * dt, 0, 0 );
+
     }
 
     public void dispose() {

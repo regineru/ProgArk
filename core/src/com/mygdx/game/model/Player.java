@@ -10,6 +10,8 @@ import static java.lang.Math.abs;
 
 public class Player {
 
+    private static final float MOVEMENT = 100;
+
     // TODO: make the texture into a sprite
     private Texture texture;
     private Sprite player;
@@ -23,7 +25,7 @@ public class Player {
 
     public Player(){
         this.player = new Sprite(new Texture("player.png")); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,ImpossibleGravity.HEIGHT/2 - this.player.getTexture().getHeight()/2,0);
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,0,0);
         this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.SPEED = 10; // this needs to be updated
@@ -38,6 +40,8 @@ public class Player {
     }
 
     public void update(float dt){
+
+        position.add(MOVEMENT * dt, 0, 0 );
 
         score = ((int) dt); //score follows delta time
         this.position.y += this.velocity.y;
