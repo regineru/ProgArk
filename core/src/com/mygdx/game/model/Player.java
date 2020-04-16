@@ -16,7 +16,7 @@ public class Player {
     private Vector3 position;
     private Rectangle bounds;
     private boolean jump;
-    private double gravity;
+    private float gravity;
     private Vector3 velocity;
     private int score;
     private int SPEED;

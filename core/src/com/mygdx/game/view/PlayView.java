@@ -88,7 +88,7 @@ public class PlayView extends SuperView {
 
          */
 
-        // Put the rest of the actions here
+            // Put the rest of the actions here
 /*
         pauseBtn.addListener(new ClickListener() {
             @Override
@@ -99,6 +99,7 @@ public class PlayView extends SuperView {
         });
 
  */
+        }
     }
 
 
