@@ -16,7 +16,7 @@ public class Player {
     private Vector3 position;
     private Rectangle bounds;
     private boolean jump;
-    private int gravity;
+    private double gravity;
     private Vector3 velocity;
     private int score;
     private int SPEED;
@@ -28,6 +28,7 @@ public class Player {
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.SPEED = 10; // this needs to be updated
         this.velocity = new Vector3(0, 0, 0);
+
         this.score = 0;
         this.jump = false;
     }
@@ -38,6 +39,7 @@ public class Player {
 
     public void update(float dt){
 
+        score = ((int) dt); //score follows delta time
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
 
@@ -79,10 +81,9 @@ public class Player {
         }
     }
 
-
-
     public Sprite getSprite(){return this.player;}
 
+    //TODO make score an interactive element/texture to render it to screen
     public int getScore(){return this.score;}
 
     public Vector3 getPosition(){return this.position;}
