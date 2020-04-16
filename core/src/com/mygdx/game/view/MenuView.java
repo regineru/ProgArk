@@ -30,24 +30,27 @@ public class MenuView extends SuperView{
     //Constructor
     public MenuView(final MenuController menuController) {
         this.menuController = menuController;
+
+
+        // Setting up the stage, adding the actors (buttons)
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+
         this.playBtn = new PlayBtn();
         this.quitBtn = new QuitBtn();
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
-
-        // Setting up the stage, adding the actors (buttons)
-        stage = new Stage(new ScreenViewport());
-        stage.addActor(playBtn);
-        stage.addActor(quitBtn);
-        stage.addActor(settingsBtn);
-        stage.addActor(helpBtn);
-        Gdx.input.setInputProcessor(stage);
 
         // Position the buttons
         playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
         quitBtn.setPosition(camera.position.x - quitBtn.getWidth() / 2, camera.position.y+20);
         settingsBtn.setPosition(camera.position.x - settingsBtn.getWidth() / 2, camera.position.y+40);
         helpBtn.setPosition(camera.position.x - helpBtn.getWidth() / 2, camera.position.y+60);
+
+        stage.addActor(playBtn);
+        stage.addActor(quitBtn);
+        stage.addActor(settingsBtn);
+        stage.addActor(helpBtn);
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
@@ -108,8 +111,10 @@ public class MenuView extends SuperView{
          
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
+        //sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
         sb.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
