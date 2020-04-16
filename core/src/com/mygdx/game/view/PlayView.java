@@ -79,6 +79,8 @@ public class PlayView extends SuperView {
             System.out.println(deltaY);
             pc.swipe(character, deltaY);
         } else if (Gdx.input.justTouched()) {
+            pc.touch(character);
+        }
 
         
         /*
@@ -99,7 +101,7 @@ public class PlayView extends SuperView {
         });
 
  */
-        }
+
     }
 
 
