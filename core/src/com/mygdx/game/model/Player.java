@@ -1,6 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
@@ -9,36 +10,51 @@ import static java.lang.Math.abs;
 
 public class Player {
 
+    // TODO: make the texture into a sprite
     private Texture texture;
+    private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
     private boolean jump;
     private double gravity;
     private Vector3 velocity;
     private int score;
+    private int SPEED;
 
     public Player(){
-        this.texture = new Texture("player.png"); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2,ImpossibleGravity.HEIGHT/2,0);
-        this.bounds = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.player = new Sprite(new Texture("player.png")); // placeholder
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,ImpossibleGravity.HEIGHT/2 - this.player.getTexture().getHeight()/2,0);
+        this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
-        this.velocity = new Vector3(100, 0, 0);
+        this.SPEED = 10; // this needs to be updated
+        this.velocity = new Vector3(0, 0, 0);
+
         this.score = 0;
         this.jump = false;
+    }
+
+    public void start() {
+        this.velocity.add(SPEED, 0, 0);
     }
 
     public void update(float dt){
 
         score = ((int) dt); //score follows delta time
         this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x;
 
-        if (this.jump){
-            if (this.gravity > 0) {
-                this.velocity.y -= this.gravity;
-            } else {
-                this.velocity.y += this.gravity;
-            }
+        this.velocity.add(0, gravity, 0);
+
+        if (this.position.y <= 50 && velocity.y < 0){
+            this.velocity.y = 0;
+            this.position.y = 50;
         }
+
+        if (this.position.y >= 430 && velocity.y > 0){
+            this.velocity.y = 0;
+            this.position.y = 430;
+        }
+
 
 
         this.bounds.setPosition(this.position.x, this.position.y); // update bounds to players position
@@ -50,20 +66,22 @@ public class Player {
     public void jump(){
         if (this.velocity.y == 0){
             if (this.gravity < 0) {
-                this.velocity.y -= 35;
+                this.velocity.add(0, 15, 0);
             } else if (this.gravity > 0){
-                this.velocity.y += 35;
+                this.velocity.add(0, -15, 0);
             }
-            this.jump = true;
         }
     }
 
     // called from controller based on input
-    public void switchGravity(){
-        this.gravity = -this.gravity;
+    public void switchGravity(int deltaY){
+        if (deltaY*this.gravity > 0 && this.velocity.y == 0) {
+            this.gravity = -this.gravity;
+            this.player.flip(false, true);
+        }
     }
 
-    public Texture getTexture(){return this.texture;}
+    public Sprite getSprite(){return this.player;}
 
     //TODO make score an interactive element/texture to render it to screen
     public int getScore(){return this.score;}
@@ -71,7 +89,7 @@ public class Player {
     public Vector3 getPosition(){return this.position;}
 
     public void dispose(){
-        this.texture.dispose();
+        this.player.getTexture().dispose();
     }
 
 

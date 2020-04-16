@@ -36,6 +36,8 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
 
+    private int touchPos;
+
     private Array<Ground> grounds = world.getGrounds();
 
     private ObstacleFactory obstacleFatory;
@@ -71,11 +73,14 @@ public class PlayView extends SuperView {
         // Every input from the user should call on a function for the character.
         // The action is defined in the model-class of the character.
 
-        pc.touch(character);
+        int deltaY = swipe();
 
-        if (Gdx.input.justTouched()){
-            character.jump();
-        }
+        if (deltaY != 0) {
+            System.out.println(deltaY);
+            pc.swipe(character, deltaY);
+        } else if (Gdx.input.justTouched()) {
+
+        
         /*
         if (Gdx.input.justTouched()) {
             pc.touch(character);
@@ -94,6 +99,14 @@ public class PlayView extends SuperView {
         });
 
  */
+    }
+
+
+    public int swipe() {
+        if (Gdx.input.justTouched() && (Gdx.input.getDeltaY() > 10 || Gdx.input.getDeltaY() < -10)) {
+            return Gdx.input.getDeltaY();
+        }
+        return 0;
     }
 
     @Override
@@ -136,10 +149,11 @@ public class PlayView extends SuperView {
 
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
 
+        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
+
         for (Ground ground : grounds) {
             sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
         }
-        sb.draw(character.getTexture(), character.getPosition().x, character.getPosition().y);
        
             for (Obstacle obstacle : obstacles) {
                 sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
@@ -147,7 +161,6 @@ public class PlayView extends SuperView {
 
             sb.end();
         }
-
 
     @Override
     public void dispose(){
