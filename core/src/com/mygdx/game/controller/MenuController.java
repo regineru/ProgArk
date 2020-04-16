@@ -22,7 +22,11 @@ public class MenuController {
     }
 
     public void playGamePressed(){
+<<<<<<< HEAD
+        vc.set(new PlayView(new GameController(vc)));
+=======
         vc.set(new PlayView(vc));
+>>>>>>> c194af2181633e43ef2a75eb723f7b533796d288
     }
 
     /*
