@@ -24,8 +24,5 @@ public class PlayBtn extends Actor {
         return this.playBtn;
     }
 
-    public void dispose() {
-        playTexture.dispose();
 
-    }
 }

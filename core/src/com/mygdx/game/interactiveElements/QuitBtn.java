@@ -10,14 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 // Making texture into a button
 public class QuitBtn extends Actor {
     private Texture quitTexture;
-    private TextureRegion quitTextureRegion;
-    private TextureRegionDrawable quitTexRegionDrawable;
+    private Texture quitPressTexture;
     public ImageButton quitBtn;
 
     public QuitBtn(){
         quitTexture = new Texture(Gdx.files.internal("quitBtn.png"));
-        quitTextureRegion = new TextureRegion(quitTexture);
-        quitTexRegionDrawable = new TextureRegionDrawable(quitTextureRegion);
-        quitBtn = new ImageButton(quitTexRegionDrawable);
+        quitPressTexture = new Texture(Gdx.files.internal("quitBtn.png"));
+        this.quitBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(quitTexture)),new TextureRegionDrawable(new TextureRegion(quitPressTexture)));
+    }
+    public ImageButton getQuitBtn(){
+        return this.quitBtn;
     }
 }

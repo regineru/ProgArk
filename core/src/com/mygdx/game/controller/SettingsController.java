@@ -1,6 +1,5 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.SettingsModel;
 import com.mygdx.game.view.MenuView;
 
 public class SettingsController {
@@ -13,11 +12,12 @@ public class SettingsController {
 
     }
 
-    public void BackToMenu(){
+    public void backToMenu(){
+
         vc.set(new MenuView(new MenuController(vc)));
     }
 
-    public void ChangeSoundVolume(float volume){
+    public void changeSoundVolume(float volume){
         //model.setSoundVolume(volume);
     }
 

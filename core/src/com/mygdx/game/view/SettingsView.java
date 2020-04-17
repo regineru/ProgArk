@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.SettingsController;
@@ -13,70 +14,64 @@ import com.mygdx.game.interactiveElements.MenuBtn;
 
 public class SettingsView extends SuperView{
     protected SettingsController settingsController;
-    private Texture background;
+
     private Stage stage;
     private MenuBtn menuBtn;
 
-    // These are only used in this class, so we can implement the functionality for these in only this class.
+    // These buttons are added later
     private Texture volumeBtn;
     private Texture toggleBtn;
-    @Override
-    public void show(){
 
-    }
-    //Constructor
     public SettingsView(SettingsController settingsController) {
+
         this.settingsController = settingsController;
+        this.menuBtn = new MenuBtn();
+
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
-        this.menuBtn = new MenuBtn();
-
-        // Setting up the stage, adding the actors (buttons)
+        // Add specific settings
+        //volumeBtn = new Texture("volumeBtn.png"); // Should be a slider
+        //toggleBtn = new Texture("toggleBtn.png");
+    }
+    @Override
+    public void show(){
         stage = new Stage(new ScreenViewport());
-        stage.addActor(menuBtn);
         Gdx.input.setInputProcessor(stage);
 
-        // Position the buttons
-        menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y);
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2, Align.top);
 
-        // Add specific settings
-        volumeBtn = new Texture("volumeBtn.png"); // Should be a slider
-        toggleBtn = new Texture("toggleBtn.png");
+        // LISTENERS FOR CLICK GESTURES (LAGGED AND WILL REMOVE BEFORE COMPLETING PROJECT
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                settingsController.backToMenu();
+            }
+        });
+        // FOR TOUCH GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                settingsController.backToMenu();
+            }
+        });
 
-        background = new Texture("bg.png");
-
+        stage.addActor(menuBtn.getMenuBtn());
     }
+
+
 
 
     @Override
     public void handleInput() {
-        menuBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
-                settingsController.BackToMenu();
-            }
-        });
 
-        // When we know how to implement these buttons/sliders, we activate these functions.
-        /*volumeBtn.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
-                settingsController.ChangeSoundVolume();
-            }
-        });
-        toggleBtn.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
-                settingsController.toggleSound();
-            }
-        });*/
     }
 
     @Override
     public void update(float dt) {
-        handleInput();
+        show();
     }
 
     @Override

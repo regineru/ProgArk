@@ -111,10 +111,7 @@ public class PlayView extends SuperView {
         }
         return 0;
     }
-    @Override
-    public void show(){
 
-    }
     @Override
     public void update(float dt) {
         handleInput();
@@ -182,6 +179,11 @@ public class PlayView extends SuperView {
         }
 
         System.out.println("Play View Disposed");
+    }
+
+    @Override
+    public void show() {
+
     }
 
 

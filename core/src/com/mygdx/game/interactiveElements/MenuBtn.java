@@ -15,8 +15,8 @@ public class MenuBtn extends Actor {
 
     public MenuBtn(){
         // Making the menu button
-        menuTexture = new Texture(Gdx.files.internal("playBtn.png"));
-        menuPressTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        menuTexture = new Texture(Gdx.files.internal("menuBtn.png"));
+        menuPressTexture = new Texture(Gdx.files.internal("menuBtn.png"));
         this.menuBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(menuTexture)),new TextureRegionDrawable(new TextureRegion(menuPressTexture)));
     }
     public ImageButton getMenuBtn(){

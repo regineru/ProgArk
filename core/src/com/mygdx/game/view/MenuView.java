@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
+import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
 // Here we need the import of the game instance!
 
@@ -20,12 +20,10 @@ public class MenuView extends SuperView{
 
     protected MenuController menuController;
     private Stage stage;
-    private Texture playTexture;
-    private Texture playPressTexture;
 
     // Import the necessary buttons for this view
     private PlayBtn playBtn;
-    //private QuitBtn quitBtn;
+    private QuitBtn quitBtn;
     private SettingsBtn settingsBtn;
     private HelpBtn helpBtn;
 
@@ -37,8 +35,7 @@ public class MenuView extends SuperView{
         this.playBtn = new PlayBtn();
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
-
-        //this.quitBtn = new QuitBtn();
+        this.quitBtn = new QuitBtn();
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
@@ -49,9 +46,10 @@ public class MenuView extends SuperView{
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2, Align.center);
-        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, 3*ImpossibleGravity.HEIGHT / 4, Align.center);
-        helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, 2*ImpossibleGravity.HEIGHT / 6, Align.center);
+        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+150, Align.center);
+        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
+        helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-50, Align.center);
+        quitBtn.getQuitBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-150, Align.center);
 
         // LISTENERS FOR CLICK GESTURES (LAGGED AND WILL REMOVE BEFORE COMPLETING PROJECT
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
@@ -73,6 +71,13 @@ public class MenuView extends SuperView{
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
                 menuController.helpPressed();
+            }
+        });
+        quitBtn.getQuitBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                menuController.quit();
             }
         });
 
@@ -99,60 +104,28 @@ public class MenuView extends SuperView{
                 menuController.helpPressed();
             }
         });
+        quitBtn.getQuitBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                menuController.quit();
+            }
+        });
 
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
         stage.addActor(helpBtn.getHelpBtn());
+        stage.addActor(quitBtn.getQuitBtn());
 
     }
 
     @Override
     public void handleInput() {
-        // Add listeners to buttons
-        // May have to move the listeners outside of a handleInput()-method.
-        // Double clicks can be detected using getTapCount()playBtn.addListener(new ClickListener(){
 
-        /*if(Gdx.input.justTouched()){
-            menuController.playGamePressed();
-        }*/
-
-        playBtn.getPlayBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("playBtn is pressed.");
-                menuController.playGamePressed();
-            }
-        });
-
-
-        /*quitBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("quitBtn is pressed.");
-                menuController.quit();
-            }
-        });*/
-
-        settingsBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("settingsBtn is pressed.");
-                menuController.settingsPressed();
-            }
-        });
-
-        helpBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("helpBtn is pressed.");
-                // menuController.helpPressed();
-            }
-        });
     }
 
     @Override
     public void update(float dt) {
-        handleInput();
         show();
     }
 
