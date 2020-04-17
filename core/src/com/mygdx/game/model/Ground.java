@@ -15,7 +15,7 @@ public class Ground {
 
     public Ground(){
         ground = new Texture("ground.png");
-        groundPos = new Vector3(0, 0, 0);
+        groundPos = new Vector3(0, -ImpossibleGravity.HEIGHT/2, 0);
     }
 
     public Ground(Vector3 groundPos) {

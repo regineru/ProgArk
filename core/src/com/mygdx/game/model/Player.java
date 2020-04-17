@@ -25,7 +25,7 @@ public class Player {
 
     public Player(){
         this.player = new Sprite(new Texture("player.png")); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,0,0);
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
         this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.SPEED = 10; // this needs to be updated
