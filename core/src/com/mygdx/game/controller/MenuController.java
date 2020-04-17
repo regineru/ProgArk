@@ -23,6 +23,7 @@ public class MenuController {
 
     public void playGamePressed(){
         vc.set(new PlayView(vc));
+
     }
 
     /*

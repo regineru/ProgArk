@@ -6,7 +6,8 @@ import com.mygdx.game.view.MenuView;
 public class SettingsController {
 
     private ViewController vc;
-    private SettingsModel model;
+
+    //private SettingsModel model;
 
     public SettingsController(ViewController vc) {
         this.vc = vc;
@@ -18,11 +19,11 @@ public class SettingsController {
     }
 
     public void ChangeSoundVolume(float volume){
-        model.setSoundVolume(volume);
+        //model.setSoundVolume(volume);
     }
 
     public void toggleSound(Boolean enable){
-        model.enableMusic(enable);
+        //model.enableMusic(enable);
     }
 
 
