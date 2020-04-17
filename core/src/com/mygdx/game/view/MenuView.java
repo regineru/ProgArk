@@ -2,9 +2,13 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
@@ -27,10 +31,17 @@ public class MenuView extends SuperView{
     private SettingsBtn settingsBtn;
     private HelpBtn helpBtn;
 
+    // test for å få til en knapp
+    private BitmapFont font;
+    private TextureAtlas buttonAtlas; //** image of buttons **//
+    private Skin skin; //** images are used as skins of the button **//
+    private TextButton button;
+    private TextButton.TextButtonStyle textButtonStyle;
+
+
     //Constructor
     public MenuView(final MenuController menuController) {
         this.menuController = menuController;
-
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
@@ -40,6 +51,15 @@ public class MenuView extends SuperView{
         this.quitBtn = new QuitBtn();
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
+
+        font = new BitmapFont();
+        skin = new Skin();
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("playBtn.png"));
+        skin.addRegions(buttonAtlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        button = new TextButton("Button1", textButtonStyle);
+        stage.addActor(button);
 
         // Position the buttons
         playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
@@ -112,6 +132,7 @@ public class MenuView extends SuperView{
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         //sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
+
         sb.end();
         stage.act();
         stage.draw();
@@ -120,7 +141,7 @@ public class MenuView extends SuperView{
     @Override
     public void dispose() {
         world.dispose();
-        playBtn.dispose();
+        //playBtn.dispose();
         System.out.println("Menu View Disposed");
     }
 }
