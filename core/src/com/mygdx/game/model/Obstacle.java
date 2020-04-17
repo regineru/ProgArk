@@ -15,15 +15,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public abstract class Obstacle {
 
-    private static final int MOVEMENT = -100;
-
     protected Vector3 position;
     protected Texture spikes;
 
     public Obstacle(){}
 
     public void update(float dt) {
-        position.add(MOVEMENT * dt, 0, 0);
+
     }
 
     public Texture getSpikes() {
