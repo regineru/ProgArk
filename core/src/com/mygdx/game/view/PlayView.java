@@ -1,10 +1,7 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -13,13 +10,10 @@ import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
-import com.mygdx.game.model.BottomSpikes;
 import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
-import com.mygdx.game.model.TopSpikes;
-import com.mygdx.game.model.World;
 
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
@@ -40,7 +34,7 @@ public class PlayView extends SuperView {
 
     private Array<Ground> grounds = world.getGrounds();
 
-    private ObstacleFactory obstacleFatory;
+    private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
 
@@ -62,9 +56,9 @@ public class PlayView extends SuperView {
         camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
 
         // GENERATING NEW OBSTACLES
-        obstacleFatory = new ObstacleFactory();
+        obstacleFactory = new ObstacleFactory();
         obstacles = new Array<Obstacle>();
-        obstacles.add(obstacleFatory.generateObstacle());
+        obstacles.add(obstacleFactory.generateObstacle());
         lastObstacle = System.currentTimeMillis();
     }
 
@@ -127,7 +121,7 @@ public class PlayView extends SuperView {
 
         if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFatory.generateObstacle());
+            obstacles.add(obstacleFactory.generateObstacle());
         }
         camera.update();
 
@@ -156,11 +150,11 @@ public class PlayView extends SuperView {
             sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
         }
        
-            for (Obstacle obstacle : obstacles) {
+        for (Obstacle obstacle : obstacles) {
                 sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
             }
 
-            sb.end();
+        sb.end();
         }
 
     @Override
