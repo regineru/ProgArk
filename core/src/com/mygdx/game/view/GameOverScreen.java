@@ -40,6 +40,11 @@ public class GameOverScreen extends SuperView{
     }
 
     @Override
+    public void show(){
+
+    }
+
+    @Override
     public void handleInput() {
         menuBtn.addListener(new ClickListener() {
             @Override

@@ -10,20 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 // Making texture into a button
 public class PlayBtn extends Actor {
     private Texture playTexture;
-    private TextureRegion playTextureRegion;
-    private TextureRegionDrawable playTexRegionDrawable;
+    private Texture playPressTexture;
     public ImageButton playBtn;
 
     public PlayBtn() {
         // Making the play button
         playTexture = new Texture(Gdx.files.internal("playBtn.png"));
-        playTextureRegion = new TextureRegion(playTexture);
-        playTexRegionDrawable = new TextureRegionDrawable(playTextureRegion);
-        playBtn = new ImageButton(playTexRegionDrawable);
+        playPressTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        this.playBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(playTexture)),new TextureRegionDrawable(new TextureRegion(playPressTexture)));
     }
 
-    public Texture getPlayBtn(){
-        return playTexture;
+    public ImageButton getPlayBtn(){
+        return this.playBtn;
     }
 
     public void dispose() {

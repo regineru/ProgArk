@@ -20,7 +20,10 @@ public class SettingsView extends SuperView{
     // These are only used in this class, so we can implement the functionality for these in only this class.
     private Texture volumeBtn;
     private Texture toggleBtn;
+    @Override
+    public void show(){
 
+    }
     //Constructor
     public SettingsView(SettingsController settingsController) {
         this.settingsController = settingsController;
@@ -79,20 +82,16 @@ public class SettingsView extends SuperView{
     @Override
     // Draws background, the menu button
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background, 0,0);
-        // May have to remove the following two lines when the sliders are implemented.
-        sb.draw(volumeBtn, camera.position.x - volumeBtn.getWidth() / 2, camera.position.y+20);
-        sb.draw(toggleBtn, camera.position.x - toggleBtn.getWidth() / 2, camera.position.y+40);
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         sb.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
     public void dispose() {
-        background.dispose();
-        toggleBtn.dispose();
-        volumeBtn.dispose();
+        world.dispose();
         System.out.println("Settings View Disposed");
     }
 

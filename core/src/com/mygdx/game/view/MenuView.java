@@ -2,78 +2,108 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
-import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
-import com.mygdx.game.model.World;
 // Here we need the import of the game instance!
 
 public class MenuView extends SuperView{
 
     protected MenuController menuController;
     private Stage stage;
+    private Texture playTexture;
+    private Texture playPressTexture;
 
     // Import the necessary buttons for this view
     private PlayBtn playBtn;
-    private QuitBtn quitBtn;
+    //private QuitBtn quitBtn;
     private SettingsBtn settingsBtn;
     private HelpBtn helpBtn;
-
-    // test for å få til en knapp
-    private BitmapFont font;
-    private TextureAtlas buttonAtlas; //** image of buttons **//
-    private Skin skin; //** images are used as skins of the button **//
-    private TextButton button;
-    private TextButton.TextButtonStyle textButtonStyle;
 
 
     //Constructor
     public MenuView(final MenuController menuController) {
         this.menuController = menuController;
 
+        this.playBtn = new PlayBtn();
+        this.settingsBtn = new SettingsBtn();
+        this.helpBtn = new HelpBtn();
+
+        //this.quitBtn = new QuitBtn();
+
+        // GameInstance is the equivalent to the FlappyDemo in the tutorial.
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+    }
+    @Override
+    public void show(){
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        this.playBtn = new PlayBtn();
-        this.quitBtn = new QuitBtn();
-        this.settingsBtn = new SettingsBtn();
-        this.helpBtn = new HelpBtn();
+        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2, Align.center);
+        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, 3*ImpossibleGravity.HEIGHT / 4, Align.center);
+        helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, 2*ImpossibleGravity.HEIGHT / 6, Align.center);
 
-        font = new BitmapFont();
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("playBtn.png"));
-        skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
-        button = new TextButton("Button1", textButtonStyle);
-        stage.addActor(button);
+        // LISTENERS FOR CLICK GESTURES (LAGGED AND WILL REMOVE BEFORE COMPLETING PROJECT
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                menuController.playGamePressed();
+            }
+        });
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                menuController.settingsPressed();
+            }
+        });
+        helpBtn.getHelpBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                menuController.helpPressed();
+            }
+        });
 
-        // Position the buttons
-        playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
-        quitBtn.setPosition(camera.position.x - quitBtn.getWidth() / 2, camera.position.y+20);
-        settingsBtn.setPosition(camera.position.x - settingsBtn.getWidth() / 2, camera.position.y+40);
-        helpBtn.setPosition(camera.position.x - helpBtn.getWidth() / 2, camera.position.y+60);
+        // LISTENERS FOR TOUCH GESTURES
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                menuController.settingsPressed();
+            }
+        });
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                System.out.println("playBtn is pressed.");
+                menuController.playGamePressed();
+            }
+        });
+        helpBtn.getHelpBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+                menuController.helpPressed();
+            }
+        });
 
-        stage.addActor(playBtn);
-        stage.addActor(quitBtn);
-        stage.addActor(settingsBtn);
-        stage.addActor(helpBtn);
+        stage.addActor(playBtn.getPlayBtn());
+        stage.addActor(settingsBtn.getSettingsBtn());
+        stage.addActor(helpBtn.getHelpBtn());
 
-        // GameInstance is the equivalent to the FlappyDemo in the tutorial.
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
     }
 
     @Override
@@ -82,25 +112,26 @@ public class MenuView extends SuperView{
         // May have to move the listeners outside of a handleInput()-method.
         // Double clicks can be detected using getTapCount()playBtn.addListener(new ClickListener(){
 
-        if(Gdx.input.justTouched()){
+        /*if(Gdx.input.justTouched()){
             menuController.playGamePressed();
-        }
+        }*/
 
-        playBtn.addListener(new ClickListener() {
+        playBtn.getPlayBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("PlayBtn is pressed.");
+                System.out.println("playBtn is pressed.");
                 menuController.playGamePressed();
             }
         });
 
-        quitBtn.addListener(new ClickListener() {
+
+        /*quitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("quitBtn is pressed.");
                 menuController.quit();
             }
-        });
+        });*/
 
         settingsBtn.addListener(new ClickListener() {
             @Override
@@ -122,17 +153,14 @@ public class MenuView extends SuperView{
     @Override
     public void update(float dt) {
         handleInput();
+        show();
     }
 
     @Override
     // Draws background, the play button
-    // Should add all the menu options later, but at least a "PLAY" button or something.
     public void render(SpriteBatch sb) {
-         
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        //sb.draw(playBtn.getPlayBtn(), camera.viewportWidth, camera.viewportWidth, 60, 40);
-
         sb.end();
         stage.act();
         stage.draw();
@@ -141,7 +169,6 @@ public class MenuView extends SuperView{
     @Override
     public void dispose() {
         world.dispose();
-        //playBtn.dispose();
         System.out.println("Menu View Disposed");
     }
 }

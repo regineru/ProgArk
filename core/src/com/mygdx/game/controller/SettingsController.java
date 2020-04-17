@@ -7,7 +7,6 @@ public class SettingsController {
 
     private ViewController vc;
 
-    //private SettingsModel model;
 
     public SettingsController(ViewController vc) {
         this.vc = vc;
@@ -25,7 +24,5 @@ public class SettingsController {
     public void toggleSound(Boolean enable){
         //model.enableMusic(enable);
     }
-
-
 
 }

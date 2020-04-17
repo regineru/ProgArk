@@ -10,15 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class MenuBtn extends Actor {
 
     private Texture menuTexture;
-    private TextureRegion menuTextureRegion;
-    private TextureRegionDrawable menuTexRegionDrawable;
+    private Texture menuPressTexture;
     public ImageButton menuBtn;
 
     public MenuBtn(){
         // Making the menu button
-        menuTexture = new Texture(Gdx.files.internal("menuBtn.png"));
-        menuTextureRegion = new TextureRegion(menuTexture);
-        menuTexRegionDrawable = new TextureRegionDrawable(menuTextureRegion);
-        menuBtn = new ImageButton(menuTexRegionDrawable);
+        menuTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        menuPressTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        this.menuBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(menuTexture)),new TextureRegionDrawable(new TextureRegion(menuPressTexture)));
+    }
+    public ImageButton getMenuBtn(){
+        return this.menuBtn;
     }
 }

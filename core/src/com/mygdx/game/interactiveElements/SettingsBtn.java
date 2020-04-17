@@ -10,14 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 // Making texture into a button
 public class SettingsBtn extends Actor {
     private Texture settingsTexture;
-    private TextureRegion settingsTextureRegion;
-    private TextureRegionDrawable settingsTexRegionDrawable;
+    private Texture settingsPressTexture;
     public ImageButton settingsBtn;
 
     public SettingsBtn(){
         settingsTexture = new Texture(Gdx.files.internal("settingsBtn.png"));
-        settingsTextureRegion = new TextureRegion(settingsTexture);
-        settingsTexRegionDrawable = new TextureRegionDrawable(settingsTextureRegion);
-        settingsBtn = new ImageButton(settingsTexRegionDrawable);
+        settingsPressTexture = new Texture(Gdx.files.internal("settingsBtn.png"));
+        this.settingsBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)),new TextureRegionDrawable(new TextureRegion(settingsPressTexture)));
+    }
+    public ImageButton getSettingsBtn(){
+        return this.settingsBtn;
     }
 }

@@ -10,14 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 // Making texture into a button
 public class HelpBtn extends Actor {
     private Texture helpTexture;
-    private TextureRegion helpTextureRegion;
-    private TextureRegionDrawable helpTexRegionDrawable;
+    private Texture helpPressTexture;
     public ImageButton helpBtn;
 
     public HelpBtn(){
         helpTexture = new Texture(Gdx.files.internal("helpBtn.png"));
-        helpTextureRegion = new TextureRegion(helpTexture);
-        helpTexRegionDrawable = new TextureRegionDrawable(helpTextureRegion);
-        helpBtn = new ImageButton(helpTexRegionDrawable);
+        helpPressTexture = new Texture(Gdx.files.internal("helpBtn.png"));
+        this.helpBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(helpTexture)),new TextureRegionDrawable(new TextureRegion(helpPressTexture)));
+    }
+
+    public ImageButton getHelpBtn(){
+        return this.helpBtn;
     }
 }
