@@ -10,8 +10,8 @@ import com.mygdx.game.ImpossibleGravity;
 
 public class BottomSpikes extends Obstacle {
 
-    public BottomSpikes() {
+    public BottomSpikes(float x) {
         this.spikes = new Texture("bottomSpikes.png");
-        this.position = new Vector3(ImpossibleGravity.WIDTH + 1, 0, 0); // x-pos må endres
+        this.position = new Vector3(x, 0, 0); // x-pos må endres
     }
 }

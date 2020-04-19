@@ -23,15 +23,15 @@ public class ObstacleFactory {
         random = new Random();
     }
 
-    public Obstacle generateObstacle() {
+    public Obstacle generateObstacle(float x) {
 
         chosenObstacle = random.nextInt(2);
 
         if (chosenObstacle == 0) {
-            return new TopSpikes();
+            return new TopSpikes(x);
 
         } else if (chosenObstacle == 1) {
-            return new BottomSpikes();
+            return new BottomSpikes(x);
         }
 
         return null;
