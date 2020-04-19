@@ -1,7 +1,5 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,6 +35,7 @@ public class PlayView extends SuperView {
     private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
+    private long obstacle_occurrence; //how fast the occurrence of obstacles increases
 
     public PlayView(ViewController vc){
 
@@ -60,6 +59,7 @@ public class PlayView extends SuperView {
         obstacles = new Array<Obstacle>();
         //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = 2000;
     }
 
     @Override
@@ -115,13 +115,23 @@ public class PlayView extends SuperView {
         character.update(dt);
         world.update(dt);
 
+        /* TODO cannot get this tp work without removing grounds from the list
+        if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
+            grounds.add(new Ground(new Vector3(character.getPosition().x, Ground.GROUND_Y_OFFSET, 0)));
+        }
+
+         */
+
 
         for (Obstacle obstacle : obstacles) {
             obstacle.update(dt);
         }
 
-        if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+        if (System.currentTimeMillis() - lastObstacle >= obstacle_occurrence) {
             lastObstacle = System.currentTimeMillis();
+            if (obstacle_occurrence > 500){
+                obstacle_occurrence *= 0.95;
+            }
             obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         }
         camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
@@ -152,14 +162,14 @@ public class PlayView extends SuperView {
             sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
             for (Ground ground : grounds) {
-            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+                sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
             }
        
-        for (Obstacle obstacle : obstacles) {
-                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+            for (Obstacle obstacle : obstacles) {
+                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
             }
 
-        sb.end();
+            sb.end();
         }
 
     @Override
