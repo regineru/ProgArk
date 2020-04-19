@@ -92,6 +92,10 @@ public class Player {
 
     public Vector3 getPosition(){return this.position;}
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
     public void dispose(){
         this.player.getTexture().dispose();
     }

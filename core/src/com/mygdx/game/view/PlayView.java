@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 // import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
@@ -23,6 +25,7 @@ import com.mygdx.game.model.Player;
 public class PlayView extends SuperView {
     protected ViewController gameController;
     private PlayerController pc;
+    protected GameController gc;
     private Stage stage;
     private PauseBtn pauseBtn;
 
@@ -38,11 +41,14 @@ public class PlayView extends SuperView {
     private Array<Obstacle> obstacles;
     private long lastObstacle;
 
+
+
     public PlayView(ViewController vc){
 
         this.gameController = vc;
         this.pc = new PlayerController(vc);
         // this.pauseBtn = new PauseBtn();
+        this.gc = new GameController(vc);
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
@@ -118,6 +124,11 @@ public class PlayView extends SuperView {
 
         for (Obstacle obstacle : obstacles) {
             obstacle.update(dt);
+
+            if(obstacle.collides(character.getBounds())) {
+                gc.GameOver();
+            }
+
         }
 
         if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
