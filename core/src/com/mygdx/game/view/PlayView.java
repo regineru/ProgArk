@@ -58,7 +58,7 @@ public class PlayView extends SuperView {
         // GENERATING NEW OBSTACLES
         obstacleFactory = new ObstacleFactory();
         obstacles = new Array<Obstacle>();
-        obstacles.add(obstacleFactory.generateObstacle());
+        //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
     }
 
@@ -122,9 +122,9 @@ public class PlayView extends SuperView {
 
         if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFactory.generateObstacle());
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         }
-        camera.position.set(character.getPosition().x, character.getPosition().y, 0);
+        camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
 
             // If character hits ground, change to menu state

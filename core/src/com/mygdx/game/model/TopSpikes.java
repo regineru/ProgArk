@@ -11,8 +11,8 @@ import com.mygdx.game.ImpossibleGravity;
 
 public class TopSpikes extends Obstacle {
 
-    public TopSpikes() {
+    public TopSpikes(float x) {
         this.spikes = new Texture("topSpikes.png");
-        this.position = new Vector3(ImpossibleGravity.WIDTH + 1, ImpossibleGravity.HEIGHT - spikes.getHeight()/2, 0);
+        this.position = new Vector3(x, ImpossibleGravity.HEIGHT - spikes.getHeight()/2, 0);
     }
 }
