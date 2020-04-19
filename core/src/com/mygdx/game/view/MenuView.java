@@ -67,19 +67,9 @@ public class MenuView extends SuperView{
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
                 System.out.println("playBtn is clicked.");
                 menuController.playGamePressed();
-                hide();
             }
         });
 
-        /*playBtn.getPlayBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                System.out.println("playBtn is clicked.");
-                menuController.playGamePressed();
-                //dispose();
-            }
-        });*/
         /*settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -144,8 +134,6 @@ public class MenuView extends SuperView{
                 menuController.quit();
             }
         });*/
-
-
 
     }
 
