@@ -28,7 +28,7 @@ public class ObstacleFactory {
     public Obstacle generateObstacle(float x) {
 
         chosenObstacle = random.nextInt(2);
-        chosenHeight = 50 + random.nextInt(50);
+        chosenHeight = 50 + random.nextInt(100);
         chosenWidth = 30 + random.nextInt(20);
 
         if (chosenObstacle == 0) {

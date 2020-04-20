@@ -15,6 +15,8 @@ import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
 
+import java.util.Random;
+
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
@@ -35,7 +37,7 @@ public class PlayView extends SuperView {
     private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
-    private long obstacle_occurrence; //how fast the occurrence of obstacles increases
+    private Random obstacle_occurrence;
 
     public PlayView(ViewController vc){
 
@@ -59,7 +61,7 @@ public class PlayView extends SuperView {
         obstacles = new Array<Obstacle>();
         //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
-        obstacle_occurrence = 2000;
+        obstacle_occurrence = new Random();
     }
 
     @Override
@@ -127,11 +129,8 @@ public class PlayView extends SuperView {
             obstacle.update(dt);
         }
 
-        if (System.currentTimeMillis() - lastObstacle >= obstacle_occurrence) {
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
-            if (obstacle_occurrence > 500){
-                obstacle_occurrence *= 0.95;
-            }
             obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         }
         camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
