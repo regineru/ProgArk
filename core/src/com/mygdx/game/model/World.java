@@ -58,13 +58,8 @@ public class World {
     }
 
     public void update(float dt) {
-        for (Ground ground : grounds){
-            ground.update(dt);
-        }
 
-        if(grounds.peek().getGroundPos().x < 0) {
-            grounds.add(new Ground(new Vector3(grounds.peek().getGroundPos().x+grounds.peek().getGround().getWidth(), Ground.GROUND_Y_OFFSET, 0)));
-        }
+        //grounds.removeIndex(0);
     }
 
     public void dispose() {

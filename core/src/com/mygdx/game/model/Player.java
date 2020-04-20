@@ -28,8 +28,8 @@ public class Player {
         this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
         this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
-        this.SPEED = 10; // this needs to be updated
-        this.velocity = new Vector3(0, 0, 0);
+        this.SPEED = 20; // this needs to be updated
+        this.velocity = new Vector3(1, 0, 0);
 
         this.score = 0;
         this.jump = false;

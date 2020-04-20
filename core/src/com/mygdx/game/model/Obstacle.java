@@ -19,6 +19,8 @@ public abstract class Obstacle {
     protected Vector3 position;
     protected Texture spikes;
     protected Rectangle bounds;
+    protected int height;
+    protected int width;
 
     public Obstacle(){}
 
@@ -40,5 +42,13 @@ public abstract class Obstacle {
 
     public void dispose() {
         spikes.dispose();
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
     }
 }
