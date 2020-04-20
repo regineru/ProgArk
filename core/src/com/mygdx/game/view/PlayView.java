@@ -207,34 +207,30 @@ public class PlayView extends SuperView {
 
     }
 
+    @Override
+    // Each view is responsible for knowing what it needs to draw.
+    // Here we draw the background, character, obstacles and ground.
+    public void render (SpriteBatch sb){
+        sb.setProjectionMatrix(camera.combined);
+        sb.begin();
 
-        @Override
-        // Each view is responsible for knowing what it needs to draw.
-        // Here we draw the background, character, obstacles and ground.
-        public void render (SpriteBatch sb){
-            sb.setProjectionMatrix(camera.combined);
-            sb.begin();
+        sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
-            sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-            sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
-
-            for (Ground ground : grounds) {
-                sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
-            }
-       
-            for (Obstacle obstacle : obstacles) {
-                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
-            }
-
-            sb.end();
+        for (Ground ground : grounds) {
+            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
         }
 
+        for (Obstacle obstacle : obstacles) {
+            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+        }
+
+        sb.end();
         stage.act();
         stage.draw();
-        sb.end();
-
     }
+
 
 
     @Override
