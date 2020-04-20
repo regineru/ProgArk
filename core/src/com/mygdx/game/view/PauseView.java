@@ -58,14 +58,32 @@ public class PauseView extends SuperView{
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("playBtn is clicked");
+                System.out.println("continueGame is clicked");
                 pauseController.ContinueGame();
             }
         });
+
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
+                pauseController.BackToMenu();
+            }
+        });
+
+        // LISTENERS FOR TOUCH GESTURES
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("continueGame is touched.");
+                pauseController.ContinueGame();
+            }
+        });
+
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
                 pauseController.BackToMenu();
             }
         });
@@ -74,26 +92,11 @@ public class PauseView extends SuperView{
     @Override
     public void handleInput() {
 
-        playBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("PlayBtn is pressed.");
-                pauseController.ContinueGame();
-            }
-        });
-
-        menuBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
-                pauseController.BackToMenu();
-            }
-        });
     }
 
     @Override
     public void update(float dt) {
-        handleInput();
+
     }
 
     @Override
@@ -111,6 +114,7 @@ public class PauseView extends SuperView{
     public void show(){
 
     }
+
     @Override
     public void dispose() {
         world.dispose();

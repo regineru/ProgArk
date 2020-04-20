@@ -49,6 +49,7 @@ public class MenuView extends SuperView{
         helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-50, Align.center);
         quitBtn.getQuitBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-150, Align.center);
 
+        // Resize if necessary
         /*playBtn.getPlayBtn().setSize(110, 50);
         settingsBtn.getSettingsBtn().setSize(110, 60);
         helpBtn.getHelpBtn().setSize(110, 60);

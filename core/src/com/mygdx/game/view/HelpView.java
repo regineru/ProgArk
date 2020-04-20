@@ -37,6 +37,16 @@ public class HelpView extends SuperView{
                 helpController.backToMenu();
             }
         });
+
+        // LISTENERS FOR TAP GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
+                helpController.backToMenu();
+            }
+        });
+
         stage.addActor(menuBtn.getMenuBtn());
     }
 

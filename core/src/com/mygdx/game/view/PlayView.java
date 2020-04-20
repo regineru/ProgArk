@@ -91,6 +91,23 @@ public class PlayView extends SuperView {
                 gameController.pauseGame();
             }
         });
+
+        // LISTENERS FOR TOUCH GESTURES
+        pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("playBtn is touched.");
+                gameController.pauseGame();
+            }
+        });
+
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
+                gameController.quitGame();
+            }
+        });
     }
 
     @Override

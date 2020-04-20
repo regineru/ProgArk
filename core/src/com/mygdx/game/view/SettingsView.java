@@ -47,6 +47,15 @@ public class SettingsView extends SuperView{
             }
         });
 
+        // LISTENERS FOR TAP GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
+                settingsController.backToMenu();
+            }
+        });
+
         stage.addActor(menuBtn.getMenuBtn());
     }
     @Override
