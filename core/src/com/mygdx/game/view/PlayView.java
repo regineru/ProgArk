@@ -40,7 +40,11 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private int touchPos;
-    private Array<Ground> grounds = world.getGrounds();
+
+    private Ground ground;
+
+
+    //private Array<Ground> grounds = world.getGrounds();
 
     private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
@@ -64,6 +68,8 @@ public class PlayView extends SuperView {
         Gdx.input.setInputProcessor(stage);
 
         character = new Player();
+        ground = new Ground();
+
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         // GENERATING NEW OBSTACLES
@@ -168,7 +174,15 @@ public class PlayView extends SuperView {
         // The character must have an update -and getPosition-method in its model.
         // For other methods required, see which functions are called upon character below.
         character.update(dt);
-        world.update(dt);
+        //world.update(dt);
+
+        // TODO: LOGIKKEN FOR GROUND MÅ INN I GROUND/WORLD
+        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos1().x + ImpossibleGravity.WIDTH) {
+            ground.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
+        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos2().x + ImpossibleGravity.WIDTH) {
+            ground.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
 
         /* TODO cannot get this tp work without removing grounds from the list
         if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
@@ -178,8 +192,10 @@ public class PlayView extends SuperView {
          */
 
 
+
+        // TODO: LOGIKKEN FOR OBSTACLES MÅ INN I OBSTACLE
         for (Obstacle obstacle : obstacles) {
-            obstacle.update(dt);
+            //obstacle.update(dt);
 
             if(obstacle.collides(character.getBounds())) {
                 //gameController.GameOver();
@@ -189,7 +205,7 @@ public class PlayView extends SuperView {
 
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, ground.getGroundHeight() - 10));
         }
         camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
@@ -229,13 +245,30 @@ public class PlayView extends SuperView {
 
     }
 
+            sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
+            sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
 
+            //for (Ground ground : grounds) {
+            //sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+            //}
+       
+            for (Obstacle obstacle : obstacles) {
+                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+            }
+
+
+
+
+
+            sb.end();
+        }
 
     @Override
     public void dispose(){
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
         character.dispose();
+        ground.dispose();
         for (Obstacle obstacle : obstacles) {
             obstacle.dispose();
         }

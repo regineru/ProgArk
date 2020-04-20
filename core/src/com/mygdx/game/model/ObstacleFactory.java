@@ -25,7 +25,7 @@ public class ObstacleFactory {
         random = new Random();
     }
 
-    public Obstacle generateObstacle(float x) {
+    public Obstacle generateObstacle(float x, float y) {
 
         chosenObstacle = random.nextInt(2);
         chosenHeight = 50 + random.nextInt(100);
@@ -35,7 +35,8 @@ public class ObstacleFactory {
             return new TopSpikes(x, chosenHeight, chosenWidth);
 
         } else if (chosenObstacle == 1) {
-            return new BottomSpikes(x, chosenHeight, chosenWidth);
+            return new BottomSpikes(x, y);
+            //return new BottomSpikes(x, chosenHeight, chosenWidth);
         }
 
         return null;
