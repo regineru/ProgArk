@@ -213,15 +213,12 @@ public class PlayView extends SuperView {
     public void render (SpriteBatch sb){
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-
         sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
-
         sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
         for (Ground ground : grounds) {
             sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
         }
-
         for (Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
         }
@@ -229,6 +226,7 @@ public class PlayView extends SuperView {
         sb.end();
         stage.act();
         stage.draw();
+
     }
 
 

@@ -77,8 +77,7 @@ public class SettingsView extends SuperView{
     // Draws background, the menu button
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.end();
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/2, world.getBackground().getHeight()/4);        sb.end();
         stage.act();
         stage.draw();
     }
