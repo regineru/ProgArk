@@ -2,16 +2,22 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
-// import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
+import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
+import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
@@ -19,20 +25,20 @@ import com.mygdx.game.model.Player;
 
 import java.util.Random;
 
+import java.awt.Menu;
+
+// import com.mygdx.game.controller.GameController;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
-    protected ViewController gameController;
+    protected GameController gameController;
     private PlayerController pc;
-    protected GameController gc;
     private Stage stage;
-    private PauseBtn pauseBtn;
 
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
-
     private int touchPos;
 
     private Ground ground;
@@ -45,22 +51,21 @@ public class PlayView extends SuperView {
     private long lastObstacle;
     private Random obstacle_occurrence;
 
-
+    private MenuBtn menuBtn;
+    private PauseBtn pauseBtn;
 
     public PlayView(ViewController vc){
 
-        this.gameController = vc;
+        this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
-        // this.pauseBtn = new PauseBtn();
-        this.gc = new GameController(vc);
+      
+        this.pauseBtn = new PauseBtn();
+        this.menuBtn = new MenuBtn();
+     
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        // stage.addActor(pauseBtn);
         Gdx.input.setInputProcessor(stage);
-
-        // Position the button
-        // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
         character = new Player();
         ground = new Ground();
@@ -72,6 +77,49 @@ public class PlayView extends SuperView {
         obstacles = new Array<Obstacle>();
         //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
+
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
+        pauseBtn.getPauseBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
+
+        menuBtn.getMenuBtn().setSize(100, 40);
+        pauseBtn.getPauseBtn().setSize(100, 40);
+
+        stage.addActor(pauseBtn.getPauseBtn());
+        stage.addActor(menuBtn.getMenuBtn());
+
+        // LISTENERS FOR CLICK GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                gameController.quitGame();
+            }
+        });
+
+        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("pauseBtn is clicked");
+                gameController.pauseGame();
+            }
+        });
+
+        // LISTENERS FOR TOUCH GESTURES
+        pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("playBtn is touched.");
+                gameController.pauseGame();
+            }
+        });
+
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
+                gameController.quitGame();
+            }
+        });
         obstacle_occurrence = new Random();
     }
 
@@ -150,7 +198,7 @@ public class PlayView extends SuperView {
             //obstacle.update(dt);
 
             if(obstacle.collides(character.getBounds())) {
-                gc.GameOver();
+                //gameController.GameOver();
             }
 
         }
@@ -175,16 +223,27 @@ public class PlayView extends SuperView {
 
     }
 
-        @Override
-        // Each view is responsible for knowing what it needs to draw.
-        // Here we draw the background, character, obstacles and ground.
-        public void render (SpriteBatch sb){
-            sb.setProjectionMatrix(camera.combined);
-            sb.begin();
+    @Override
+    // Each view is responsible for knowing what it needs to draw.
+    // Here we draw the background, character, obstacles and ground.
+    public void render (SpriteBatch sb){
+        sb.setProjectionMatrix(camera.combined);
+        sb.begin();
+        sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-            sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        for (Ground ground : grounds) {
+            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+        }
+        for (Obstacle obstacle : obstacles) {
+            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+        }
 
-            sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
+        sb.end();
+        stage.act();
+        stage.draw();
+
+    }
 
             sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
             sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
@@ -215,6 +274,11 @@ public class PlayView extends SuperView {
         }
 
         System.out.println("Play View Disposed");
+    }
+
+    @Override
+    public void show() {
+
     }
 
 
