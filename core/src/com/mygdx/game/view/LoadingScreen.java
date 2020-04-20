@@ -11,7 +11,10 @@ public class LoadingScreen extends SuperView{
     protected LoadingController loadingController;
     private Texture loadingTexture;
     private Texture background;
+    @Override
+    public void show(){
 
+    }
     // Constructor
     public LoadingScreen(LoadingController loadingController){
 
