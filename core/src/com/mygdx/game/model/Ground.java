@@ -10,35 +10,48 @@ import javax.xml.soap.Text;
 public class Ground {
 
     private Texture ground;
-    private Vector3 groundPos;
-    public static final int GROUND_Y_OFFSET = -50;
+    private Vector3 groundPos1, groundPos2;
+    private float groundHeight;
+    //public static final int GROUND_Y_OFFSET = -50;
 
-    public Ground(){
+    public Ground(){ // ta inn cam.pos osv i playView
         ground = new Texture("ground.png");
-        groundPos = new Vector3(0, GROUND_Y_OFFSET, 0);
+        groundPos1 = new Vector3(0, 0, 0);
+        groundPos2 = new Vector3(0 + ground.getWidth(), 0, 0);
+        groundHeight = new Float(ground.getHeight());
     }
 
-    public Ground(Vector3 groundPos) {
-        ground = new Texture("ground.png");
-        this.groundPos = groundPos;
-    }
+    //public Ground(Vector3 groundPos) {
+        //ground = new Texture("ground.png");
+        //this.groundPos = groundPos;
+    //}
 
     public Texture getGround(){
         return ground;
     }
 
-    public void setGround(Texture ground) {
-        ground = ground;
+    //public void setGround(Texture ground) {
+        //ground = ground;
+    //}
+
+    public Vector3 getGroundPos1(){
+        return groundPos1;
     }
 
-    public Vector3 getGroundPos(){
-        return groundPos;
+    public Vector3 getGroundPos2(){
+        return groundPos2;
+    }
+
+    public float getGroundHeight() {
+        return groundHeight;
     }
 
 
-    public void setGroundPos(Vector3 groundPos) {
-        this.groundPos = groundPos;
-    }
+
+
+    //public void setGroundPos(Vector3 groundPos) {
+        //this.groundPos = groundPos;
+    //}
 
     public void update(float dt){
 

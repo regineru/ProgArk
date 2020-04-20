@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 
     private Texture background;
-    private Array<Ground> grounds;
+    //private Array<Ground> grounds;
 
     //private Sound sound;
 
@@ -20,8 +20,8 @@ public class World {
 
     public World() {
         background = new Texture("background.png"); //locally saved
-        grounds = new Array<Ground>();
-        grounds.add(new Ground());
+        //grounds = new Array<Ground>();
+        //grounds.add(new Ground());
 
         /* TODO Sound is working but is starting multiple times over each other
             and is delaying the game
@@ -42,9 +42,9 @@ public class World {
 
      */
 
-    public Array getGrounds() {
-        return grounds;
-    }
+    //public Array getGrounds() {
+        //return grounds;
+    //}
 
     /* Might need this to select different backgrounds
     public void setGround(Texture ground) {
@@ -53,25 +53,25 @@ public class World {
 
      */
 
-    public Vector3 getGroundPos() { //last added grounds position
-        return grounds.peek().getGroundPos();
-    }
+    //public Vector3 getGroundPos() { //last added grounds position
+        //return grounds.peek().getGroundPos();
+    //}
 
-    public void update(float dt) {
-        for (Ground ground : grounds){
-            ground.update(dt);
-        }
+    //public void update(float dt) {
+        //for (Ground ground : grounds){
+            //ground.update(dt);
+        //}
 
-        if(grounds.peek().getGroundPos().x < 0) {
-            grounds.add(new Ground(new Vector3(grounds.peek().getGroundPos().x+grounds.peek().getGround().getWidth(), Ground.GROUND_Y_OFFSET, 0)));
-        }
-    }
+        //if(grounds.peek().getGroundPos().x < 0) {
+            //grounds.add(new Ground(new Vector3(grounds.peek().getGroundPos().x+grounds.peek().getGround().getWidth(), Ground.GROUND_Y_OFFSET, 0)));
+        //}
+    //}
 
     public void dispose() {
         background.dispose();
         //sound.dispose();
-        for (Ground ground : grounds) {
-            ground.dispose();
-        }
+        //for (Ground ground : grounds) {
+          //  ground.dispose();
+        //}
     }
 }
