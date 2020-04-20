@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
@@ -19,6 +22,8 @@ import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
+
+import java.util.Random;
 
 import java.awt.Menu;
 
@@ -31,17 +36,16 @@ public class PlayView extends SuperView {
     private PlayerController pc;
     private Stage stage;
 
-    private static final int GROUND_Y_OFFSET = -50;
-
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
     private int touchPos;
     private Array<Ground> grounds = world.getGrounds();
 
-    private ObstacleFactory obstacleFatory;
+    private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
+    private Random obstacle_occurrence;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
@@ -50,20 +54,22 @@ public class PlayView extends SuperView {
 
         this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
+      
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
+     
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
         character = new Player();
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         // GENERATING NEW OBSTACLES
-        obstacleFatory = new ObstacleFactory();
+        obstacleFactory = new ObstacleFactory();
         obstacles = new Array<Obstacle>();
-        obstacles.add(obstacleFatory.generateObstacle());
+        //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
 
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
@@ -108,6 +114,7 @@ public class PlayView extends SuperView {
                 gameController.quitGame();
             }
         });
+        obstacle_occurrence = new Random();
     }
 
     @Override
@@ -163,17 +170,28 @@ public class PlayView extends SuperView {
         character.update(dt);
         world.update(dt);
 
-        camera.position.x = character.getPosition().x + 80;
+        /* TODO cannot get this tp work without removing grounds from the list
+        if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
+            grounds.add(new Ground(new Vector3(character.getPosition().x, Ground.GROUND_Y_OFFSET, 0)));
+        }
+
+         */
 
 
         for (Obstacle obstacle : obstacles) {
             obstacle.update(dt);
+
+            if(obstacle.collides(character.getBounds())) {
+                //gameController.GameOver();
+            }
+
         }
 
-        if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFatory.generateObstacle());
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         }
+        camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
 
             // If character hits ground, change to menu state
@@ -189,20 +207,27 @@ public class PlayView extends SuperView {
 
     }
 
-    @Override
-    // Each view is responsible for knowing what it needs to draw.
-    // Here we draw the background, character, obstacles and ground.
-    public void render (SpriteBatch sb){
-        //sb.setProjectionMatrix(camera.combined);
-        sb.begin();
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-        for (Ground ground : grounds) {
-            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
-        }
-        for (Obstacle obstacle : obstacles) {
-            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+        @Override
+        // Each view is responsible for knowing what it needs to draw.
+        // Here we draw the background, character, obstacles and ground.
+        public void render (SpriteBatch sb){
+            sb.setProjectionMatrix(camera.combined);
+            sb.begin();
+
+            sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+
+            sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
+
+            for (Ground ground : grounds) {
+                sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+            }
+       
+            for (Obstacle obstacle : obstacles) {
+                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+            }
+
+            sb.end();
         }
 
         stage.act();

@@ -1,6 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
@@ -10,8 +11,12 @@ import com.mygdx.game.ImpossibleGravity;
 
 public class BottomSpikes extends Obstacle {
 
-    public BottomSpikes() {
+    public BottomSpikes(float x, int height, int width) {
         this.spikes = new Texture("bottomSpikes.png");
-        this.position = new Vector3(ImpossibleGravity.WIDTH + 1, 0, 0); // x-pos må endres
+        this.position = new Vector3(x, 0, 0); // x-pos må endres
+        this.height = height;
+        this.width = width;
+      
+        this.bounds = new Rectangle(position.x, position.y, spikes.getWidth(), spikes.getWidth() );
     }
 }

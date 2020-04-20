@@ -27,6 +27,7 @@ public class GameOverScreen extends SuperView{
         this.menuBtn = new MenuBtn();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+
         gameOver = new Texture("gameOver.png");
         Image gameOverImage = new Image(gameOver);
 

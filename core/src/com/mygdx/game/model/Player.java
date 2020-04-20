@@ -10,6 +10,8 @@ import static java.lang.Math.abs;
 
 public class Player {
 
+    private static final float MOVEMENT = 100;
+
     // TODO: make the texture into a sprite
     private Texture texture;
     private Sprite player;
@@ -23,11 +25,11 @@ public class Player {
 
     public Player(){
         this.player = new Sprite(new Texture("player.png")); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,ImpossibleGravity.HEIGHT/2 - this.player.getTexture().getHeight()/2,0);
+        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - this.player.getTexture().getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
         this.bounds = new Rectangle(position.x, position.y, this.player.getTexture().getWidth(), this.player.getTexture().getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
-        this.SPEED = 10; // this needs to be updated
-        this.velocity = new Vector3(0, 0, 0);
+        this.SPEED = 20; // this needs to be updated
+        this.velocity = new Vector3(1, 0, 0);
 
         this.score = 0;
         this.jump = false;
@@ -38,6 +40,8 @@ public class Player {
     }
 
     public void update(float dt){
+
+        position.add(MOVEMENT * dt, 0, 0 );
 
         score = ((int) dt); //score follows delta time
         this.position.y += this.velocity.y;
@@ -87,6 +91,10 @@ public class Player {
     public int getScore(){return this.score;}
 
     public Vector3 getPosition(){return this.position;}
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
     public void dispose(){
         this.player.getTexture().dispose();

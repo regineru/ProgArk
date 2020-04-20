@@ -1,6 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -15,15 +16,16 @@ import com.badlogic.gdx.math.Vector3;
 
 public abstract class Obstacle {
 
-    private static final int MOVEMENT = -100;
-
     protected Vector3 position;
     protected Texture spikes;
+    protected Rectangle bounds;
+    protected int height;
+    protected int width;
 
     public Obstacle(){}
 
     public void update(float dt) {
-        position.add(MOVEMENT * dt, 0, 0);
+
     }
 
     public Texture getSpikes() {
@@ -34,7 +36,19 @@ public abstract class Obstacle {
         return position;
     }
 
+    public boolean collides(Rectangle player) {
+        return player.overlaps(bounds);
+    }
+
     public void dispose() {
         spikes.dispose();
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
     }
 }
