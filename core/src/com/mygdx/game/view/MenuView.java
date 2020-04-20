@@ -144,7 +144,7 @@ public class MenuView extends SuperView{
     // Draws background, the play button
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/2, world.getBackground().getHeight()/4);
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         sb.end();
         stage.act();
         stage.draw();
