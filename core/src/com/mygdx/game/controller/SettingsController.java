@@ -7,7 +7,7 @@ public class SettingsController {
 
     private ViewController vc;
 
-    //private Settingsmodel model;
+    //private SettingsModel model;
 
     public SettingsController(ViewController vc) {
         this.vc = vc;
