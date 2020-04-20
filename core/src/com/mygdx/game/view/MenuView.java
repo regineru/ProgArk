@@ -38,9 +38,7 @@ public class MenuView extends SuperView{
 
         // GameInstance is the equivalent to the FlappyDemo in the tutorial.
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-    }
-    @Override
-    public void show(){
+
         // Setting up the stage, adding the actors (buttons)
         this.stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(this.stage);
@@ -51,17 +49,17 @@ public class MenuView extends SuperView{
         helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-50, Align.center);
         quitBtn.getQuitBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-150, Align.center);
 
-        playBtn.getPlayBtn().setSize(100, 50);
-        settingsBtn.getSettingsBtn().setSize(100, 60);
-        helpBtn.getHelpBtn().setSize(100, 60);
-        quitBtn.getQuitBtn().setSize(100, 60);
+        /*playBtn.getPlayBtn().setSize(110, 50);
+        settingsBtn.getSettingsBtn().setSize(110, 60);
+        helpBtn.getHelpBtn().setSize(110, 60);
+        quitBtn.getQuitBtn().setSize(110, 60);*/
 
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
         stage.addActor(helpBtn.getHelpBtn());
         stage.addActor(quitBtn.getQuitBtn());
 
-        // LISTENERS FOR CLICK GESTURES TODO: FIX BUG)
+        // LISTENERS FOR CLICK GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
@@ -70,76 +68,72 @@ public class MenuView extends SuperView{
             }
         });
 
-        /*settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
+                System.out.println("settingsBtn is clicked.");
                 menuController.settingsPressed();
             }
-        });*/
+        });
 
         helpBtn.getHelpBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //super.touchDown(event, x, y, pointer, button);
                 System.out.println("helpBtn is clicked.");
                 menuController.helpPressed();
 
             }
         });
-        /*
+
         quitBtn.getQuitBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                System.out.println("Quit pressed");
-                menuController.quit();
-            }
-        });
-        quitBtn.getQuitBtn().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Quit pressed");
+                System.out.println("quitBtn is clicked");
                 menuController.quit();
             }
         });
 
         // LISTENERS FOR TOUCH GESTURES
-        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                menuController.settingsPressed();
-            }
-        });
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
                 System.out.println("playBtn is touched.");
                 menuController.playGamePressed();
             }
         });
+
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("settingsBtn is touched.");
+                menuController.settingsPressed();
+            }
+        });
+
         helpBtn.getHelpBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
+                System.out.println("helpBtn is touched.");
                 menuController.helpPressed();
             }
         });
+
         quitBtn.getQuitBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
+                System.out.println("quitBtn is touched.");
                 menuController.quit();
             }
-        });*/
-
+        });
+    }
+    @Override
+    public void show(){
+        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
     }
 
     @Override
     public void handleInput() {
-    // Bruker ikke denne da eventListeners ligger i show() i stedet.
+        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
     }
 
     @Override

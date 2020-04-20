@@ -1,62 +1,61 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
-// import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameController;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
+import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
-import com.mygdx.game.model.BottomSpikes;
+import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
-import com.mygdx.game.model.TopSpikes;
-import com.mygdx.game.model.World;
 
+import java.awt.Menu;
+
+// import com.mygdx.game.controller.GameController;
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
 
 public class PlayView extends SuperView {
-    protected ViewController gameController;
+    protected GameController gameController;
     private PlayerController pc;
     private Stage stage;
-    private PauseBtn pauseBtn;
 
     private static final int GROUND_Y_OFFSET = -50;
 
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
     private Player character;
-
     private int touchPos;
-
     private Array<Ground> grounds = world.getGrounds();
 
     private ObstacleFactory obstacleFatory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
 
+    private MenuBtn menuBtn;
+    private PauseBtn pauseBtn;
+
     public PlayView(ViewController vc){
 
-        this.gameController = vc;
+        this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
-        // this.pauseBtn = new PauseBtn();
+        this.pauseBtn = new PauseBtn();
+        this.menuBtn = new MenuBtn();
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        // stage.addActor(pauseBtn);
         Gdx.input.setInputProcessor(stage);
-
-        // Position the button
-        // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
         character = new Player();
         camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
@@ -66,6 +65,32 @@ public class PlayView extends SuperView {
         obstacles = new Array<Obstacle>();
         obstacles.add(obstacleFatory.generateObstacle());
         lastObstacle = System.currentTimeMillis();
+
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
+        pauseBtn.getPauseBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
+
+        menuBtn.getMenuBtn().setSize(100, 40);
+        pauseBtn.getPauseBtn().setSize(100, 40);
+
+        stage.addActor(pauseBtn.getPauseBtn());
+        stage.addActor(menuBtn.getMenuBtn());
+
+        // LISTENERS FOR CLICK GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                gameController.quitGame();
+            }
+        });
+
+        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("pauseBtn is clicked");
+                gameController.pauseGame();
+            }
+        });
     }
 
     @Override
@@ -147,27 +172,28 @@ public class PlayView extends SuperView {
 
     }
 
-        @Override
-        // Each view is responsible for knowing what it needs to draw.
-        // Here we draw the background, character, obstacles and ground.
-        public void render (SpriteBatch sb){
-            //sb.setProjectionMatrix(camera.combined);
-            sb.begin();
-
+    @Override
+    // Each view is responsible for knowing what it needs to draw.
+    // Here we draw the background, character, obstacles and ground.
+    public void render (SpriteBatch sb){
+        //sb.setProjectionMatrix(camera.combined);
+        sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
-
         sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
         for (Ground ground : grounds) {
             sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
         }
-       
-            for (Obstacle obstacle : obstacles) {
-                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
-            }
-
-            sb.end();
+        for (Obstacle obstacle : obstacles) {
+            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
         }
+
+        stage.act();
+        stage.draw();
+        sb.end();
+
+    }
+
 
     @Override
     public void dispose(){

@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PauseController;
@@ -20,13 +22,12 @@ public class PauseView extends SuperView{
 
     protected PauseController pauseController;
     private Stage stage;
-    private Texture background;
 
     private PlayBtn playBtn;
     private MenuBtn menuBtn;
 
     // Constructor
-    public PauseView(PauseController pauseController) {
+    public PauseView(final PauseController pauseController) {
         this.pauseController = pauseController;
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
@@ -35,16 +36,39 @@ public class PauseView extends SuperView{
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        stage.addActor(playBtn);
-        stage.addActor(menuBtn);
         Gdx.input.setInputProcessor(stage);
+
 
         // Position the buttons
         playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
         menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y+20);
 
-        background = new Texture("bg.png");
+        //playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
+        //menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
+        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2-50, Align.center);
 
+        //playBtn.getPlayBtn().setSize(100, 40);
+        //menuBtn.getMenuBtn().setSize(100, 40);
+
+        stage.addActor(playBtn.getPlayBtn());
+        stage.addActor(menuBtn.getMenuBtn());
+
+        // LISTENERS FOR CLICK GESTURES
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("playBtn is clicked");
+                pauseController.ContinueGame();
+            }
+        });
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                pauseController.BackToMenu();
+            }
+        });
     }
 
     @Override
@@ -77,8 +101,10 @@ public class PauseView extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         sb.end();
+        stage.draw();
+        stage.act();
     }
 
     @Override
@@ -87,7 +113,7 @@ public class PauseView extends SuperView{
     }
     @Override
     public void dispose() {
-        background.dispose();
+        world.dispose();
         System.out.println("Pause View Disposed");
     }
 }

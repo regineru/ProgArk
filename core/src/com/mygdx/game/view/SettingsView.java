@@ -22,7 +22,7 @@ public class SettingsView extends SuperView{
     private Texture volumeBtn;
     private Texture toggleBtn;
 
-    public SettingsView(SettingsController settingsController) {
+    public SettingsView(final SettingsController settingsController) {
 
         this.settingsController = settingsController;
         this.menuBtn = new MenuBtn();
@@ -33,36 +33,26 @@ public class SettingsView extends SuperView{
         // Add specific settings
         //volumeBtn = new Texture("volumeBtn.png"); // Should be a slider
         //toggleBtn = new Texture("toggleBtn.png");
-    }
-    @Override
-    public void show(){
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2, Align.top);
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2+50, Align.top);
 
-        // LISTENERS FOR CLICK GESTURES (LAGGED AND WILL REMOVE BEFORE COMPLETING PROJECT
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+        // LISTENERS FOR CLICK GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                settingsController.backToMenu();
-            }
-        });
-        // FOR TOUCH GESTURES
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
+                System.out.println("menuBtn is clicked");
                 settingsController.backToMenu();
             }
         });
 
         stage.addActor(menuBtn.getMenuBtn());
     }
+    @Override
+    public void show(){
 
-
-
+    }
 
     @Override
     public void handleInput() {

@@ -24,34 +24,24 @@ public class HelpView extends SuperView{
         this.menuBtn = new MenuBtn();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+
+        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2+50, Align.top);
+
+        // LISTENERS FOR CLICK GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                helpController.backToMenu();
+            }
+        });
+        stage.addActor(menuBtn.getMenuBtn());
     }
 
     @Override
     public void show(){
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
-
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2, Align.top);
-
-        // LISTENERS FOR CLICK GESTURES (LAGGED AND WILL REMOVE BEFORE COMPLETING PROJECT
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                helpController.backToMenu();
-            }
-        });
-        // FOR TOUCH GESTURES
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-                helpController.backToMenu();
-            }
-        });
-
-        stage.addActor(menuBtn.getMenuBtn());
-
     }
 
     @Override
@@ -70,7 +60,7 @@ public class HelpView extends SuperView{
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
         //TODO: WRITE HELP TEXT
-        font.draw(sb, "TODO: WRITE HELP TEXT HERE", 130, Align.center);
+        font.draw(sb, "TODO: WRITE HELP TEXT HERE", 100, Align.center);
         sb.end();
         stage.act();
         stage.draw();
