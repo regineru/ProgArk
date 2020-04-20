@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 
     private Texture background;
-    //private Array<Ground> grounds;
 
     //private Sound sound;
 
@@ -20,8 +19,6 @@ public class World {
 
     public World() {
         background = new Texture("background.png"); //locally saved
-        //grounds = new Array<Ground>();
-        //grounds.add(new Ground());
 
         /* TODO Sound is working but is starting multiple times over each other
             and is delaying the game
@@ -42,9 +39,6 @@ public class World {
 
      */
 
-    //public Array getGrounds() {
-        //return grounds;
-    //}
 
     /* Might need this to select different backgrounds
     public void setGround(Texture ground) {

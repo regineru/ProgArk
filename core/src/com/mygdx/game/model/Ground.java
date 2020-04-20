@@ -46,15 +46,7 @@ public class Ground {
         return groundHeight;
     }
 
-
-
-
-    //public void setGroundPos(Vector3 groundPos) {
-        //this.groundPos = groundPos;
-    //}
-
     public void update(float dt){
-
     }
 
     public void dispose() {
