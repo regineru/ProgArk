@@ -14,6 +14,8 @@ public class ObstacleFactory {
 
     private Random random;
     private int chosenObstacle;
+    private int chosenHeight;
+    private int chosenWidth;
 
     //private static final int noSpike = 0;
     private static final int topSpike = 0;
@@ -26,12 +28,15 @@ public class ObstacleFactory {
     public Obstacle generateObstacle(float x, float y) {
 
         chosenObstacle = random.nextInt(2);
+        chosenHeight = 50 + random.nextInt(100);
+        chosenWidth = 30 + random.nextInt(20);
 
         if (chosenObstacle == 0) {
-            return new TopSpikes(x);
+            return new TopSpikes(x, chosenHeight, chosenWidth);
 
         } else if (chosenObstacle == 1) {
             return new BottomSpikes(x, y);
+            //return new BottomSpikes(x, chosenHeight, chosenWidth);
         }
 
         return null;

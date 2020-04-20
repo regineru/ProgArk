@@ -1,7 +1,5 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +16,8 @@ import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
+
+import java.util.Random;
 
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
@@ -43,6 +43,7 @@ public class PlayView extends SuperView {
     private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
+    private Random obstacle_occurrence;
 
 
 
@@ -71,6 +72,7 @@ public class PlayView extends SuperView {
         obstacles = new Array<Obstacle>();
         //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
     }
 
     @Override
@@ -134,6 +136,13 @@ public class PlayView extends SuperView {
             ground.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
 
+        /* TODO cannot get this tp work without removing grounds from the list
+        if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
+            grounds.add(new Ground(new Vector3(character.getPosition().x, Ground.GROUND_Y_OFFSET, 0)));
+        }
+
+         */
+
 
 
         // TODO: LOGIKKEN FOR OBSTACLES MÅ INN I OBSTACLE
@@ -146,7 +155,7 @@ public class PlayView extends SuperView {
 
         }
 
-        if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
             obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, ground.getGroundHeight() - 10));
         }
@@ -188,8 +197,8 @@ public class PlayView extends SuperView {
                 sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
             }
 
-            sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
-            sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
+
+
 
 
             sb.end();
