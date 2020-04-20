@@ -135,7 +135,7 @@ public class PlayView extends SuperView {
             obstacle.update(dt);
 
             if(obstacle.collides(character.getBounds())) {
-                gc.GameOver();
+                //gc.GameOver();
             }
 
         }
