@@ -1,25 +1,23 @@
 package com.mygdx.game.view;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 // import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameController;
+import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.controller.PlayerController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.PauseBtn;
-import com.mygdx.game.model.BottomSpikes;
 import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
-import com.mygdx.game.model.TopSpikes;
-import com.mygdx.game.model.World;
+
+import java.util.Random;
 
 
 // Import the sprites here, when these are created in model (e.g. the character, obstacles)
@@ -27,10 +25,9 @@ import com.mygdx.game.model.World;
 public class PlayView extends SuperView {
     protected ViewController gameController;
     private PlayerController pc;
+    protected GameController gc;
     private Stage stage;
     private PauseBtn pauseBtn;
-
-    private static final int GROUND_Y_OFFSET = -50;
 
     // The elements in our view - instantiate character, obstacles etc.
     // Can also import e.g. gameWorld, engine etc.
@@ -40,15 +37,19 @@ public class PlayView extends SuperView {
 
     private Array<Ground> grounds = world.getGrounds();
 
-    private ObstacleFactory obstacleFatory;
+    private ObstacleFactory obstacleFactory;
     private Array<Obstacle> obstacles;
     private long lastObstacle;
+    private Random obstacle_occurrence;
+
+
 
     public PlayView(ViewController vc){
 
         this.gameController = vc;
         this.pc = new PlayerController(vc);
         // this.pauseBtn = new PauseBtn();
+        this.gc = new GameController(vc);
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
@@ -59,13 +60,14 @@ public class PlayView extends SuperView {
         // pauseBtn.setPosition(camera.position.x - pauseBtn.getWidth() / 2, camera.position.y);
 
         character = new Player();
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH/2, ImpossibleGravity.HEIGHT/2);
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         // GENERATING NEW OBSTACLES
-        obstacleFatory = new ObstacleFactory();
+        obstacleFactory = new ObstacleFactory();
         obstacles = new Array<Obstacle>();
-        obstacles.add(obstacleFatory.generateObstacle());
+        //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
     }
 
     @Override
@@ -121,17 +123,28 @@ public class PlayView extends SuperView {
         character.update(dt);
         world.update(dt);
 
-        camera.position.x = character.getPosition().x + 80;
+        /* TODO cannot get this tp work without removing grounds from the list
+        if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
+            grounds.add(new Ground(new Vector3(character.getPosition().x, Ground.GROUND_Y_OFFSET, 0)));
+        }
+
+         */
 
 
         for (Obstacle obstacle : obstacles) {
             obstacle.update(dt);
+
+            if(obstacle.collides(character.getBounds())) {
+                gc.GameOver();
+            }
+
         }
 
-        if (System.currentTimeMillis() - lastObstacle >= 2000 ) {
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFatory.generateObstacle());
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
         }
+        camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
 
             // If character hits ground, change to menu state
@@ -151,19 +164,19 @@ public class PlayView extends SuperView {
         // Each view is responsible for knowing what it needs to draw.
         // Here we draw the background, character, obstacles and ground.
         public void render (SpriteBatch sb){
-            //sb.setProjectionMatrix(camera.combined);
+            sb.setProjectionMatrix(camera.combined);
             sb.begin();
 
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
+            sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
-        sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
+            sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-        for (Ground ground : grounds) {
-            sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
-        }
+            for (Ground ground : grounds) {
+                sb.draw(ground.getGround(), world.getGroundPos().x, world.getGroundPos().y);
+            }
        
             for (Obstacle obstacle : obstacles) {
-                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
+                sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
             }
 
             sb.end();

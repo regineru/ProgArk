@@ -27,7 +27,7 @@ public class GameOverScreen extends SuperView{
         this.menuBtn = new MenuBtn();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-        background = new Texture("bg.png");
+        background = new Texture("background.png");
         gameOver = new Texture("gameOver.png");
 
         // Setting up the stage, adding the actors (buttons)
