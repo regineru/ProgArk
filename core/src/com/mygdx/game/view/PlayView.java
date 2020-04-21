@@ -18,6 +18,7 @@ import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
+import com.mygdx.game.model.Grass;
 import com.mygdx.game.model.Ground;
 import com.mygdx.game.model.Heaven;
 import com.mygdx.game.model.Obstacle;
@@ -42,7 +43,7 @@ public class PlayView extends SuperView {
     private Player character;
     private int touchPos;
 
-    private Ground ground;
+    private Grass grass;
     private Heaven heaven;
 
 
@@ -70,7 +71,7 @@ public class PlayView extends SuperView {
         Gdx.input.setInputProcessor(stage);
 
         character = new Player();
-        ground = new Ground();
+        grass = new Grass();
         heaven = new Heaven();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
@@ -180,18 +181,18 @@ public class PlayView extends SuperView {
         //world.update(dt);
 
         // TODO: LOGIKKEN FOR GROUND MÅ INN I GROUND/WORLD
-        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos1().x + ImpossibleGravity.WIDTH) {
-            ground.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > grass.getGroundPos1().x + ImpossibleGravity.WIDTH) {
+            grass.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
-        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos2().x + ImpossibleGravity.WIDTH) {
-            ground.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > grass.getGroundPos2().x + ImpossibleGravity.WIDTH) {
+            grass.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
 
-        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getHeavenPos1().x + ImpossibleGravity.WIDTH) {
-            heaven.getHeavenPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getGroundPos1().x + ImpossibleGravity.WIDTH) {
+            heaven.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
-        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getHeavenPos2().x + ImpossibleGravity.WIDTH) {
-            heaven.getHeavenPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getGroundPos2().x + ImpossibleGravity.WIDTH) {
+            heaven.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
 
         /* TODO cannot get this tp work without removing grounds from the list
@@ -215,7 +216,7 @@ public class PlayView extends SuperView {
 
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
-            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, ground.getGroundHeight() - 10));
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, grass.getGroundHeight() - 10));
         }
         camera.position.set(character.getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
@@ -242,11 +243,11 @@ public class PlayView extends SuperView {
         sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.draw(character.getSprite(), character.getPosition().x, character.getPosition().y);
 
-        sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
-        sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
+        sb.draw(grass.getGround(), grass.getGroundPos1().x, grass.getGroundPos1().y);
+        sb.draw(grass.getGround(), grass.getGroundPos2().x, grass.getGroundPos2().y);
 
-        sb.draw(heaven.getHeaven(), heaven.getHeavenPos1().x, heaven.getHeavenPos1().y);
-        sb.draw(heaven.getHeaven(), heaven.getHeavenPos2().x, heaven.getHeavenPos2().y);
+        sb.draw(heaven.getGround(), heaven.getGroundPos1().x, heaven.getGroundPos1().y);
+        sb.draw(heaven.getGround(), heaven.getGroundPos2().x, heaven.getGroundPos2().y);
 
 
         for (Obstacle obstacle : obstacles) {
@@ -260,15 +261,12 @@ public class PlayView extends SuperView {
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
         character.dispose();
-        ground.dispose();
-        heaven.dispose();
-        for (Obstacle obstacle : obstacles) {
-            obstacle.dispose();
-        }
+        grass.dispose();
+
 
         System.out.println("Play View Disposed");
     }

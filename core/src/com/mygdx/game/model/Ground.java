@@ -9,30 +9,16 @@ import javax.xml.soap.Text;
 
 public class Ground {
 
-    private Texture ground;
-    private Vector3 groundPos1, groundPos2;
-    private float groundHeight;
+    protected Texture ground;
+    protected Vector3 groundPos1, groundPos2;
+    protected float groundHeight;
     //public static final int GROUND_Y_OFFSET = -50;
 
-    public Ground(){ // ta inn cam.pos osv i playView
-        ground = new Texture("ground.png");
-        groundPos1 = new Vector3(0, 0, 0);
-        groundPos2 = new Vector3(0 + ground.getWidth(), 0, 0);
-        groundHeight = new Float(ground.getHeight());
-    }
-
-    //public Ground(Vector3 groundPos) {
-        //ground = new Texture("ground.png");
-        //this.groundPos = groundPos;
-    //}
+    public Ground() {}
 
     public Texture getGround(){
         return ground;
     }
-
-    //public void setGround(Texture ground) {
-        //ground = ground;
-    //}
 
     public Vector3 getGroundPos1(){
         return groundPos1;
@@ -46,10 +32,10 @@ public class Ground {
         return groundHeight;
     }
 
-    public void update(float dt){
-    }
+    public void update(float dt){}
 
     public void dispose() {
         ground.dispose();
     }
+
 }
