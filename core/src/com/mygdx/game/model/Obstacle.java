@@ -6,12 +6,11 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by henrikforb on 07. April 2020.
- *
- * Superclass for obstacles
  **/
 
-/* TODO
-    1. Se på CollisionDetection. Verden beveger seg vel ikke hos oss, men spilleren. Hmm.
+/*
+SUPERCLASS FOR OBSTACLES (TOP- AND BOTTOM SPIKES)
+GENERATED IN THE OBSTACLE FACTORY
  */
 
 public abstract class Obstacle {

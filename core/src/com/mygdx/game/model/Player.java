@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
-import static java.lang.Math.abs;
+/*
+THE PLAYER CONTAINING THE INTERACTION LOGIC
+ */
 
 public class Player {
 

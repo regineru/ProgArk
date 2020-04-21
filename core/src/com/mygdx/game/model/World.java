@@ -1,46 +1,35 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameController;
 
-import java.util.Random;
-
+/*
+EVERY TEXTURE PRESENT IN THE PLAY VIEW IS CREATED HERE:
+GROUNDS BOTTOM AND TOP, OBSTACLES, GRAPHICS, MUSIC AND PLAYERS
+ */
 
 public class World {
 
     private Texture background;
-    private Grass grass;
-    private Heaven heaven;
-
-
-
-    //private Sound sound;
-    private long timeCounter; //TODO to increase player speed after x seconds
-
-    //Generate obstacles
-    private ObstacleFactory obstacleFactory;
-    private Array<Obstacle> obstacles;
-    private long lastObstacle;
-    private Random obstacle_occurrence;
-
-    //Create player
-    private Player character;
-    //TODO private Ground ground;
-
     //TODO make background depended on input to variate between different backgrounds/modes
     private static int BG_MODE;
 
+    private Grass grass;
+    private Heaven heaven;
+    //private Sound sound;
+    private long timeCounter; //TODO to increase player speed after x seconds
+
+    // GENERATE OBSTACLES
+    private ObstacleFactory obstacleFactory;
+
+    // PLAYER
+    private Player character;
+
     public World() {
         background = new Texture("background.png"); //locally saved
-
         grass = new Grass();
         heaven = new Heaven();
-
         timeCounter = System.currentTimeMillis();
 
         /* TODO Sound is working but is starting multiple times over each other
@@ -50,14 +39,11 @@ public class World {
         sound.play(1f);
 
          */
-
         obstacleFactory = new ObstacleFactory();
-        obstacles = new Array<Obstacle>();
-        //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
-        lastObstacle = System.currentTimeMillis();
-        obstacle_occurrence = new Random();
-
         character = new Player();
+    }
+    public ObstacleFactory getObstacleFactory(){
+        return obstacleFactory;
     }
 
     public Texture getBackground() {
@@ -75,14 +61,6 @@ public class World {
         return timeCounter;
     }
 
-    public ObstacleFactory getObstacleFactory(){
-        return obstacleFactory;
-    }
-
-    public Array<Obstacle> getObstacles(){
-        return obstacles;
-    }
-
     public Player getCharacter(){
         return character;
     }
@@ -94,7 +72,6 @@ public class World {
 
      */
 
-
     /* Might need this to select different backgrounds
     public void setGround(Texture ground) {
         this.ground = ground;
@@ -104,24 +81,15 @@ public class World {
 
     public void update(float dt, OrthographicCamera camera, GameController gameController) {
         character.update(dt);
+        grass.update(dt, camera);
+        heaven.update(dt, camera);
+        obstacleFactory.update(dt, camera, getGrass(), getHeaven());
 
-
-     grass.update(dt, camera);
-            heaven.update(dt, camera);
-            for (Obstacle obstacle : obstacles) {
-                //obstacle.update(dt);
-
-                if (obstacle.collides(character.getBounds())) {
-                    gameController.GameOver();
-                }
-
+        for (Obstacle obstacle : obstacleFactory.getObstacles()) {
+            obstacle.update(dt); //no function in obstacle.update()
+            if (obstacle.collides(character.getBounds())) {
+                //gameController.GameOver();
             }
-
-
-        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
-            lastObstacle = System.currentTimeMillis();
-            //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, ground.getGroundHeight() - 10));
-            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, 0));
         }
 
     }
@@ -129,7 +97,7 @@ public class World {
     public void dispose() {
         background.dispose();
         character.dispose();
-        for (Obstacle obstacle : obstacles) {
+        for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.dispose();
         }
 
