@@ -92,7 +92,7 @@ public class PlayView extends SuperView {
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
-                System.out.println("playBtn is touched.");
+                System.out.println("pauseBtn is touched.");
                 gameController.pauseGame();
             }
         });
