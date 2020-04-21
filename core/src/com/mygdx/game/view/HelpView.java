@@ -81,7 +81,7 @@ public class HelpView extends SuperView{
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.draw(helpTexture, Align.right+5,70, 200, 135);
         sb.end();
         stage.act();
@@ -90,7 +90,7 @@ public class HelpView extends SuperView{
 
     @Override
     public void dispose() {
-        world.dispose();
+        background.dispose();
         System.out.println("Help View Disposed");
     }
 

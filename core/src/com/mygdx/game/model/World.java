@@ -1,5 +1,8 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
@@ -11,13 +14,9 @@ GROUNDS BOTTOM AND TOP, OBSTACLES, GRAPHICS, MUSIC AND PLAYERS
 
 public class World {
 
-    private Texture background;
-    //TODO make background depended on input to variate between different backgrounds/modes
-    private static int BG_MODE;
-
     private Grass grass;
     private Heaven heaven;
-    //private Sound sound;
+    private Music music;
     private long timeCounter; //TODO to increase player speed after x seconds
 
     // GENERATE OBSTACLES
@@ -27,27 +26,22 @@ public class World {
     private Player character;
 
     public World() {
-        background = new Texture("background.png"); //locally saved
+        System.out.println("World constructor");
         grass = new Grass();
         heaven = new Heaven();
         timeCounter = System.currentTimeMillis();
 
         /* TODO Sound is working but is starting multiple times over each other
             and is delaying the game
+        */
+        music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
+        music.setLooping(true);
 
-        sound = Gdx.audio.newSound(Gdx.files.internal("marioTrack.mp3"));
-        sound.play(1f);
-
-         */
         obstacleFactory = new ObstacleFactory();
         character = new Player();
     }
     public ObstacleFactory getObstacleFactory(){
         return obstacleFactory;
-    }
-
-    public Texture getBackground() {
-        return background;
     }
 
     public Grass getGrass() {
@@ -64,6 +58,10 @@ public class World {
     public Player getCharacter(){
         return character;
     }
+
+    public void playMusic(){music.play();}
+
+    public void stopMusic(){music.stop();}
 
     /* Might need this to select different backgrounds
     public void setBackground(Texture background) {
@@ -95,8 +93,8 @@ public class World {
     }
 
     public void dispose() {
-        background.dispose();
         character.dispose();
+        music.dispose();
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.dispose();
         }
