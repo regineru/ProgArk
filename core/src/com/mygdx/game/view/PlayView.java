@@ -32,6 +32,8 @@ public class PlayView extends SuperView {
     public PlayView(ViewController vc){
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
+      
+        System.out.println("PlayView constructor");
 
         this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
@@ -47,6 +49,18 @@ public class PlayView extends SuperView {
         menuBtn.getMenuBtn().setSize(100, 40);
         pauseBtn.getPauseBtn().setSize(100, 40);
 
+        stage = new Stage(new ScreenViewport());
+        startListeners();
+    }
+
+    public void startListeners(){
+        System.out.println("listeners started");
+
+        pauseBtn.getPauseBtn().clearListeners();
+        menuBtn.getMenuBtn().clearListeners();
+
+        // Setting up the stage, adding the actors (buttons)
+        Gdx.input.setInputProcessor(stage);
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
 
@@ -71,7 +85,7 @@ public class PlayView extends SuperView {
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
-                System.out.println("playBtn is touched.");
+                System.out.println("pauseBtn is touched.");
                 gameController.pauseGame();
             }
         });

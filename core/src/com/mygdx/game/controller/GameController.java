@@ -19,7 +19,7 @@ public class GameController {
     }
 
     public void pauseGame(){
-        vc.set(new PauseView(new PauseController(vc)));
+        vc.push(new PauseView(new PauseController(vc)));
     }
 
     public void quitGame(){
