@@ -1,21 +1,21 @@
 package com.mygdx.game.interactiveElements;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class Text extends Actor {
-    BitmapFont font;
-    //Score myScore;
+public class Text {
+    private Texture textTexture;
+    public Image textImage;
 
-    public Text(){
-        font = new BitmapFont();
-        font.setColor(0.5f,0.4f,0,1);   //Brown is an underated Colour
+    public Text() {
     }
 
-    public void drawHelpText(SpriteBatch batch, float parentAlpha) {
-        font.draw(batch, "This is the help text to be displayed in the help view", 0, 0);
-        //Also remember that an actor uses local coordinates for drawing within
-        //itself!
+    public Image getHelpText(){
+        textTexture = new Texture(Gdx.files.internal("helpText.png"));
+        this.textImage = new Image(new TextureRegionDrawable(new TextureRegion(textTexture)));
+        return this.textImage;
     }
 }

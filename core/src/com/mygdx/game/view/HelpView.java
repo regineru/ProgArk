@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.HelpController;
 import com.mygdx.game.interactiveElements.MenuBtn;
+import com.mygdx.game.interactiveElements.Text;
 
 import java.awt.Label;
 
@@ -23,19 +24,23 @@ public class HelpView extends SuperView{
     protected HelpController helpController;
     private Stage stage;
     private MenuBtn menuBtn;
+    //private Text helpText;
     private Texture helpTexture;
-    private Image helpText;
 
 
     public HelpView(final HelpController helpController) {
         this.helpController = helpController;
         this.menuBtn = new MenuBtn();
+        //this.helpText = new Text();
+        this.helpTexture = new Texture(Gdx.files.internal("helpText.png"));
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
+        Gdx.input.setInputProcessor(stage);
+        //helpText.getHelpText().setPosition((Gdx.graphics.getWidth()/ - helpText.getHelpText().getWidth()), Gdx.graphics.getHeight() - helpText.getHelpText().getHeight());
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-200, Align.bottom);
+
 
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
@@ -54,12 +59,8 @@ public class HelpView extends SuperView{
                 helpController.backToMenu();
             }
         });
-        this.helpTexture = new Texture(Gdx.files.internal("pixil-frame-o.png"));
-        this.helpText = new Image(new TextureRegionDrawable(new TextureRegion(helpTexture)));
-        /*Label helpText = new Label();
-        helpText.setText("TODO: WRITE HELP TEXT HERE");*/
 
-        stage.addActor(helpText);
+        //stage.addActor(helpText.getHelpText());
         stage.addActor(menuBtn.getMenuBtn());
     }
 
@@ -79,22 +80,12 @@ public class HelpView extends SuperView{
 
     @Override
     public void render(SpriteBatch sb) {
-        //Text helpText = new Text();
-
-        BitmapFont font = new BitmapFont();
-        font.setColor(1,1,1,1);
-
-
         sb.begin();
         sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(helpTexture, Align.right+5,70, 200, 135);
         sb.end();
         stage.act();
         stage.draw();
-        sb.begin();
-        font.draw(sb, "TODO: WRITE HELP TEXT HERE", 5, 5-ImpossibleGravity.HEIGHT / 2);
-        sb.end();
-        //TODO: WRITE HELP TEXT
-
     }
 
     @Override
