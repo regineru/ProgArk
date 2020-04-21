@@ -19,6 +19,7 @@ import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.model.Ground;
+import com.mygdx.game.model.Heaven;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
@@ -42,6 +43,7 @@ public class PlayView extends SuperView {
     private int touchPos;
 
     private Ground ground;
+    private Heaven heaven;
 
 
     //private Array<Ground> grounds = world.getGrounds();
@@ -69,6 +71,7 @@ public class PlayView extends SuperView {
 
         character = new Player();
         ground = new Ground();
+        heaven = new Heaven();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
@@ -184,6 +187,13 @@ public class PlayView extends SuperView {
             ground.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
 
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getHeavenPos1().x + ImpossibleGravity.WIDTH) {
+            heaven.getHeavenPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getHeavenPos2().x + ImpossibleGravity.WIDTH) {
+            heaven.getHeavenPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
+
         /* TODO cannot get this tp work without removing grounds from the list
         if (grounds.peek().getGroundPos().x + grounds.peek().getGround().getWidth() <= character.getPosition().x){
             grounds.add(new Ground(new Vector3(character.getPosition().x, Ground.GROUND_Y_OFFSET, 0)));
@@ -235,6 +245,9 @@ public class PlayView extends SuperView {
         sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
         sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
 
+        sb.draw(heaven.getHeaven(), heaven.getHeavenPos1().x, heaven.getHeavenPos1().y);
+        sb.draw(heaven.getHeaven(), heaven.getHeavenPos2().x, heaven.getHeavenPos2().y);
+
 
         for (Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
@@ -252,6 +265,7 @@ public class PlayView extends SuperView {
         world.dispose();
         character.dispose();
         ground.dispose();
+        heaven.dispose();
         for (Obstacle obstacle : obstacles) {
             obstacle.dispose();
         }
