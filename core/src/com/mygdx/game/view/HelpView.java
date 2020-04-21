@@ -68,7 +68,7 @@ public class HelpView extends SuperView{
     public void render(SpriteBatch sb) {
         BitmapFont font = new BitmapFont();
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
+        sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         //TODO: WRITE HELP TEXT
         font.draw(sb, "TODO: WRITE HELP TEXT HERE", 100, Align.center);
         sb.end();
