@@ -15,7 +15,7 @@ public class TopSpikes extends Obstacle {
     public TopSpikes(float x, int height, int width) {
         this.spikes = new Texture("topSpikes.png");
         this.position = new Vector3(x, ImpossibleGravity.HEIGHT - height, 0);
-        this.bounds = new Rectangle(position.x, position.y, spikes.getWidth(), spikes.getWidth() );
+        this.bounds = new Rectangle(position.x, position.y, spikes.getWidth(), spikes.getHeight());
         this.height = height;
         this.width = width;
     }

@@ -8,7 +8,7 @@ import com.mygdx.game.ImpossibleGravity;
 
 import javax.xml.soap.Text;
 
-public class Ground {
+public abstract class Ground {
 
     protected Texture ground;
     protected Vector3 groundPos1, groundPos2;
