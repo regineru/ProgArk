@@ -16,4 +16,9 @@ public class Heaven extends Ground {
         groundPos2 = new Vector3(0 + ground.getWidth(), ImpossibleGravity.HEIGHT - ground.getHeight() / 2, 0);
         groundHeight = new Float(ground.getHeight());
     }
+
+    @Override
+    public void update() {
+
+    }
 }

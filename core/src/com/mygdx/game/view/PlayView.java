@@ -246,13 +246,11 @@ public class PlayView extends SuperView {
         sb.draw(grass.getGround(), grass.getGroundPos1().x, grass.getGroundPos1().y);
         sb.draw(grass.getGround(), grass.getGroundPos2().x, grass.getGroundPos2().y);
 
-        sb.draw(heaven.getGround(), heaven.getGroundPos1().x, heaven.getGroundPos1().y);
-        sb.draw(heaven.getGround(), heaven.getGroundPos2().x, heaven.getGroundPos2().y);
-
-
         for (Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
         }
+        sb.draw(heaven.getGround(), heaven.getGroundPos1().x, heaven.getGroundPos1().y);
+        sb.draw(heaven.getGround(), heaven.getGroundPos2().x, heaven.getGroundPos2().y);
 
         sb.end();
         stage.act();
@@ -261,12 +259,16 @@ public class PlayView extends SuperView {
     }
 
     @Override
-    public void dispose() {
+    public void dispose(){
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
         character.dispose();
         grass.dispose();
+        heaven.dispose();
 
+        for (Obstacle obstacle : obstacles) {
+            obstacle.dispose();
+        }
 
         System.out.println("Play View Disposed");
     }

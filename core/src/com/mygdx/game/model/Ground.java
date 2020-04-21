@@ -32,7 +32,7 @@ public class Ground {
         return groundHeight;
     }
 
-    public void update(float dt){}
+    public void update() {};
 
     public void dispose() {
         ground.dispose();

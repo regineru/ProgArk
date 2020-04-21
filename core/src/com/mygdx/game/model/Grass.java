@@ -17,4 +17,9 @@ public class Grass extends Ground {
         groundPos2 = new Vector3(0 + ground.getWidth(), 0, 0);
         groundHeight = new Float(ground.getHeight());
     }
+
+    @Override
+    public void update() {
+
+    }
 }
