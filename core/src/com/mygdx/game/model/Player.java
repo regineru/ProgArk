@@ -10,7 +10,7 @@ import static java.lang.Math.abs;
 
 public class Player {
 
-    private static final float MOVEMENT = 100;
+    private static float MOVEMENT = 100;
 
     // TODO: make the texture into a sprite
     private Texture texture;
@@ -42,6 +42,13 @@ public class Player {
     public void update(float dt){
 
         position.add(MOVEMENT * dt, 0, 0 );
+
+        /* TODO change speed of character
+        if (timeCounter%10000==0){
+            MOVEMENT+= 20;
+        }
+
+         */
 
         score = ((int) dt); //score follows delta time
         this.position.y += this.velocity.y;

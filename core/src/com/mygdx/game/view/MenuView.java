@@ -143,6 +143,7 @@ public class MenuView extends SuperView{
     @Override
     // Draws background, the play button
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
         //sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
