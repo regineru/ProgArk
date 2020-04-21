@@ -12,7 +12,7 @@ import javax.xml.soap.Text;
 SUPER CLASS FOR HEAVEN AND GROUND - TEXTURES FOR THE PLAYER TO RUN ON
  */
 
-public class Ground {
+public abstract class Ground {
 
     protected Texture ground;
     protected Vector3 groundPos1, groundPos2;
