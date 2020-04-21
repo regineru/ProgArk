@@ -8,8 +8,7 @@ import com.badlogic.gdx.math.Vector3;
  **/
 
 public class Grass extends Ground {
-
-    //TODO: se på playview, der kalles Ground og ikke Grass. Logikk må gjøres om (og fjernes fra playview egt)
+    
     public Grass() {
         // ta inn cam.pos osv i playView
         ground = new Texture("ground.png");
