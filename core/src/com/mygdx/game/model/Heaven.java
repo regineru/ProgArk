@@ -10,15 +10,10 @@ import com.mygdx.game.ImpossibleGravity;
 
 public class Heaven extends Ground {
 
-    public Heaven(){ // ta inn cam.pos osv i playView
+    public Heaven() { // ta inn cam.pos osv i playView
         ground = new Texture("heaven.png");
         groundPos1 = new Vector3(0, ImpossibleGravity.HEIGHT - ground.getHeight() / 2, 0);
         groundPos2 = new Vector3(0 + ground.getWidth(), ImpossibleGravity.HEIGHT - ground.getHeight() / 2, 0);
         groundHeight = new Float(ground.getHeight());
-    }
-
-    @Override
-    public void update() {
-
     }
 }

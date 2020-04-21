@@ -1,13 +1,18 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+
 public class World {
 
     private Texture background;
+    private Grass grass;
+    private Heaven heaven;
+
 
     //private Sound sound;
 
@@ -16,6 +21,8 @@ public class World {
 
     public World() {
         background = new Texture("background.png"); //locally saved
+        grass = new Grass();
+        heaven = new Heaven();
 
         /* TODO Sound is working but is starting multiple times over each other
             and is delaying the game
@@ -29,6 +36,15 @@ public class World {
     public Texture getBackground() {
         return background;
     }
+
+    public Grass getGrass() {
+        return grass;
+    }
+
+    public Heaven getHeaven() {
+        return heaven;
+    }
+
     /* Might need this to select different backgrounds
     public void setBackground(Texture background) {
         this.background = background;
@@ -49,7 +65,9 @@ public class World {
     //}
 
 
-    public void update(float dt) {
+    public void update(float dt, OrthographicCamera camera) {
+        grass.update(dt, camera);
+        heaven.update(dt, camera);
 
     }
 

@@ -18,8 +18,4 @@ public class Grass extends Ground {
         groundHeight = new Float(ground.getHeight());
     }
 
-    @Override
-    public void update() {
-
-    }
 }
