@@ -9,42 +9,33 @@ import javax.xml.soap.Text;
 
 public class Ground {
 
-    private Texture ground;
-    private Vector3 groundPos;
-    public static final int GROUND_Y_OFFSET = -50;
+    protected Texture ground;
+    protected Vector3 groundPos1, groundPos2;
+    protected float groundHeight;
+    //public static final int GROUND_Y_OFFSET = -50;
 
-    public Ground(){
-        ground = new Texture("ground.png");
-        groundPos = new Vector3(0, GROUND_Y_OFFSET, 0);
-    }
-
-    public Ground(Vector3 groundPos) {
-        ground = new Texture("ground.png");
-        this.groundPos = groundPos;
-    }
+    public Ground() {}
 
     public Texture getGround(){
         return ground;
     }
 
-    public void setGround(Texture ground) {
-        ground = ground;
+    public Vector3 getGroundPos1(){
+        return groundPos1;
     }
 
-    public Vector3 getGroundPos(){
-        return groundPos;
+    public Vector3 getGroundPos2(){
+        return groundPos2;
     }
 
-
-    public void setGroundPos(Vector3 groundPos) {
-        this.groundPos = groundPos;
+    public float getGroundHeight() {
+        return groundHeight;
     }
 
-    public void update(float dt){
-
-    }
+    public void update() {};
 
     public void dispose() {
         ground.dispose();
     }
+
 }

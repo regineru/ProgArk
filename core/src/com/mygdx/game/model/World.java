@@ -1,27 +1,37 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.ImpossibleGravity;
+import com.mygdx.game.controller.GameController;
+
+import java.util.Random;
 
 public class World {
 
     private Texture background;
-    private Array<Ground> grounds;
-
     //private Sound sound;
+    private long timeCounter; //TODO to increase player speed after x seconds
+
+    //Generate obstacles
+    private ObstacleFactory obstacleFactory;
+    private Array<Obstacle> obstacles;
+    private long lastObstacle;
+    private Random obstacle_occurrence;
+
+    //Create player
+    private Player character;
+    //TODO private Ground ground;
 
     //TODO make background depended on input to variate between different backgrounds/modes
     private static int BG_MODE;
 
     public World() {
         background = new Texture("background.png"); //locally saved
-        grounds = new Array<Ground>();
-        grounds.add(new Ground());
+        timeCounter = System.currentTimeMillis();
 
         /* TODO Sound is working but is starting multiple times over each other
             and is delaying the game
@@ -30,11 +40,36 @@ public class World {
         sound.play(1f);
 
          */
+
+        obstacleFactory = new ObstacleFactory();
+        obstacles = new Array<Obstacle>();
+        //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2));
+        lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
+
+        character = new Player();
     }
 
     public Texture getBackground() {
         return background;
     }
+
+    public long getTimeCounter(){
+        return timeCounter;
+    }
+
+    public ObstacleFactory getObstacleFactory(){
+        return obstacleFactory;
+    }
+
+    public Array<Obstacle> getObstacles(){
+        return obstacles;
+    }
+
+    public Player getCharacter(){
+        return character;
+    }
+
     /* Might need this to select different backgrounds
     public void setBackground(Texture background) {
         this.background = background;
@@ -42,9 +77,6 @@ public class World {
 
      */
 
-    public Array getGrounds() {
-        return grounds;
-    }
 
     /* Might need this to select different backgrounds
     public void setGround(Texture ground) {
@@ -53,20 +85,37 @@ public class World {
 
      */
 
-    public Vector3 getGroundPos() { //last added grounds position
-        return grounds.peek().getGroundPos();
-    }
+    public void update(float dt, OrthographicCamera camera, GameController gameController) {
+        character.update(dt);
 
-    public void update(float dt) {
 
-        //grounds.removeIndex(0);
+        for (Obstacle obstacle : obstacles) {
+            //obstacle.update(dt);
+
+            if(obstacle.collides(character.getBounds())) {
+                gameController.GameOver();
+            }
+
+        }
+
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
+            lastObstacle = System.currentTimeMillis();
+            //obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, ground.getGroundHeight() - 10));
+            obstacles.add(obstacleFactory.generateObstacle(camera.position.x * 2, 0));
+        }
+
     }
 
     public void dispose() {
         background.dispose();
-        //sound.dispose();
-        for (Ground ground : grounds) {
-            ground.dispose();
+        character.dispose();
+        for (Obstacle obstacle : obstacles) {
+            obstacle.dispose();
         }
+
+        //sound.dispose();
+        //for (Ground ground : grounds) {
+          //  ground.dispose();
+        //}
     }
 }
