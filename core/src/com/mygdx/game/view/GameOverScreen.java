@@ -82,7 +82,7 @@ public class GameOverScreen extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, world.getBackground().getWidth()/4, world.getBackground().getHeight()/4);
+        sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         //sb.draw(gameOver, camera.position.x - gameOver.getWidth() / 2, camera.position.y+200);
         //sb.draw(gameOver, 50,50);
         sb.end();

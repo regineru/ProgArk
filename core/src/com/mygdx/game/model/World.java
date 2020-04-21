@@ -44,11 +44,6 @@ public class World {
 
      */
 
-    //public Vector3 getGroundPos() { //last added grounds position
-        //return grounds.peek().getGroundPos();
-    //}
-
-
     public void update(float dt) {
 
     }
