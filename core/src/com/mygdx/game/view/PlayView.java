@@ -18,7 +18,9 @@ import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
+import com.mygdx.game.model.Grass;
 import com.mygdx.game.model.Ground;
+import com.mygdx.game.model.Heaven;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.ObstacleFactory;
 import com.mygdx.game.model.Player;
@@ -40,7 +42,8 @@ public class PlayView extends SuperView {
     // Can also import e.g. gameWorld, engine etc.
     private int touchPos;
 
-    private Ground ground;
+    private Grass grass;
+    private Heaven heaven;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
@@ -57,8 +60,9 @@ public class PlayView extends SuperView {
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        ground = new Ground();
+      
+        grass = new Grass();
+        heaven = new Heaven();
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
@@ -156,13 +160,20 @@ public class PlayView extends SuperView {
         world.update(dt, camera, gameController);
 
         // TODO: LOGIKKEN FOR GROUND MÅ INN I GROUND/WORLD
-        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos1().x + ImpossibleGravity.WIDTH) {
-            ground.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > grass.getGroundPos1().x + ImpossibleGravity.WIDTH) {
+            grass.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
-        if (camera.position.x -(camera.viewportWidth / 2) > ground.getGroundPos2().x + ImpossibleGravity.WIDTH) {
-            ground.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        if (camera.position.x -(camera.viewportWidth / 2) > grass.getGroundPos2().x + ImpossibleGravity.WIDTH) {
+            grass.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
 
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getGroundPos1().x + ImpossibleGravity.WIDTH) {
+            heaven.getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
+        if (camera.position.x -(camera.viewportWidth / 2) > heaven.getGroundPos2().x + ImpossibleGravity.WIDTH) {
+            heaven.getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
+        }
+      
         camera.position.set(world.getCharacter().getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
 
@@ -188,13 +199,14 @@ public class PlayView extends SuperView {
         sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
 
-        sb.draw(ground.getGround(), ground.getGroundPos1().x, ground.getGroundPos1().y);
-        sb.draw(ground.getGround(), ground.getGroundPos2().x, ground.getGroundPos2().y);
-
+        sb.draw(grass.getGround(), grass.getGroundPos1().x, grass.getGroundPos1().y);
+        sb.draw(grass.getGround(), grass.getGroundPos2().x, grass.getGroundPos2().y);
 
         for (Obstacle obstacle : world.getObstacles()) {
             sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, 70, 100);
         }
+        sb.draw(heaven.getGround(), heaven.getGroundPos1().x, heaven.getGroundPos1().y);
+        sb.draw(heaven.getGround(), heaven.getGroundPos2().x, heaven.getGroundPos2().y);
 
         sb.end();
         stage.act();
@@ -206,7 +218,9 @@ public class PlayView extends SuperView {
     public void dispose(){
         // Remember to dispose of everything drawn on the screen.
         world.dispose();
-        ground.dispose();
+
+        grass.dispose();
+        heaven.dispose();
 
         System.out.println("Play View Disposed");
     }
