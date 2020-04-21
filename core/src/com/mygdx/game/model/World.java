@@ -10,9 +10,15 @@ import com.mygdx.game.controller.GameController;
 
 import java.util.Random;
 
+
 public class World {
 
     private Texture background;
+    private Grass grass;
+    private Heaven heaven;
+
+
+
     //private Sound sound;
     private long timeCounter; //TODO to increase player speed after x seconds
 
@@ -31,6 +37,10 @@ public class World {
 
     public World() {
         background = new Texture("background.png"); //locally saved
+
+        grass = new Grass();
+        heaven = new Heaven();
+
         timeCounter = System.currentTimeMillis();
 
         /* TODO Sound is working but is starting multiple times over each other
@@ -54,6 +64,13 @@ public class World {
         return background;
     }
 
+    public Grass getGrass() {
+        return grass;
+    }
+
+    public Heaven getHeaven() {
+        return heaven;
+    }
     public long getTimeCounter(){
         return timeCounter;
     }
@@ -89,14 +106,17 @@ public class World {
         character.update(dt);
 
 
-        for (Obstacle obstacle : obstacles) {
-            //obstacle.update(dt);
+     grass.update(dt, camera);
+            heaven.update(dt, camera);
+            for (Obstacle obstacle : obstacles) {
+                //obstacle.update(dt);
 
-            if(obstacle.collides(character.getBounds())) {
-                gameController.GameOver();
+                if (obstacle.collides(character.getBounds())) {
+                    gameController.GameOver();
+                }
+
             }
 
-        }
 
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
             lastObstacle = System.currentTimeMillis();
