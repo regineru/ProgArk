@@ -26,6 +26,7 @@ public class Player {
     private int SPEED;
 
     public Player(){
+        System.out.println("Player constructor");
         this.player = new Sprite(new Texture("player.png")); // placeholder
         this.position = new Vector3(ImpossibleGravity.WIDTH/2 - player.getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
         this.bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
