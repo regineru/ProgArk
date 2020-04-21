@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
  **/
 
 public class Grass extends Ground {
-    
+
     public Grass() {
         // ta inn cam.pos osv i playView
         ground = new Texture("ground.png");
