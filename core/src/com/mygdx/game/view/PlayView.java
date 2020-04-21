@@ -48,17 +48,12 @@ public class PlayView extends SuperView {
     private PauseBtn pauseBtn;
 
     public PlayView(ViewController vc){
-
+        System.out.println("PlayView constructor");
         this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
       
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
-     
-
-        // Setting up the stage, adding the actors (buttons)
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
@@ -68,6 +63,18 @@ public class PlayView extends SuperView {
         menuBtn.getMenuBtn().setSize(100, 40);
         pauseBtn.getPauseBtn().setSize(100, 40);
 
+        stage = new Stage(new ScreenViewport());
+        startListeners();
+    }
+
+    public void startListeners(){
+        System.out.println("listeners started");
+
+        pauseBtn.getPauseBtn().clearListeners();
+        menuBtn.getMenuBtn().clearListeners();
+
+        // Setting up the stage, adding the actors (buttons)
+        Gdx.input.setInputProcessor(stage);
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
 
