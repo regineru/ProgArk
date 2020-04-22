@@ -140,6 +140,10 @@ public class PlayView extends SuperView {
 
         sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
+        for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
+            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getHeight(), obstacle.getWidth());
+        }
+
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
 
         sb.draw(world.getGrass().getGround(), world.getGrass().getGroundPos1().x, world.getGrass().getGroundPos1().y);
@@ -147,9 +151,6 @@ public class PlayView extends SuperView {
         sb.draw(world.getHeaven().getGround(), world.getHeaven().getGroundPos1().x, world.getHeaven().getGroundPos1().y);
         sb.draw(world.getHeaven().getGround(), world.getHeaven().getGroundPos2().x, world.getHeaven().getGroundPos2().y);
 
-        for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
-            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getHeight(), obstacle.getWidth());
-        }
         sb.end();
 
         stage.act();
