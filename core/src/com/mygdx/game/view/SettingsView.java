@@ -65,7 +65,7 @@ public class SettingsView extends SuperView{
     public void startListeners() {
 
         menuBtn.getMenuBtn().clearListeners();
-        checkBox.clearListeners();
+        // checkBox.clearListeners(); // checkbox doesn't work if this line is run??
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
