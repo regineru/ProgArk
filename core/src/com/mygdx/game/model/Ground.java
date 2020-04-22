@@ -8,12 +8,15 @@ import com.mygdx.game.ImpossibleGravity;
 
 import javax.xml.soap.Text;
 
+/*
+SUPER CLASS FOR HEAVEN AND GROUND - TEXTURES FOR THE PLAYER TO RUN ON
+ */
+
 public abstract class Ground {
 
     protected Texture ground;
     protected Vector3 groundPos1, groundPos2;
     protected float groundHeight;
-    //public static final int GROUND_Y_OFFSET = -50;
 
     public Ground() {}
 
@@ -40,7 +43,6 @@ public abstract class Ground {
         if (camera.position.x -(camera.viewportWidth / 2) > getGroundPos2().x + ImpossibleGravity.WIDTH) {
             getGroundPos2().add(ImpossibleGravity.WIDTH * 2, 0, 0);
         }
-
     }
 
     public void dispose() {
