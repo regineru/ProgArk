@@ -22,16 +22,13 @@ public class ImpossibleGravity extends ApplicationAdapter {
 	public static final float GRAVITY = -1;
 
 	private ViewController vc;
-	private MenuController mc;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		vc = new ViewController();
-		mc = new MenuController(vc);
+		MenuController mc = new MenuController(vc);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-
-		// vc.push(new PlayView(vc));
 		vc.push(new MenuView(mc));
 	}
 

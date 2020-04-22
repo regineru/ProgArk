@@ -34,8 +34,6 @@ public class PlayView extends SuperView {
     public PlayView(ViewController vc){
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
-      
-        System.out.println("PlayView constructor");
 
         this.gameController = new GameController(vc);
         this.pc = new PlayerController(vc);
@@ -58,7 +56,6 @@ public class PlayView extends SuperView {
     }
 
     public void startListeners(){
-        System.out.println("listeners started");
 
         pauseBtn.getPauseBtn().clearListeners();
         menuBtn.getMenuBtn().clearListeners();
@@ -166,7 +163,7 @@ public class PlayView extends SuperView {
     public void dispose(){
         background.dispose();
         world.dispose();
-        System.out.println("Play View Disposed");
+        System.out.println("PlayView Disposed");
     }
 
     @Override

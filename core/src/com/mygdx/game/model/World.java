@@ -26,14 +26,10 @@ public class World {
     private Player character;
 
     public World() {
-        System.out.println("World constructor");
         grass = new Grass();
         heaven = new Heaven();
         timeCounter = System.currentTimeMillis();
 
-        /* TODO Sound is working but is starting multiple times over each other
-            and is delaying the game
-        */
         music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
 
@@ -98,10 +94,5 @@ public class World {
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.dispose();
         }
-
-        //sound.dispose();
-        //for (Ground ground : grounds) {
-          //  ground.dispose();
-        //}
     }
 }
