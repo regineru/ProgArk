@@ -5,9 +5,10 @@ import com.mygdx.game.view.MenuView;
 public class SettingsController {
 
     private ViewController vc;
+    public boolean enableGameMusic;
 
-
-    public SettingsController(ViewController vc) {
+    public SettingsController(ViewController vc, boolean enableGameMusic) {
+        this.enableGameMusic = enableGameMusic;
         this.vc = vc;
 
     }
@@ -21,8 +22,10 @@ public class SettingsController {
         //model.setSoundVolume(volume);
     }
 
-    public void toggleSound(Boolean enable){
-        //model.enableMusic(enable);
+    public void toggleGameMusic(){
+        this.enableGameMusic = !this.enableGameMusic;
     }
+
+    public void toggleMenuMusic(){}
 
 }

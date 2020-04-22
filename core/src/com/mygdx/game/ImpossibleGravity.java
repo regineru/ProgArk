@@ -3,13 +3,10 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
-import com.mygdx.game.model.Player;
 import com.mygdx.game.view.MenuView;
-import com.mygdx.game.view.PlayView;
 
 public class ImpossibleGravity extends ApplicationAdapter {
 
@@ -27,9 +24,8 @@ public class ImpossibleGravity extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		vc = new ViewController();
-		MenuController mc = new MenuController(vc);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		vc.push(new MenuView(mc));
+		vc.push(new MenuView(new MenuController(vc)));
 	}
 
 	@Override

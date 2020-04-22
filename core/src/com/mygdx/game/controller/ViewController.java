@@ -11,8 +11,11 @@ import java.util.Stack;
 public class ViewController {
 
     private Stack<SuperView> views;
+    public SettingsController sc;
 
     public ViewController() {
+        System.out.println("ViewController constructor");
+        this.sc = new SettingsController(this, true);
         views = new Stack<SuperView>();
     }
 
