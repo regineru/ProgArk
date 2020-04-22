@@ -20,6 +20,7 @@ public class PauseController {
     }
 
     public void ContinueGame(){
+        world.playMusic();
         vc.pop();
         if (vc.peek() instanceof PlayView){
             ((PlayView) vc.peek()).startListeners();

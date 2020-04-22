@@ -38,11 +38,10 @@ public class SettingsView extends SuperView{
         this.settingsController = settingsController;
         this.menuBtn = new MenuBtn();
         this.model = settingsController.getModel();
+
         CheckBoxStyle checkBoxStyle = new CheckBoxStyle();
         this.checked = new TextureRegionDrawable(new TextureRegion(new Texture("checked.png")));
         this.unchecked = new TextureRegionDrawable(new TextureRegion(new Texture("unchecked.png")));
-
-
         checkBoxStyle.checkboxOn = checked;
         checkBoxStyle.checkboxOff = unchecked;
         checkBoxStyle.font = model.getFont();
@@ -55,6 +54,7 @@ public class SettingsView extends SuperView{
 
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 4+50, Align.top);
         checkBox.setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT - ImpossibleGravity.HEIGHT / 4, Align.top);
+
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
