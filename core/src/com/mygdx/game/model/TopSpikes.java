@@ -15,8 +15,11 @@ public class TopSpikes extends Obstacle {
     public TopSpikes(float x, float y, int height, int width) {
         this.height = height;
         this.width = width;
+        this.bounds = new Rectangle(position.x, position.y, width, height);
+        //System.out.println("Top Rectangle: " + bounds.toString());
+        //System.out.println("Top Spike: " + getPosition());
         this.spikes = new Texture("topSpikes.png");
         this.position = new Vector3(x, y-getWidth()/2, 0);
-        this.bounds = new Rectangle(position.x, position.y, spikes.getHeight(), spikes.getWidth());
+        
     }
 }
