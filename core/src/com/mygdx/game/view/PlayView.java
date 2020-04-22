@@ -35,14 +35,13 @@ public class PlayView extends SuperView {
     public PlayView(ViewController vc){
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
-      
-        System.out.println("PlayView constructor");
 
-        this.gameController = new GameController(vc);
+        this.world = new World();
+        this.gameController = new GameController(vc, world);
         this.pc = new PlayerController(vc);
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
-        this.world = new World();
+
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -55,11 +54,9 @@ public class PlayView extends SuperView {
 
         stage = new Stage(new ScreenViewport());
         startListeners();
-        world.playMusic();
     }
 
     public void startListeners(){
-        System.out.println("listeners started");
 
         pauseBtn.getPauseBtn().clearListeners();
         menuBtn.getMenuBtn().clearListeners();
@@ -74,7 +71,6 @@ public class PlayView extends SuperView {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
-                world.stopMusic();
                 gameController.quitGame();
             }
         });
@@ -100,7 +96,6 @@ public class PlayView extends SuperView {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
-                world.stopMusic();
                 gameController.quitGame();
             }
         });
@@ -168,7 +163,7 @@ public class PlayView extends SuperView {
     public void dispose(){
         background.dispose();
         world.dispose();
-        System.out.println("Play View Disposed");
+        System.out.println("PlayView Disposed");
     }
 
     @Override
