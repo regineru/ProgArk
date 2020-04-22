@@ -24,6 +24,7 @@ public abstract class Obstacle {
     public Obstacle(){}
 
     public void update(float dt) {
+        //System.out.println(getPosition());
 
     }
 

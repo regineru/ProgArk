@@ -14,9 +14,13 @@ public class BottomSpikes extends Obstacle {
     public BottomSpikes(float x, float y, int height, int width) {
         this.spikes = new Texture("bottomSpikes.png");
         this.position = new Vector3(x, y-5, 0);
-        this.bounds = new Rectangle(position.x, position.y, spikes.getWidth(), spikes.getWidth());
         this.height = height;
         this.width = width;
+        this.bounds = new Rectangle(position.x, position.y, width, height);
+
+        //System.out.println("Bot Rec: " + bounds.toString());
+        //System.out.println("Bot Spike: " + getPosition() + " Width: " + width + " Height: " + height);
+
 
     }
 }

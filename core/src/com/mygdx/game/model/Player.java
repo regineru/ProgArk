@@ -25,6 +25,7 @@ public class Player {
     private int score;
     private int SPEED;
 
+
     public Player(){
         this.player = new Sprite(new Texture("player.png")); // placeholder
         this.position = new Vector3(ImpossibleGravity.WIDTH/2 - player.getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
@@ -32,6 +33,7 @@ public class Player {
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.SPEED = 20; // this needs to be updated
         this.velocity = new Vector3(1, 0, 0);
+
 
         this.score = 0;
         this.jump = false;
@@ -71,6 +73,8 @@ public class Player {
 
 
         this.bounds.setPosition(position.x, position.y); // update bounds to players position
+        //System.out.println("Rectangle: " + bounds.toString());
+        //System.out.println("Player: " + getPosition() + " Width: " + player.getWidth() + " Height: " + player.getHeight());
 
     }
 
