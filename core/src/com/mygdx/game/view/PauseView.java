@@ -104,7 +104,7 @@ public class PauseView extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.end();
         stage.draw();
         stage.act();
@@ -117,7 +117,7 @@ public class PauseView extends SuperView{
 
     @Override
     public void dispose() {
-        world.dispose();
+        background.dispose();
         System.out.println("Pause View Disposed");
     }
 }
