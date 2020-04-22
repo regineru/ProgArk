@@ -24,6 +24,7 @@ public class GameController {
     }
 
     public void pauseGame(){
+        world.pauseMusic();
         vc.push(new PauseView(new PauseController(vc, world)));
     }
 

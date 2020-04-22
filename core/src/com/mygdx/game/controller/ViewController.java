@@ -15,7 +15,6 @@ public class ViewController {
     public SettingsModel sm;
 
     public ViewController() {
-        System.out.println("ViewController constructor");
         sm = new SettingsModel();
         views = new Stack<SuperView>();
     }
@@ -26,6 +25,7 @@ public class ViewController {
 
     public void pop(){
         views.pop();
+        views.peek().startListeners();
     }
 
     public SuperView peek(){

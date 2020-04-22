@@ -38,23 +38,40 @@ public class SettingsView extends SuperView{
         this.settingsController = settingsController;
         this.menuBtn = new MenuBtn();
         this.model = settingsController.getModel();
+
         CheckBoxStyle checkBoxStyle = new CheckBoxStyle();
         this.checked = new TextureRegionDrawable(new TextureRegion(new Texture("checked.png")));
         this.unchecked = new TextureRegionDrawable(new TextureRegion(new Texture("unchecked.png")));
-
-
         checkBoxStyle.checkboxOn = checked;
         checkBoxStyle.checkboxOff = unchecked;
         checkBoxStyle.font = model.getFont();
         this.checkBox = new CheckBox(" GAME MUSIC", checkBoxStyle);
-        this.checkBox.setChecked(true);
+        this.checkBox.setChecked(model.gameMusicIsEnabled());
 
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 4+50, Align.top);
         checkBox.setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT - ImpossibleGravity.HEIGHT / 4, Align.top);
+
+        startListeners();
+    }
+    @Override
+    public void show(){
+
+    }
+
+    @Override
+    public void startListeners() {
+
+        menuBtn.getMenuBtn().clearListeners();
+        // checkBox.clearListeners(); // checkbox doesn't work if this line is run??
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(menuBtn.getMenuBtn());
+        stage.addActor(checkBox);
+
+        /*
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
@@ -63,6 +80,8 @@ public class SettingsView extends SuperView{
                 settingsController.backToMenu();
             }
         });
+
+         */
 
         // LISTENERS FOR TAP GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
@@ -73,18 +92,12 @@ public class SettingsView extends SuperView{
             }
         });
 
-        stage.addActor(menuBtn.getMenuBtn());
-        stage.addActor(checkBox);
-
         // CHECKBOX LISTENER
         checkBox.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
                 settingsController.toggleGameMusic();
             }
         });
-    }
-    @Override
-    public void show(){
 
     }
 

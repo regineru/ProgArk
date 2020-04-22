@@ -68,6 +68,8 @@ public class World {
 
     public void stopMusic(){music.stop();}
 
+    public void pauseMusic(){music.pause();}
+
     /* Might need this to select different backgrounds
     public void setBackground(Texture background) {
         this.background = background;

@@ -19,7 +19,7 @@ public class MenuController {
     }
 
     public void settingsPressed(){
-        vc.set(new SettingsView(new SettingsController(vc)));
+        vc.push(new SettingsView(new SettingsController(vc)));
     }
 
     public void playGamePressed(){

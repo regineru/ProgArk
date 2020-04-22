@@ -37,10 +37,24 @@ public class HelpView extends SuperView{
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
         stage = new Stage(new ScreenViewport());
 
-        Gdx.input.setInputProcessor(stage);
         //helpText.getHelpText().setPosition((Gdx.graphics.getWidth()/ - helpText.getHelpText().getWidth()), Gdx.graphics.getHeight() - helpText.getHelpText().getHeight());
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-200, Align.bottom);
 
+        //stage.addActor(helpText.getHelpText());
+        startListeners();
+    }
+
+    @Override
+    public void show(){
+    }
+
+    @Override
+    public void startListeners() {
+
+        menuBtn.getMenuBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(menuBtn.getMenuBtn());
 
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
@@ -60,12 +74,6 @@ public class HelpView extends SuperView{
             }
         });
 
-        //stage.addActor(helpText.getHelpText());
-        stage.addActor(menuBtn.getMenuBtn());
-    }
-
-    @Override
-    public void show(){
     }
 
     @Override

@@ -33,7 +33,6 @@ public class GameOverScreen extends SuperView{
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
         // Position the button and text
         gameOverImage.setPosition(ImpossibleGravity.WIDTH /4+30, ImpossibleGravity.HEIGHT / 2+50, Align.top);
@@ -41,6 +40,24 @@ public class GameOverScreen extends SuperView{
 
         gameOverImage.setSize(350, 180);
         menuBtn.getMenuBtn().setSize(150, 80);
+
+        stage.addActor(gameOverImage);
+
+        startListeners();
+
+    }
+
+    @Override
+    public void show(){
+    }
+
+    @Override
+    public void startListeners() {
+
+        menuBtn.getMenuBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(menuBtn.getMenuBtn());
 
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
@@ -59,13 +76,6 @@ public class GameOverScreen extends SuperView{
                 gameOverController.BackToMenu();
             }
         });
-
-        stage.addActor(gameOverImage);
-        stage.addActor(menuBtn.getMenuBtn());
-    }
-
-    @Override
-    public void show(){
     }
 
     @Override
