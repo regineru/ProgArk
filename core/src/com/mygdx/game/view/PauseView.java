@@ -16,6 +16,7 @@ import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PauseController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
+import com.mygdx.game.interactiveElements.SettingsBtn;
 // Here we need the import of the game instance!
 
 public class PauseView extends SuperView{
@@ -25,6 +26,7 @@ public class PauseView extends SuperView{
 
     private PlayBtn playBtn;
     private MenuBtn menuBtn;
+    private SettingsBtn settingsBtn;
 
     // Constructor
     public PauseView(final PauseController pauseController) {
@@ -33,26 +35,66 @@ public class PauseView extends SuperView{
 
         this.playBtn = new PlayBtn();
         this.menuBtn = new MenuBtn();
+        this.settingsBtn = new SettingsBtn();
 
         // Setting up the stage, adding the actors (buttons)
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
 
         // Position the buttons
-        playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
-        menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y+20);
+        // playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
+        // menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y+20);
+        // settingsBtn.setPosition(camera.position.x - settingsBtn.getWidth()/2, camera.position.y);
 
         //playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
         //menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
-        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
+        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+150, Align.center);
+        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2-50, Align.center);
 
         //playBtn.getPlayBtn().setSize(100, 40);
         //menuBtn.getMenuBtn().setSize(100, 40);
 
+        startListeners();
+    }
+
+    @Override
+    public void handleInput() {
+
+    }
+
+    @Override
+    public void update(float dt) {
+
+    }
+
+    @Override
+    // Draws background, and the "play"-button.
+    public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(camera.combined);
+        sb.begin();
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.end();
+        stage.draw();
+        stage.act();
+    }
+
+    @Override
+    public void show(){
+
+    }
+
+    @Override
+    public void startListeners() {
+
+        playBtn.getPlayBtn().clearListeners();
+        settingsBtn.getSettingsBtn().clearListeners();
+        menuBtn.getMenuBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(stage);
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(menuBtn.getMenuBtn());
+        stage.addActor(settingsBtn.getSettingsBtn());
 
         // LISTENERS FOR CLICK GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
@@ -87,32 +129,14 @@ public class PauseView extends SuperView{
                 pauseController.BackToMenu();
             }
         });
-    }
 
-    @Override
-    public void handleInput() {
-
-    }
-
-    @Override
-    public void update(float dt) {
-
-    }
-
-    @Override
-    // Draws background, and the "play"-button.
-    public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(camera.combined);
-        sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
-        sb.end();
-        stage.draw();
-        stage.act();
-    }
-
-    @Override
-    public void show(){
-
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("settingsBtn is touched.");
+                pauseController.settings();
+            }
+        });
     }
 
     @Override

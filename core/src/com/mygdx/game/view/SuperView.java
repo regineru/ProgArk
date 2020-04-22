@@ -31,4 +31,5 @@ public abstract class SuperView {
     public abstract void render(SpriteBatch sb);
     public abstract void dispose();
     public abstract void show();
+    public abstract void startListeners();
 }

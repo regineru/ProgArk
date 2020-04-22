@@ -11,12 +11,11 @@ public class SettingsController {
     public SettingsController(ViewController vc) {
         this.model = vc.sm;
         this.vc = vc;
-
     }
 
     public void backToMenu(){
 
-        vc.set(new MenuView(new MenuController(vc)));
+        vc.pop();
     }
 
     public void changeSoundVolume(float volume){

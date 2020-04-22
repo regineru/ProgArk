@@ -43,7 +43,6 @@ public class PlayView extends SuperView {
 
 
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
         menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
         pauseBtn.getPauseBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);

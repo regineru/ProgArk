@@ -15,6 +15,12 @@ public class LoadingScreen extends SuperView{
     public void show(){
 
     }
+
+    @Override
+    public void startListeners() {
+
+    }
+
     // Constructor
     public LoadingScreen(LoadingController loadingController){
 

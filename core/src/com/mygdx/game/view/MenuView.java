@@ -39,7 +39,6 @@ public class MenuView extends SuperView{
 
         // Setting up the stage, adding the actors (buttons)
         this.stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(this.stage);
 
         // Buttons can be positioned and resized like this
         playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+150, Align.center);
@@ -53,6 +52,24 @@ public class MenuView extends SuperView{
         helpBtn.getHelpBtn().setSize(110, 60);
         quitBtn.getQuitBtn().setSize(110, 60);*/
 
+        startListeners();
+
+
+    }
+    @Override
+    public void show(){
+        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
+    }
+
+    @Override
+    public void startListeners() {
+
+        playBtn.getPlayBtn().clearListeners();
+        settingsBtn.getSettingsBtn().clearListeners();
+        helpBtn.getHelpBtn().clearListeners();
+        quitBtn.getQuitBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(this.stage);
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
         stage.addActor(helpBtn.getHelpBtn());
@@ -124,10 +141,6 @@ public class MenuView extends SuperView{
                 menuController.quit();
             }
         });
-    }
-    @Override
-    public void show(){
-        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
     }
 
     @Override
