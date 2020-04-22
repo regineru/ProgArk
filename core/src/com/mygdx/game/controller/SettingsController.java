@@ -1,14 +1,15 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.model.SettingsModel;
 import com.mygdx.game.view.MenuView;
 
 public class SettingsController {
 
     private ViewController vc;
-    public boolean enableGameMusic;
+    private SettingsModel model;
 
-    public SettingsController(ViewController vc, boolean enableGameMusic) {
-        this.enableGameMusic = enableGameMusic;
+    public SettingsController(ViewController vc) {
+        this.model = vc.sm;
         this.vc = vc;
 
     }
@@ -23,9 +24,11 @@ public class SettingsController {
     }
 
     public void toggleGameMusic(){
-        this.enableGameMusic = !this.enableGameMusic;
+        model.toggleGameMusic();
     }
 
-    public void toggleMenuMusic(){}
+    public SettingsModel getModel(){
+        return this.model;
+    }
 
 }

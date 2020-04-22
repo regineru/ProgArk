@@ -14,7 +14,7 @@ public class GameController {
     public GameController(ViewController vc, World world) {
         this.vc = vc;
         this.world = world;
-        if (vc.sc.enableGameMusic){
+        if (vc.sm.gameMusicIsEnabled()) {
             world.playMusic();
         }
     }
@@ -28,6 +28,7 @@ public class GameController {
     }
 
     public void quitGame(){
+        world.dispose();
         vc.set(new MenuView(new MenuController(vc)));
     }
 

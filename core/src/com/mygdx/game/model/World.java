@@ -32,7 +32,6 @@ public class World {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
-        playMusic();
 
         obstacleFactory = new ObstacleFactory();
         character = new Player();

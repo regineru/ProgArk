@@ -70,7 +70,6 @@ public class PlayView extends SuperView {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
-                world.dispose();
                 gameController.quitGame();
             }
         });
@@ -96,7 +95,6 @@ public class PlayView extends SuperView {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
-                world.dispose();
                 gameController.quitGame();
             }
         });
