@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
+import com.mygdx.game.model.Background;
 import com.mygdx.game.model.World;
 
 // Common setup goes into an abstract View class.
@@ -13,7 +14,7 @@ public abstract class SuperView {
     // This is the superclass for all views
     protected OrthographicCamera camera;
     protected Vector3 mouse;
-    protected World world;
+    protected Background background;
 
 
     // Constructor
@@ -21,7 +22,7 @@ public abstract class SuperView {
 
         camera = new OrthographicCamera();
         mouse = new Vector3();
-        world = new World();
+        background = new Background();
     }
 
     // Methods to be used by subclasses

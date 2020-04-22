@@ -12,10 +12,8 @@ THE PLAYER CONTAINING THE INTERACTION LOGIC
 
 public class Player {
 
-    private static float MOVEMENT = 100;
+    private int SPEED = 100;
 
-    // TODO: make the texture into a sprite
-    private Texture texture;
     private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
@@ -23,15 +21,14 @@ public class Player {
     private float gravity;
     private Vector3 velocity;
     private int score;
-    private int SPEED;
 
 
     public Player(){
+        System.out.println("Player constructor");
         this.player = new Sprite(new Texture("player.png")); // placeholder
         this.position = new Vector3(ImpossibleGravity.WIDTH/2 - player.getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
         this.bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
-        this.SPEED = 20; // this needs to be updated
         this.velocity = new Vector3(1, 0, 0);
 
 
@@ -39,22 +36,15 @@ public class Player {
         this.jump = false;
     }
 
-    public void start() {
-        this.velocity.add(SPEED, 0, 0);
-    }
-
     public void update(float dt){
 
-        position.add(MOVEMENT * dt, 0, 0 );
-
-        /* TODO change speed of character
-        if (timeCounter%10000==0){
-            MOVEMENT+= 20;
-        }
-
-         */
+        position.add(SPEED * dt, 0, 0 );
 
         score = ((int) dt); //score follows delta time
+        /** score and dt is not working properly
+        System.out.println(dt);
+         **/
+
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
 
@@ -78,6 +68,9 @@ public class Player {
 
     }
 
+    public void increaseSPEED(){
+        this.SPEED += 10;
+    }
 
     // called from controller based on input
     public void jump(){
@@ -113,5 +106,7 @@ public class Player {
         this.player.getTexture().dispose();
     }
 
-
+    public int getSpeed() {
+        return SPEED;
+    }
 }

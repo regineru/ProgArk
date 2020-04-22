@@ -19,20 +19,16 @@ SIZE IS RANDOMIZED
 
 public class ObstacleFactory {
 
-    private Random random;
     private int chosenObstacle;
     private int chosenHeight;
     private int chosenWidth;
 
     private Array<Obstacle> obstacles;
-    private long lastObstacle;
-    private Random obstacle_occurrence;
+    private Random random;
 
     public ObstacleFactory() {
-        obstacles = new Array<Obstacle>();
-        lastObstacle = System.currentTimeMillis();
-        obstacle_occurrence = new Random();
         random = new Random();
+        obstacles = new Array<Obstacle>();
     }
 
     public Obstacle generateObstacle(OrthographicCamera camera, Grass grass, Heaven heaven) {
@@ -42,7 +38,10 @@ public class ObstacleFactory {
         chosenWidth = chosenHeight * (70/30);
 
         if (chosenObstacle == 0) {
-            return new TopSpikes(camera.position.x * 2, ImpossibleGravity.HEIGHT, chosenHeight, chosenWidth);
+            /**
+            the position here is hard coded in to make it work. width = y and height = x for some reason
+            **/
+            return new TopSpikes(camera.position.x * 2, ImpossibleGravity.HEIGHT-heaven.getGroundHeight()-10, chosenHeight/2, chosenWidth*2);
 
         } else if (chosenObstacle == 1 || chosenObstacle == 2) {
             return new BottomSpikes(camera.position.x * 2, grass.getGroundHeight()-10, chosenHeight, chosenWidth);
@@ -55,10 +54,6 @@ public class ObstacleFactory {
     }
 
     public void update(float dt, OrthographicCamera camera, Grass grass, Heaven heaven) {
-
-        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt(2000)) {
-            lastObstacle = System.currentTimeMillis();
-            obstacles.add(generateObstacle(camera, grass, heaven));
-            }
+        obstacles.add(generateObstacle(camera, grass, heaven));
     }
 }

@@ -13,14 +13,13 @@ import com.mygdx.game.ImpossibleGravity;
 public class TopSpikes extends Obstacle {
 
     public TopSpikes(float x, float y, int height, int width) {
-        this.spikes = new Texture("topSpikes.png");
         this.height = height;
         this.width = width;
-        this.position = new Vector3(x, y-height, 0);
         this.bounds = new Rectangle(position.x, position.y, width, height);
         //System.out.println("Top Rectangle: " + bounds.toString());
         //System.out.println("Top Spike: " + getPosition());
-
-
+        this.spikes = new Texture("topSpikes.png");
+        this.position = new Vector3(x, y-getWidth()/2, 0);
+        
     }
 }

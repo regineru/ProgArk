@@ -15,6 +15,7 @@ import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Obstacle;
+import com.mygdx.game.model.World;
 
 public class PlayView extends SuperView {
 
@@ -22,6 +23,7 @@ public class PlayView extends SuperView {
     protected GameController gameController;
     private PlayerController pc;
     private Stage stage;
+    private World world;
 
     private int touchPos;
 
@@ -40,6 +42,7 @@ public class PlayView extends SuperView {
         this.pc = new PlayerController(vc);
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
+        this.world = new World();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -52,6 +55,7 @@ public class PlayView extends SuperView {
 
         stage = new Stage(new ScreenViewport());
         startListeners();
+        world.playMusic();
     }
 
     public void startListeners(){
@@ -70,6 +74,7 @@ public class PlayView extends SuperView {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
+                world.stopMusic();
                 gameController.quitGame();
             }
         });
@@ -95,6 +100,7 @@ public class PlayView extends SuperView {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
+                world.stopMusic();
                 gameController.quitGame();
             }
         });
@@ -139,7 +145,7 @@ public class PlayView extends SuperView {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
-        sb.draw(world.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
         for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
             sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getHeight(), obstacle.getWidth());
@@ -160,6 +166,7 @@ public class PlayView extends SuperView {
 
     @Override
     public void dispose(){
+        background.dispose();
         world.dispose();
         System.out.println("Play View Disposed");
     }
