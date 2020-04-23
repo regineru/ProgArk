@@ -3,7 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * Background shown in all views
+ * Background shown in all views here
  */
 public class Background {
 
