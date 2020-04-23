@@ -1,23 +1,32 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Background {
 
-    private Texture background;
+    private Animation backgroundAnimation;
+
+    private Sprite background;
     //TODO make background depended on input to variate between different backgrounds/modes
     private static int BG_MODE;
 
     public Background(){
-        this.background = new Texture("background.png"); //locally saved
+        this.background = new Sprite(new Texture("background.png")); //locally saved
+        backgroundAnimation = new Animation(new TextureRegion(background), 2, 1f);
     }
 
-    public Texture getBackground() {
-        return background;
+    public void update(float dt) {
+        backgroundAnimation.update(dt);
+    }
+
+    public TextureRegion getBackground() {
+        return backgroundAnimation.getFrame();
     }
 
     public void dispose() {
-        background.dispose();
+        background.getTexture().dispose();
     }
 
 }
