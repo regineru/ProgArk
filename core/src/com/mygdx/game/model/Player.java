@@ -2,6 +2,7 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
@@ -22,21 +23,23 @@ public class Player {
     private Vector3 velocity;
     private int score;
 
+    private Animation playerAnimation;
 
     public Player(){
-        this.player = new Sprite(new Texture("player.png")); // placeholder
+        this.player = new Sprite(new Texture("playeranimation.png")); // placeholder
         this.position = new Vector3(ImpossibleGravity.WIDTH/2 - player.getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
-        this.bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
+        this.bounds = new Rectangle(position.x, position.y, player.getWidth() / 2, player.getHeight()); // Vurder å skrenke inn/justere poisjonen
         this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         this.velocity = new Vector3(1, 0, 0);
 
+        playerAnimation = new Animation(new TextureRegion(player), 2, 0.4f);
 
         this.score = 0;
         this.jump = false;
     }
 
     public void update(float dt){
-
+        playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0 );
 
         score = ((int) dt); //score follows delta time
@@ -90,7 +93,9 @@ public class Player {
         }
     }
 
-    public Sprite getSprite(){return this.player;}
+    //public Sprite getSprite(){return this.player;}
+
+    public TextureRegion getSprite() {return playerAnimation.getFrame();}
 
     //TODO make score an interactive element/texture to render it to screen
     public int getScore(){return this.score;}
