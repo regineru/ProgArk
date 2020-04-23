@@ -2,14 +2,12 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
-import javax.xml.soap.Text;
-
-/*
-SUPER CLASS FOR HEAVEN AND GROUND - TEXTURES FOR THE PLAYER TO RUN ON
+/**
+ * Superclass for grounds (grass and heaven) for the player to run on
+ * The grounds are repositioned when out of sight to make ground look continuous instead of creating new grounds similar to the ObstacleFactory
  */
 
 public abstract class Ground {
@@ -36,6 +34,12 @@ public abstract class Ground {
         return groundHeight;
     }
 
+    /**
+     * @param dt delta time
+     * @param camera Orthographic camera from SuperView following the player
+     *
+     * repositions the grounds when they are out of the viewport
+     */
     public void update(float dt, OrthographicCamera camera) {
         if (camera.position.x -(camera.viewportWidth / 2) > getGroundPos1().x + ImpossibleGravity.WIDTH) {
             getGroundPos1().add(ImpossibleGravity.WIDTH * 2, 0, 0);
@@ -48,5 +52,4 @@ public abstract class Ground {
     public void dispose() {
         ground.dispose();
     }
-
 }

@@ -5,43 +5,27 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Created by henrikforb on 07. April 2020.
+ * Superclass for obstacles (Lightning and cactus)
+ * Obstacles are created during the game from the ObstacleFactory
  **/
 
-/*
-SUPERCLASS FOR OBSTACLES (TOP- AND BOTTOM SPIKES)
-GENERATED IN THE OBSTACLE FACTORY
- */
-
 public abstract class Obstacle {
-
     protected Vector3 position;
-    protected Texture spikes;
-    protected Rectangle bounds;
+    protected Texture obstacle;
+    protected Rectangle collision_bounds;
     protected int height;
     protected int width;
 
     public Obstacle(){}
 
-    public void update(float dt) {
-        //System.out.println(getPosition());
+    public void update(float dt) {}
 
-    }
-
-    public Texture getSpikes() {
-        return spikes;
+    public Texture getObstacle() {
+        return obstacle;
     }
 
     public Vector3 getPosition() {
         return position;
-    }
-
-    public boolean collides(Rectangle player) {
-        return player.overlaps(bounds);
-    }
-
-    public void dispose() {
-        spikes.dispose();
     }
 
     public int getWidth(){
@@ -50,5 +34,17 @@ public abstract class Obstacle {
 
     public int getHeight(){
         return height;
+    }
+
+    /**
+     * Helps with collision detection
+     * @param player the player instance
+     */
+    public boolean collides(Rectangle player) {
+        return player.overlaps(collision_bounds);
+    }
+
+    public void dispose() {
+        obstacle.dispose();
     }
 }

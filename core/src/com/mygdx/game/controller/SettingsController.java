@@ -1,12 +1,11 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.SettingsModel;
-import com.mygdx.game.view.MenuView;
+import com.mygdx.game.model.Settings;
 
 public class SettingsController {
 
     private ViewController vc;
-    private SettingsModel model;
+    private Settings model;
 
     public SettingsController(ViewController vc) {
         this.model = vc.sm;
@@ -26,7 +25,7 @@ public class SettingsController {
         model.toggleGameMusic();
     }
 
-    public SettingsModel getModel(){
+    public Settings getModel(){
         return this.model;
     }
 

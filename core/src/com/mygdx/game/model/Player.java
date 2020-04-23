@@ -6,14 +6,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
-/*
-THE PLAYER CONTAINING THE INTERACTION LOGIC
- */
 
+//TODO fix score and dt
+/**
+ * The player containing the interaction logic and movement of player
+ */
 public class Player {
 
     private int SPEED = 100;
-
     private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
@@ -22,90 +22,106 @@ public class Player {
     private Vector3 velocity;
     private int score;
 
-
-    public Player(){
-        this.player = new Sprite(new Texture("player.png")); // placeholder
-        this.position = new Vector3(ImpossibleGravity.WIDTH/2 - player.getWidth()/2,-ImpossibleGravity.HEIGHT/2,0);
-        this.bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
-        this.gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
-        this.velocity = new Vector3(1, 0, 0);
+    /**
+     * help attribute for update-method
+     */
+    private long timeCounter;
 
 
-        this.score = 0;
-        this.jump = false;
+    public Player() {
+        player = new Sprite(new Texture("player.png")); // placeholder
+        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
+        bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
+        gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
+        velocity = new Vector3(1, 0, 0);
+        score = 0;
+        jump = false;
+        timeCounter = System.currentTimeMillis();
     }
 
-    public void update(float dt){
+    public Sprite getSprite() {
+        return this.player;
+    }
 
-        position.add(SPEED * dt, 0, 0 );
+    public int getSpeed() {
+        return SPEED;
+    }
 
-        score = ((int) dt); //score follows delta time
-        /** score and dt is not working properly
-        System.out.println(dt);
-         **/
+    public int getScore() {
+        return this.score;
+    }
+
+    public Vector3 getPosition() {
+        return this.position;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    /**
+     * Called from controller based on user input. Makes the player jump if touched
+     */
+    public void jump() {
+        if (this.velocity.y == 0) {
+            if (this.gravity < 0) {
+                this.velocity.add(0, 15, 0);
+            } else if (this.gravity > 0) {
+                this.velocity.add(0, -15, 0);
+            }
+        }
+    }
+
+    /**
+     * Called from controller based on user input. Makes the player switch gravity if swiped
+     */
+    public void switchGravity(int deltaY) {
+        if (deltaY * this.gravity > 0 && this.velocity.y == 0) {
+            this.gravity = -this.gravity;
+            this.player.flip(false, true);
+        }
+    }
+
+    /**
+     * Called on condition update-method. Increases player speed
+     */
+    public void increaseSPEED() {
+        this.SPEED += 10;
+    }
+
+    /**
+     * Called from worlds update-method. Makes the player move in game world and makes sure the collision bounds follows and score is updated
+     * Calls method for increasing the speed of the player a small amount every 2 seconds up to a speed of 500
+     *
+     * @param dt delta time
+     */
+    public void update(float dt) {
+
+        position.add(SPEED * dt, 0, 0);
+        score = ((int) dt);
 
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
 
         this.velocity.add(0, gravity, 0);
 
-        if (this.position.y <= 50 && velocity.y < 0){
+        if (this.position.y <= 50 && velocity.y < 0) {
             this.velocity.y = 0;
             this.position.y = 50;
         }
-
-        if (this.position.y >= 430 && velocity.y > 0){
+        if (this.position.y >= 430 && velocity.y > 0) {
             this.velocity.y = 0;
             this.position.y = 430;
         }
-
-
-
         this.bounds.setPosition(position.x, position.y); // update bounds to players position
-        //System.out.println("Rectangle: " + bounds.toString());
-        //System.out.println("Player: " + getPosition() + " Width: " + player.getWidth() + " Height: " + player.getHeight());
 
-    }
-
-    public void increaseSPEED(){
-        this.SPEED += 10;
-    }
-
-    // called from controller based on input
-    public void jump(){
-        if (this.velocity.y == 0){
-            if (this.gravity < 0) {
-                this.velocity.add(0, 15, 0);
-            } else if (this.gravity > 0){
-                this.velocity.add(0, -15, 0);
-            }
+        if (getSpeed() < 500 && System.currentTimeMillis() - timeCounter >= 2000) {
+            timeCounter = System.currentTimeMillis();
+            increaseSPEED();
         }
     }
 
-    // called from controller based on input
-    public void switchGravity(int deltaY){
-        if (deltaY*this.gravity > 0 && this.velocity.y == 0) {
-            this.gravity = -this.gravity;
-            this.player.flip(false, true);
-        }
-    }
-
-    public Sprite getSprite(){return this.player;}
-
-    //TODO make score an interactive element/texture to render it to screen
-    public int getScore(){return this.score;}
-
-    public Vector3 getPosition(){return this.position;}
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void dispose(){
+    public void dispose() {
         this.player.getTexture().dispose();
-    }
-
-    public int getSpeed() {
-        return SPEED;
     }
 }

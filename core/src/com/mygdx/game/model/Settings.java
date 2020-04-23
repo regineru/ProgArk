@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class SettingsModel {
+/**
+ * logic for all settings needed: Music enable and volume
+ */
+public class Settings {
 
     private boolean enableGameMusic = true;
     private BitmapFont font;
 
-    public SettingsModel(){
+    public Settings(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 40;
