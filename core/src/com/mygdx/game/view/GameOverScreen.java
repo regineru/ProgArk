@@ -20,29 +20,28 @@ public class GameOverScreen extends SuperView{
     private Stage stage;
     private MenuBtn menuBtn;
     private Texture gameOver;
+    private Image gameOverImage;
 
     // Constructor
     public GameOverScreen(final GameOverController gameOverController) {
         this.gameOverController = gameOverController;
         this.menuBtn = new MenuBtn();
 
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-
         gameOver = new Texture("gameOver.png");
-        Image gameOverImage = new Image(gameOver);
+        gameOverImage = new Image(gameOver);
 
-        // Setting up the stage, adding the actors (buttons)
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight*2;
+
+        gameOverImage.setSize((float)Gdx.graphics.getWidth() / 10 * 7, (float)Gdx.graphics.getHeight() / 2);
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+
+        gameOverImage.setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+
         stage = new Stage(new ScreenViewport());
-
-        // Position the button and text
-        gameOverImage.setPosition(ImpossibleGravity.WIDTH /4+30, ImpossibleGravity.HEIGHT / 2+50, Align.top);
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2+26, ImpossibleGravity.HEIGHT / 4, Align.center);
-
-        gameOverImage.setSize(350, 180);
-        menuBtn.getMenuBtn().setSize(150, 80);
-
-        stage.addActor(gameOverImage);
-
         startListeners();
 
     }
@@ -58,6 +57,7 @@ public class GameOverScreen extends SuperView{
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
+        stage.addActor(gameOverImage);
 
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
@@ -92,7 +92,7 @@ public class GameOverScreen extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         //sb.draw(gameOver, camera.position.x - gameOver.getWidth() / 2, camera.position.y+200);
         //sb.draw(gameOver, 50,50);
         sb.end();

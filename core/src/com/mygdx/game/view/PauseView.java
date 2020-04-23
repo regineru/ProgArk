@@ -37,24 +37,22 @@ public class PauseView extends SuperView{
         this.menuBtn = new MenuBtn();
         this.settingsBtn = new SettingsBtn();
 
-        // Setting up the stage, adding the actors (buttons)
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight * 2;
+
+        playBtn.getPlayBtn().setSize(btnWidth, btnHeight);
+        settingsBtn.getSettingsBtn().setSize(btnWidth, btnHeight);
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+
+        playBtn.getPlayBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 4, Align.center);
+        settingsBtn.getSettingsBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 2, Align.center);
+
+
         stage = new Stage(new ScreenViewport());
-
-
-        // Position the buttons
-        // playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
-        // menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y+20);
-        // settingsBtn.setPosition(camera.position.x - settingsBtn.getWidth()/2, camera.position.y);
-
-        //playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
-        //menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
-        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+150, Align.center);
-        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2-50, Align.center);
-
-        //playBtn.getPlayBtn().setSize(100, 40);
-        //menuBtn.getMenuBtn().setSize(100, 40);
-
         startListeners();
     }
 
