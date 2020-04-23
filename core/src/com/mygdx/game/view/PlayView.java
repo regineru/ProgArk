@@ -142,7 +142,7 @@ public class PlayView extends SuperView {
         sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
 
         for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
-            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getHeight(), obstacle.getWidth());
+            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
