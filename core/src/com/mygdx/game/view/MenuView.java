@@ -27,35 +27,35 @@ public class MenuView extends SuperView{
 
     //Constructor
     public MenuView(final MenuController menuController) {
-        this.menuController = menuController;
 
+        this.menuController = menuController;
         this.playBtn = new PlayBtn();
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
         this.quitBtn = new QuitBtn();
 
-        // GameInstance is the equivalent to the FlappyDemo in the tutorial.
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight * 2;
 
-        // Setting up the stage, adding the actors (buttons)
+        playBtn.getPlayBtn().setSize(btnWidth, btnHeight);
+        settingsBtn.getSettingsBtn().setSize(btnWidth, btnHeight);
+        helpBtn.getHelpBtn().setSize(btnWidth, btnHeight);
+        quitBtn.getQuitBtn().setSize(btnWidth, btnHeight);
+
+        playBtn.getPlayBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 4, Align.center);
+        settingsBtn.getSettingsBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        helpBtn.getHelpBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 2, Align.center);
+        quitBtn.getQuitBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+
         this.stage = new Stage(new ScreenViewport());
-
-        // Buttons can be positioned and resized like this
-        playBtn.getPlayBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+150, Align.center);
-        settingsBtn.getSettingsBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT/2+50, Align.center);
-        helpBtn.getHelpBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-50, Align.center);
-        quitBtn.getQuitBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-150, Align.center);
-
-        // Resize if necessary
-        /*playBtn.getPlayBtn().setSize(110, 50);
-        settingsBtn.getSettingsBtn().setSize(110, 60);
-        helpBtn.getHelpBtn().setSize(110, 60);
-        quitBtn.getQuitBtn().setSize(110, 60);*/
-
         startListeners();
 
-
     }
+
     @Override
     public void show(){
         // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
@@ -159,7 +159,7 @@ public class MenuView extends SuperView{
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         //sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
-        sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         sb.end();
         stage.act();
         stage.draw();

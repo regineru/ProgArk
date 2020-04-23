@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.SettingsController;
@@ -48,12 +49,20 @@ public class SettingsView extends SuperView{
         this.checkBox = new CheckBox(" GAME MUSIC", checkBoxStyle);
         this.checkBox.setChecked(model.gameMusicIsEnabled());
 
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight*2;
+        int checkBoxSize = Gdx.graphics.getHeight() / 10;
+
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+        checkBox.getImage().setScaling(Scaling.fill);
+        checkBox.getImageCell().size(checkBoxSize);
+
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+        checkBox.setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+
         stage = new Stage(new ScreenViewport());
-
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 4+50, Align.top);
-        checkBox.setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT - ImpossibleGravity.HEIGHT / 4, Align.top);
-
         startListeners();
     }
     @Override
@@ -114,8 +123,9 @@ public class SettingsView extends SuperView{
     @Override
     // Draws background, the menu button
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         sb.end();
         stage.act();
         stage.draw();
