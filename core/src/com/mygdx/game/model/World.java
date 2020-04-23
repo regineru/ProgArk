@@ -106,6 +106,7 @@ public class World {
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.update(dt); //no function in obstacle.update()
             if (obstacle.collides(character.getBounds())) {
+                stopMusic();
                 gameController.GameOver();
             }
         }
