@@ -41,7 +41,7 @@ public class ObstacleFactory {
             /**
             the position here is hard coded in to make it work. width = y and height = x for some reason
             **/
-            return new TopSpikes(camera.position.x * 2, ImpossibleGravity.HEIGHT-heaven.getGroundHeight()-10, chosenHeight/2, chosenWidth*2);
+            return new TopSpikes(camera.position.x * 2, ImpossibleGravity.HEIGHT-heaven.getGroundHeight()-10, chosenHeight, chosenWidth*3);
 
         } else if (chosenObstacle == 1 || chosenObstacle == 2) {
             return new BottomSpikes(camera.position.x * 2, grass.getGroundHeight()-10, chosenHeight, chosenWidth);
