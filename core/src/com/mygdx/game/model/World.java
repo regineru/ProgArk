@@ -103,6 +103,8 @@ public class World {
     public void dispose() {
         character.dispose();
         music.dispose();
+        grass.dispose();
+        heaven.dispose();
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.dispose();
         }
