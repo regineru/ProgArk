@@ -64,6 +64,7 @@ public class SettingsView extends SuperView{
         stage = new Stage(new ScreenViewport());
         startListeners();
     }
+
     @Override
     public void show(){
 
