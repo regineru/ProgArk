@@ -35,7 +35,7 @@ public class ObstacleFactory {
      * Generates a random value between 0 and 2 to decide weather to generate a bottom- or top obstacle
      * Generates a random height and width and returns an either a lightning- or cactus obstacle of the chosen size
      */
-    public Obstacle generateObstacle(Player character, Grass grass) {
+    public Obstacle generateObstacle(Character character, Grass grass) {
 
         System.out.println(obstacles.size);
 
@@ -71,7 +71,7 @@ public class ObstacleFactory {
      * @param character the player instance
      * @param grass bottom ground instance
      */
-    public void update(float dt, OrthographicCamera camera, Player character, Grass grass) {
+    public void update(float dt, OrthographicCamera camera, Character character, Grass grass) {
         obstacles.add(generateObstacle(character, grass));
         cleanObstacleArray(camera);
     }

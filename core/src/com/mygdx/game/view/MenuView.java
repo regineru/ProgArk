@@ -58,7 +58,6 @@ public class MenuView extends SuperView{
 
     @Override
     public void show(){
-        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
     }
 
     @Override
@@ -145,7 +144,6 @@ public class MenuView extends SuperView{
 
     @Override
     public void handleInput() {
-        // Bruker ikke denne da eventListeners ligger i konstruktøren i stedet.
     }
 
     @Override
@@ -154,11 +152,9 @@ public class MenuView extends SuperView{
     }
 
     @Override
-    // Draws background, the play button
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        //sb.draw(world.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         sb.end();
         stage.act();

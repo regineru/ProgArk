@@ -1,6 +1,7 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameController;
-import com.mygdx.game.controller.PlayerController;
+import com.mygdx.game.controller.CharacterController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
@@ -17,12 +18,14 @@ import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.World;
 
 /**
- * Description
+ * The view shown when a game is playing
+ * Contains all the textures from the world and a few buttons in addition to the SuperView
+ * Several methods that handles input from the user to control the character in the came
  */
 public class PlayView extends SuperView {
 
     protected GameController gameController;
-    private PlayerController pc;
+    private CharacterController pc;
     private Stage stage;
     private World world;
 
@@ -33,7 +36,7 @@ public class PlayView extends SuperView {
 
         this.world = new World();
         this.gameController = new GameController(vc, world);
-        this.pc = new PlayerController(vc);
+        this.pc = new CharacterController(vc);
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
@@ -86,7 +89,6 @@ public class PlayView extends SuperView {
             }
         });
 
-        // LISTENERS FOR TOUCH GESTURES
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
@@ -104,11 +106,12 @@ public class PlayView extends SuperView {
         });
     }
 
+    /**
+     * Inputs from the user calls on a function for the character
+     * The action is defined in the characters Player model
+     */
     @Override
     protected void handleInput() {
-        // Every input from the user should call on a function for the character.
-        // The action is defined in the model-class of the character.
-
         int deltaY = swipe();
 
         if (deltaY != 0) {
@@ -118,6 +121,7 @@ public class PlayView extends SuperView {
             pc.touch(world.getCharacter());
         }
     }
+
     /**
      * Description
      */
@@ -128,6 +132,9 @@ public class PlayView extends SuperView {
         return 0;
     }
 
+    /**
+     * Description
+     */
     @Override
     public void update(float dt) {
         handleInput();
@@ -138,10 +145,14 @@ public class PlayView extends SuperView {
         camera.update();
     }
 
+    /**
+     * Each view is responsible for knowing what it needs to draw
+     * The playView draws all the textures from the world model and the background
+     *
+     * @param sb SpriteBatch
+     */
     @Override
-    // Each view is responsible for knowing what it needs to draw.
     public void render (SpriteBatch sb){
-        // camera.update();
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
@@ -152,6 +163,9 @@ public class PlayView extends SuperView {
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
+
+        world.getCharacter().getScoreFont().setColor(Color.BLACK);
+        world.getCharacter().getScoreFont().draw(sb, world.getCharacter().getScoreString(), camera.position.x+(ImpossibleGravity.WIDTH/3), ImpossibleGravity.HEIGHT-30);
 
         sb.draw(world.getGrass().getGround(), world.getGrass().getGroundPos1().x, world.getGrass().getGroundPos1().y);
         sb.draw(world.getGrass().getGround(), world.getGrass().getGroundPos2().x, world.getGrass().getGroundPos2().y);

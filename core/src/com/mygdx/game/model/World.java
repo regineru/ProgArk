@@ -16,12 +16,11 @@ public class World {
     private Heaven heaven;
     private Music music;
     private ObstacleFactory obstacleFactory;
-    private Player character;
+    private Character character;
 
     /**
      *  Help attributes for update-method
       */
-    private long timeCounter;
     private long lastObstacle;
     private Random obstacle_occurrence;
 
@@ -29,7 +28,7 @@ public class World {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
-        character = new Player();
+        character = new Character();
         music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
 
@@ -49,7 +48,7 @@ public class World {
         return heaven;
     }
 
-    public Player getCharacter(){
+    public Character getCharacter(){
         return character;
     }
 
@@ -80,7 +79,6 @@ public class World {
          * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
-
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
             obstacleFactory.update(dt, camera, getCharacter(), getGrass());
             lastObstacle = System.currentTimeMillis();
@@ -90,11 +88,11 @@ public class World {
          * Updates all the obstacles and checks for collision with player
          * ends game if collision is detected
          */
-
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
+                //TODO save score to HighScore
                 gameController.GameOver();
             }
         }
