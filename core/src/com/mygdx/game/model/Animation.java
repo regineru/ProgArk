@@ -37,6 +37,12 @@ public class Animation {
         }
     }
 
+    public void flip(){
+        for (TextureRegion frame : frames){
+            frame.flip(false, true);
+        }
+    }
+
     public TextureRegion getFrame() {
         return frames.get(currentFrame);
     }
