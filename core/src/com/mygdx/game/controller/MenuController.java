@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.mygdx.game.view.HelpView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
+import com.mygdx.game.view.StartView;
 
 public class MenuController {
 
@@ -28,6 +29,8 @@ public class MenuController {
     public void helpPressed(){
         vc.set(new HelpView(new HelpController(vc)));
     }
+
+    public void startPressed(){vc.set((new StartView(new StartController(vc))));}
 
 
 }

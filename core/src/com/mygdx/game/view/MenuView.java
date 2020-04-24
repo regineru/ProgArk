@@ -13,6 +13,7 @@ import com.mygdx.game.interactiveElements.HelpBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
+import com.mygdx.game.interactiveElements.StartBtn;
 
 public class MenuView extends SuperView{
 
@@ -24,6 +25,7 @@ public class MenuView extends SuperView{
     private QuitBtn quitBtn;
     private SettingsBtn settingsBtn;
     private HelpBtn helpBtn;
+    private StartBtn startBtn;
 
     //Constructor
     public MenuView(final MenuController menuController) {
@@ -33,6 +35,7 @@ public class MenuView extends SuperView{
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
         this.quitBtn = new QuitBtn();
+        this.startBtn = new StartBtn();
 
         int btnHeight = Gdx.graphics.getHeight() / 6;
         int btnWidth = btnHeight * 2;
@@ -41,6 +44,7 @@ public class MenuView extends SuperView{
         settingsBtn.getSettingsBtn().setSize(btnWidth, btnHeight);
         helpBtn.getHelpBtn().setSize(btnWidth, btnHeight);
         quitBtn.getQuitBtn().setSize(btnWidth, btnHeight);
+        startBtn.getStartBtn().setSize(btnWidth, btnHeight);
 
         playBtn.getPlayBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 5 * 4, Align.center);
@@ -50,6 +54,8 @@ public class MenuView extends SuperView{
                 (float)Gdx.graphics.getHeight() / 5 * 2, Align.center);
         quitBtn.getQuitBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
                 (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+        startBtn.getStartBtn().setPosition((float)Gdx.graphics.getWidth() / 8,
+                (float)Gdx.graphics.getHeight() / 5 * 4, Align.center);
 
         this.stage = new Stage(new ScreenViewport());
         startListeners();
@@ -67,12 +73,14 @@ public class MenuView extends SuperView{
         settingsBtn.getSettingsBtn().clearListeners();
         helpBtn.getHelpBtn().clearListeners();
         quitBtn.getQuitBtn().clearListeners();
+        startBtn.getStartBtn().clearListeners();
 
         Gdx.input.setInputProcessor(this.stage);
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
         stage.addActor(helpBtn.getHelpBtn());
         stage.addActor(quitBtn.getQuitBtn());
+        stage.addActor(startBtn.getStartBtn());
 
         // LISTENERS FOR CLICK GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener(){
@@ -108,6 +116,14 @@ public class MenuView extends SuperView{
             }
         });
 
+        startBtn.getStartBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button){
+                System.out.println("startBtn is clicked.");
+                menuController.startPressed();
+            }
+        });
+
         // LISTENERS FOR TOUCH GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
@@ -138,6 +154,14 @@ public class MenuView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("quitBtn is touched.");
                 menuController.quit();
+            }
+        });
+
+        startBtn.getStartBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("startBtn is touched.");
+                menuController.startPressed();
             }
         });
     }
