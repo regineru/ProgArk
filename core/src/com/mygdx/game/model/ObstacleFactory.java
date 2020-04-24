@@ -37,8 +37,6 @@ public class ObstacleFactory {
      */
     public Obstacle generateObstacle(Character character, Grass grass) {
 
-        System.out.println(obstacles.size);
-
         chosenObstacle = random.nextInt(3);
         chosenHeight = 20 + random.nextInt(50);
         chosenWidth = chosenHeight * (70/30);
