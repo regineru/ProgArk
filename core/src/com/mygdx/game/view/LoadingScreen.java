@@ -26,9 +26,6 @@ public class LoadingScreen extends SuperView{
 
         this.loadingController = loadingController;
 
-        // GameInstance is the equivalent to the FlappyDemo in the tutorial.
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-
         bg = new Texture("bg.png");
         loadingTexture = new Texture("loadingTexture.png");
     }
@@ -48,7 +45,7 @@ public class LoadingScreen extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         sb.draw(loadingTexture, camera.position.x - loadingTexture.getWidth() / 2, camera.position.y);
         sb.end();
     }

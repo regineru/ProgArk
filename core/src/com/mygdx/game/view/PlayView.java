@@ -31,8 +31,6 @@ public class PlayView extends SuperView {
 
     public PlayView(ViewController vc){
 
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
-
         this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new PlayerController(vc);
@@ -41,13 +39,22 @@ public class PlayView extends SuperView {
 
         stage = new Stage(new ScreenViewport());
 
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 10, ImpossibleGravity.HEIGHT, Align.left);
-        pauseBtn.getPauseBtn().setPosition(ImpossibleGravity.WIDTH / 3, ImpossibleGravity.HEIGHT, Align.left);
+        int btnHeight = Gdx.graphics.getHeight() / 10;
+        int btnWidth = btnHeight * 2;
 
-        menuBtn.getMenuBtn().setSize(100, 40);
-        pauseBtn.getPauseBtn().setSize(100, 40);
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+        pauseBtn.getPauseBtn().setSize(btnWidth, btnHeight);
 
-        stage = new Stage(new ScreenViewport());
+        menuBtn.getMenuBtn().setPosition(
+                (float)btnWidth/4,
+                Gdx.graphics.getHeight() - (float)btnHeight/4,
+                Align.topLeft);
+
+        pauseBtn.getPauseBtn().setPosition(
+                btnWidth + (float)btnWidth/4*2,
+                Gdx.graphics.getHeight() - (float)btnHeight/4,
+                Align.topLeft);
+
         startListeners();
     }
 
@@ -134,11 +141,11 @@ public class PlayView extends SuperView {
     @Override
     // Each view is responsible for knowing what it needs to draw.
     public void render (SpriteBatch sb){
-
+        // camera.update();
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
-        sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), camera.position.y-(camera.viewportHeight/2), ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
             sb.draw(obstacle.getObstacle(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());

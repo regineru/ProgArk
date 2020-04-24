@@ -15,6 +15,7 @@ public abstract class SuperView {
 
     public SuperView(){
         camera = new OrthographicCamera();
+        camera.setToOrtho(false, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         mouse = new Vector3();
         background = new Background();
     }

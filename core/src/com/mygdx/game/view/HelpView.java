@@ -34,13 +34,17 @@ public class HelpView extends SuperView{
         //this.helpText = new Text();
         this.helpTexture = new Texture(Gdx.files.internal("helpText.png"));
 
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-        stage = new Stage(new ScreenViewport());
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight*2;
+
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
 
         //helpText.getHelpText().setPosition((Gdx.graphics.getWidth()/ - helpText.getHelpText().getWidth()), Gdx.graphics.getHeight() - helpText.getHelpText().getHeight());
-        menuBtn.getMenuBtn().setPosition(ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2-200, Align.bottom);
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
 
         //stage.addActor(helpText.getHelpText());
+        stage = new Stage(new ScreenViewport());
         startListeners();
     }
 
@@ -88,9 +92,11 @@ public class HelpView extends SuperView{
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
-        sb.draw(helpTexture, Align.right+5,70, 200, 135);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
+        sb.draw(helpTexture, ImpossibleGravity.WIDTH / 2 - helpTexture.getWidth() / 2, ImpossibleGravity.HEIGHT / 2 - helpTexture.getHeight() / 3);
+        // sb.draw(helpTexture, Align.center,ImpossibleGravity.HEIGHT, 200, 135);
         sb.end();
         stage.act();
         stage.draw();
