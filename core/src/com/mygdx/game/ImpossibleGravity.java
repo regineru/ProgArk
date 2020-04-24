@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import io.socket.client.IO;
@@ -14,7 +13,6 @@ import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.view.MenuView;
-import com.mygdx.game.view.PlayView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +24,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Socket socket;
 
-	public static final int WIDTH = 480; //width of the screen
+	public static final int WIDTH = 854; //width of the screen
 	public static final int HEIGHT = 480; //height of the screen
 	public static final String TITLE = "Impossible Gravity";
 
@@ -35,13 +33,11 @@ public class ImpossibleGravity extends ApplicationAdapter {
 	HashMap<String, Player> players;
 
 	private ViewController vc;
-	private MenuController mc;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		vc = new ViewController();
-		mc = new MenuController(vc);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
 		players = new HashMap<String, Player>();
@@ -49,8 +45,8 @@ public class ImpossibleGravity extends ApplicationAdapter {
 		connectSocket();
 		configSocketEvents();
 
-		vc.push(new PlayView(vc));
-		vc.push(new MenuView(mc));
+		vc.push(new MenuView(new MenuController(vc)));
+
 	}
 
 	public void connectSocket() {

@@ -1,31 +1,32 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.SettingsModel;
-import com.mygdx.game.view.MenuView;
+import com.mygdx.game.model.Settings;
 
 public class SettingsController {
 
     private ViewController vc;
-
-    //private SettingsModel model;
+    private Settings model;
 
     public SettingsController(ViewController vc) {
+        this.model = vc.sm;
         this.vc = vc;
-
     }
 
-    public void BackToMenu(){
-        vc.set(new MenuView(new MenuController(vc)));
+    public void backToMenu(){
+
+        vc.pop();
     }
 
-    public void ChangeSoundVolume(float volume){
+    public void changeSoundVolume(float volume){
         //model.setSoundVolume(volume);
     }
 
-    public void toggleSound(Boolean enable){
-        //model.enableMusic(enable);
+    public void toggleGameMusic(){
+        model.toggleGameMusic();
     }
 
-
+    public Settings getModel(){
+        return this.model;
+    }
 
 }

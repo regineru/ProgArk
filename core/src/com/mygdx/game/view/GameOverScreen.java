@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameOverController;
@@ -16,43 +19,73 @@ public class GameOverScreen extends SuperView{
     protected GameOverController gameOverController;
     private Stage stage;
     private MenuBtn menuBtn;
-
-    // Make a simple background and a game over-logo and put it in the assets folder!
-    private Texture background;
-    private Texture gameOver; // NB: Not a button, just text on screen
+    private Texture gameOver;
+    private Image gameOverImage;
 
     // Constructor
-    public GameOverScreen(GameOverController gameOverController) {
+    public GameOverScreen(final GameOverController gameOverController) {
         this.gameOverController = gameOverController;
         this.menuBtn = new MenuBtn();
 
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
-        background = new Texture("bg.png");
         gameOver = new Texture("gameOver.png");
+        gameOverImage = new Image(gameOver);
 
-        // Setting up the stage, adding the actors (buttons)
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight*2;
+
+        gameOverImage.setSize((float)Gdx.graphics.getWidth() / 10 * 7, (float)Gdx.graphics.getHeight() / 2);
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+
+        gameOverImage.setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
+
         stage = new Stage(new ScreenViewport());
-        stage.addActor(menuBtn);
-        Gdx.input.setInputProcessor(stage);
+        startListeners();
 
-        // Position the button
-        menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y);
     }
 
     @Override
-    public void handleInput() {
-        menuBtn.addListener(new ClickListener() {
+    public void show(){
+    }
+
+    @Override
+    public void startListeners() {
+
+        menuBtn.getMenuBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(menuBtn.getMenuBtn());
+        stage.addActor(gameOverImage);
+
+        // LISTENERS FOR CLICK GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                gameOverController.BackToMenu();
+            }
+        });
+
+        // LISTENERS FOR TAP GESTURES
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
                 gameOverController.BackToMenu();
             }
         });
     }
 
     @Override
+    public void handleInput() {
+    }
+
+    @Override
     public void update(float dt) {
-        handleInput();
+        background.update(dt);
+
     }
 
     @Override
@@ -60,15 +93,16 @@ public class GameOverScreen extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background, 0,0);
-        sb.draw(gameOver, camera.position.x - gameOver.getWidth() / 2, camera.position.y);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
+        //sb.draw(gameOver, camera.position.x - gameOver.getWidth() / 2, camera.position.y+200);
+        //sb.draw(gameOver, 50,50);
         sb.end();
+        stage.draw();
+        stage.act();
     }
 
     @Override
     public void dispose() {
-        background.dispose();
-        gameOver.dispose();
         System.out.println("Game Over View Disposed");
     }
 }

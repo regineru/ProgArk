@@ -8,68 +8,63 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.PauseController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PlayBtn;
+import com.mygdx.game.interactiveElements.SettingsBtn;
 // Here we need the import of the game instance!
 
 public class PauseView extends SuperView{
 
     protected PauseController pauseController;
     private Stage stage;
-    private Texture background;
 
     private PlayBtn playBtn;
     private MenuBtn menuBtn;
+    private SettingsBtn settingsBtn;
 
     // Constructor
-    public PauseView(PauseController pauseController) {
+    public PauseView(final PauseController pauseController) {
         this.pauseController = pauseController;
         camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
         this.playBtn = new PlayBtn();
         this.menuBtn = new MenuBtn();
+        this.settingsBtn = new SettingsBtn();
 
-        // Setting up the stage, adding the actors (buttons)
+        int btnHeight = Gdx.graphics.getHeight() / 6;
+        int btnWidth = btnHeight * 2;
+
+        playBtn.getPlayBtn().setSize(btnWidth, btnHeight);
+        settingsBtn.getSettingsBtn().setSize(btnWidth, btnHeight);
+        menuBtn.getMenuBtn().setSize(btnWidth, btnHeight);
+
+        playBtn.getPlayBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 4, Align.center);
+        settingsBtn.getSettingsBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
+        menuBtn.getMenuBtn().setPosition((float)Gdx.graphics.getWidth() / 2,
+                (float)Gdx.graphics.getHeight() / 5 * 2, Align.center);
+
+
         stage = new Stage(new ScreenViewport());
-        stage.addActor(playBtn);
-        stage.addActor(menuBtn);
-        Gdx.input.setInputProcessor(stage);
-
-        // Position the buttons
-        playBtn.setPosition(camera.position.x - playBtn.getWidth() / 2, camera.position.y);
-        menuBtn.setPosition(camera.position.x - menuBtn.getWidth() / 2, camera.position.y+20);
-
-        background = new Texture("bg.png");
-
+        startListeners();
     }
 
     @Override
     public void handleInput() {
 
-        playBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("PlayBtn is pressed.");
-                pauseController.ContinueGame();
-            }
-        });
-
-        menuBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("MenuBtn is pressed.");
-                pauseController.BackToMenu();
-            }
-        });
     }
 
     @Override
     public void update(float dt) {
-        handleInput();
+        background.update(dt);
+
     }
 
     @Override
@@ -77,8 +72,70 @@ public class PauseView extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
         sb.end();
+        stage.draw();
+        stage.act();
+    }
+
+    @Override
+    public void show(){
+
+    }
+
+    @Override
+    public void startListeners() {
+
+        playBtn.getPlayBtn().clearListeners();
+        settingsBtn.getSettingsBtn().clearListeners();
+        menuBtn.getMenuBtn().clearListeners();
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(playBtn.getPlayBtn());
+        stage.addActor(menuBtn.getMenuBtn());
+        stage.addActor(settingsBtn.getSettingsBtn());
+
+        // LISTENERS FOR CLICK GESTURES
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("continueGame is clicked");
+                pauseController.ContinueGame();
+            }
+        });
+
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("menuBtn is clicked");
+                pauseController.BackToMenu();
+            }
+        });
+
+        // LISTENERS FOR TOUCH GESTURES
+        playBtn.getPlayBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("continueGame is touched.");
+                pauseController.ContinueGame();
+            }
+        });
+
+        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("menuBtn is touched.");
+                pauseController.BackToMenu();
+            }
+        });
+
+        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                System.out.println("settingsBtn is touched.");
+                pauseController.settings();
+            }
+        });
     }
 
     @Override

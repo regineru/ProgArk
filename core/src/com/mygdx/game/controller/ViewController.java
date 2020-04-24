@@ -3,6 +3,7 @@ package com.mygdx.game.controller;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.model.Settings;
 import com.mygdx.game.view.SuperView;
 
 import java.util.Stack;
@@ -10,8 +11,10 @@ import java.util.Stack;
 public class ViewController {
 
     private Stack<SuperView> views;
+    public Settings sm;
 
     public ViewController() {
+        sm = new Settings();
         views = new Stack<SuperView>();
     }
 
@@ -21,6 +24,11 @@ public class ViewController {
 
     public void pop(){
         views.pop();
+        views.peek().startListeners();
+    }
+
+    public SuperView peek(){
+        return views.peek();
     }
 
     public void set(SuperView view){

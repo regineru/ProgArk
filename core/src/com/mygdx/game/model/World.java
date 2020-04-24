@@ -1,76 +1,112 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.game.controller.GameController;
+import java.util.Random;
 
-import javax.swing.JPasswordField;
-
+/**
+ * Model for game environment called from play view
+ * Every texture in the game is created here
+ */
 public class World {
 
-    private Texture background;
-    private Array<Ground> grounds;
-
+    private Grass grass;
+    private Heaven heaven;
     private Music music;
-    private static float VOLUME;
+    private ObstacleFactory obstacleFactory;
+    private Character character;
 
-    //TODO make background depended on input to variate between different backgrounds/modes
-    private static int BG_MODE;
+    /**
+     *  Help attributes for update-method
+      */
+    private long lastObstacle;
+    private Random obstacle_occurrence;
 
     public World() {
-        background = new Texture("background.png"); //locally saved
-        grounds = new Array<Ground>();
-        grounds.add(new Ground());
-
-        /* Trenger en musikkfil for at dette skal kunne brukes
-        music = Gdx.audio.newMusic("musikkfil.mp3");
+        grass = new Grass();
+        heaven = new Heaven();
+        obstacleFactory = new ObstacleFactory();
+        character = new Character();
+        music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
-        music.setVolume(1F);
-        music.play();
+
+        lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
+
+    }
+    public ObstacleFactory getObstacleFactory(){
+        return obstacleFactory;
+    }
+
+    public Grass getGrass() {
+        return grass;
+    }
+
+    public Heaven getHeaven() {
+        return heaven;
+    }
+
+    public Character getCharacter(){
+        return character;
+    }
+
+    public void playMusic(){music.play();}
+
+    public void stopMusic(){music.stop();}
+
+    public void pauseMusic(){music.pause();}
+
+    /**
+     * The update-method in World model is called from the update-method in playView
+     * - Makes sure all assets gets updated
+     * - Increases player speed during the game
+     * - Generates new obstacles
+     * - Checks for collision between player and obstacle
+     *
+     * @param dt delta time
+     * @param camera Orthographic camera defined in SuperView
+     * @param gameController Controller class for playView
+     */
+
+    public void update(float dt, OrthographicCamera camera, GameController gameController) {
+        character.update(dt);
+        grass.update(dt, camera);
+        heaven.update(dt, camera);
+
+
+        /**
+         * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
+         * Checks the speed of character to make obstacle occurrence proportional with speed
          */
-    }
 
-    public Texture getBackground() {
-        return background;
-    }
-    /* Might need this to select different backgrounds
-    public void setBackground(Texture background) {
-        this.background = background;
-    }
-
-     */
-
-    public Array getGrounds() {
-        return grounds;
-    }
-
-    /* Might need this to select different backgrounds
-    public void setGround(Texture ground) {
-        this.ground = ground;
-    }
-
-     */
-
-    public Vector3 getGroundPos() { //last added grounds position
-        return grounds.peek().getGroundPos();
-    }
-
-    public void update(float dt) {
-        for (Ground ground : grounds){
-            ground.update(dt);
+        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
+            obstacleFactory.update(dt, camera, getCharacter(), getGrass());
+            lastObstacle = System.currentTimeMillis();
         }
 
-        if(grounds.peek().getGroundPos().x < 0) {
-            grounds.add(new Ground(new Vector3(grounds.peek().getGroundPos().x+grounds.peek().getGround().getWidth(), Ground.GROUND_Y_OFFSET, 0)));
+        /**
+         * Updates all the obstacles and checks for collision with player
+         * ends game if collision is detected
+         */
+        for (Obstacle obstacle : obstacleFactory.getObstacles()) {
+            obstacle.update(dt);
+            if (obstacle.collides(character.getBounds())) {
+                stopMusic();
+                //TODO save score to HighScore
+                gameController.GameOver();
+            }
         }
     }
 
     public void dispose() {
-        background.dispose();
-        for (Ground ground : grounds) {
-            ground.dispose();
+        character.dispose();
+        music.dispose();
+        grass.dispose();
+        heaven.dispose();
+        for (Obstacle obstacle : obstacleFactory.getObstacles()) {
+            obstacle.dispose();
         }
     }
-
 }
