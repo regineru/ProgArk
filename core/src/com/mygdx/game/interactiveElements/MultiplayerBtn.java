@@ -13,7 +13,7 @@ public class MultiplayerBtn extends Actor {
     public Image multiplayerBtn;
 
     public MultiplayerBtn() {
-        multiTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        multiTexture = new Texture(Gdx.files.internal("multiplayerBtn.png"));
         this.multiplayerBtn = new Image(new TextureRegionDrawable(new TextureRegion(multiTexture)));
     }
 

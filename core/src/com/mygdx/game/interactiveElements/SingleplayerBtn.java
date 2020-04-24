@@ -15,7 +15,7 @@ public class SingleplayerBtn extends Actor {
     public Image singleplayerBtn;
 
     public SingleplayerBtn() {
-        singleTexture = new Texture(Gdx.files.internal("playBtn.png"));
+        singleTexture = new Texture(Gdx.files.internal("singleplayerBtn.png"));
         this.singleplayerBtn = new Image(new TextureRegionDrawable(new TextureRegion(singleTexture)));
     }
 
