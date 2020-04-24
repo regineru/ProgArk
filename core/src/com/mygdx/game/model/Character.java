@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
-
-//TODO fix score and dt
 /**
  * The player containing the interaction logic and movement of player
  */
@@ -27,7 +25,6 @@ public class Character {
      * help attribute for update-method
      */
     private long increaseSpeedCounter;
-
 
     public Character() {
         player = new Sprite(new Texture("player.png")); // placeholder
@@ -48,7 +45,7 @@ public class Character {
         return SPEED;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score.getScore();
     }
 
@@ -107,7 +104,7 @@ public class Character {
     public void update(float dt) {
 
         position.add(SPEED * dt, 0, 0);
-        score.update();
+        score.update(dt);
 
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
@@ -132,5 +129,6 @@ public class Character {
 
     public void dispose() {
         this.player.getTexture().dispose();
+        score.dispose();
     }
 }
