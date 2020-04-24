@@ -98,6 +98,8 @@ public class World {
         grass.update(dt, camera);
         heaven.update(dt, camera);
 
+
+
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
             obstacleFactory.update(dt, camera, getGrass(), getHeaven());
             lastObstacle = System.currentTimeMillis();

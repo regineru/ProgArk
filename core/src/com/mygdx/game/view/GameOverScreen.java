@@ -84,6 +84,7 @@ public class GameOverScreen extends SuperView{
 
     @Override
     public void update(float dt) {
+        background.update(dt);
 
     }
 

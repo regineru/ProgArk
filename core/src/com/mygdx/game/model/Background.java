@@ -8,13 +8,13 @@ public class Background {
 
     private Animation backgroundAnimation;
 
-    private Sprite background;
+    private Texture background;
     //TODO make background depended on input to variate between different backgrounds/modes
     private static int BG_MODE;
 
     public Background(){
-        this.background = new Sprite(new Texture("background.png")); //locally saved
-        backgroundAnimation = new Animation(new TextureRegion(background), 2, 1f);
+        this.background = new Texture("background.png"); //locally saved
+        backgroundAnimation = new Animation(new TextureRegion(background), 2, 0.5f);
     }
 
     public void update(float dt) {
@@ -26,7 +26,7 @@ public class Background {
     }
 
     public void dispose() {
-        background.getTexture().dispose();
+        background.dispose();
     }
 
 }
