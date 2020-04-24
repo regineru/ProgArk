@@ -1,8 +1,12 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -69,10 +73,26 @@ public class PlayView extends SuperView {
         pauseBtn.getPauseBtn().clearListeners();
         menuBtn.getMenuBtn().clearListeners();
 
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
+            @Override
+            public boolean tap(float x, float y, int count, int button) {
+                world.getCharacter().jump();
+                return true;
+            }
+            @Override
+            public boolean fling(float velocityX, float velocityY, int button) {
+                if (velocityY > 10){world.getCharacter().switchGravity(0);}
+                if (velocityY < -10){world.getCharacter().switchGravity(1);}
+                return true;
+            }
+        }));
+        Gdx.input.setInputProcessor(multiplexer);
+
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
-
+        /*
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -88,6 +108,8 @@ public class PlayView extends SuperView {
                 gameController.pauseGame();
             }
         });
+
+         */
 
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
@@ -112,24 +134,7 @@ public class PlayView extends SuperView {
      */
     @Override
     protected void handleInput() {
-        int deltaY = swipe();
 
-        if (deltaY != 0) {
-            System.out.println(deltaY);
-            pc.swipe(world.getCharacter(), deltaY);
-        } else if (Gdx.input.justTouched()) {
-            pc.touch(world.getCharacter());
-        }
-    }
-
-    /**
-     * Description
-     */
-    public int swipe() {
-        if (Gdx.input.justTouched() && (Gdx.input.getDeltaY() > 10 || Gdx.input.getDeltaY() < -10)) {
-            return Gdx.input.getDeltaY();
-        }
-        return 0;
     }
 
     /**

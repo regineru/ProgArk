@@ -70,9 +70,9 @@ public class Character {
     public void jump() {
         if (this.velocity.y == 0) {
             if (this.gravity < 0) {
-                this.velocity.add(0, 15, 0);
+                this.velocity.add(0, 18, 0);
             } else if (this.gravity > 0) {
-                this.velocity.add(0, -15, 0);
+                this.velocity.add(0, -18, 0);
             }
         }
     }
@@ -80,10 +80,14 @@ public class Character {
     /**
      * Called from controller based on user input. Makes the player switch gravity if swiped
      */
-    public void switchGravity(int deltaY) {
-        if (deltaY * this.gravity > 0 && this.velocity.y == 0) {
+    public void switchGravity(int direction) {
+        if (direction == 1 && this.gravity < 0) {
             this.gravity = -this.gravity;
-            this.player.flip(false, true);
+            this.playerAnimation.flip();
+        }
+        if (direction == 0 && this.gravity > 0) {
+            this.gravity = -this.gravity;
+            this.playerAnimation.flip();
         }
     }
 
