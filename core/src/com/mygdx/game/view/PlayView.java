@@ -133,6 +133,7 @@ public class PlayView extends SuperView {
         handleInput();
 
         world.update(dt, camera, gameController);
+        background.update(dt);
 
         camera.position.set(world.getCharacter().getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();

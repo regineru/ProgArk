@@ -117,6 +117,7 @@ public class SettingsView extends SuperView{
     @Override
     public void update(float dt) {
         show();
+        background.update(dt);
     }
 
     @Override

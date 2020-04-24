@@ -63,6 +63,7 @@ public class PauseView extends SuperView{
 
     @Override
     public void update(float dt) {
+        background.update(dt);
 
     }
 

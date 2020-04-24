@@ -2,6 +2,7 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
@@ -26,21 +27,19 @@ public class Player {
      * help attribute for update-method
      */
     private long timeCounter;
+    private Animation playerAnimation;
 
 
     public Player() {
-        player = new Sprite(new Texture("player.png")); // placeholder
+        player = new Sprite(new Texture("playeranimation.png")); // placeholder
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
+        bounds = new Rectangle(position.x, position.y, player.getWidth() / 2, player.getHeight());
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
         score = 0;
         jump = false;
         timeCounter = System.currentTimeMillis();
-    }
-
-    public Sprite getSprite() {
-        return this.player;
+        playerAnimation = new Animation(new TextureRegion(player), 2, 0.4f);
     }
 
     public int getSpeed() {
@@ -82,12 +81,18 @@ public class Player {
         }
     }
 
+
     /**
      * Called on condition update-method. Increases player speed
      */
     public void increaseSPEED() {
         this.SPEED += 10;
     }
+
+
+
+    public TextureRegion getSprite() {return playerAnimation.getFrame();}
+
 
     /**
      * Called from worlds update-method. Makes the player move in game world and makes sure the collision bounds follows and score is updated
@@ -97,6 +102,7 @@ public class Player {
      */
     public void update(float dt) {
 
+        playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0);
         score = ((int) dt);
 
