@@ -58,6 +58,7 @@ public class ObstacleFactory {
         for (Obstacle obstacle : obstacles) {
             if (obstacle.position.x < camera.position.x - camera.viewportWidth){
                 obstacles.removeValue(obstacle, true);
+                obstacle.dispose();
             }
 
         }
