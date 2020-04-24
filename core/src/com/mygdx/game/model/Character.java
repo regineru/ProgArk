@@ -30,12 +30,12 @@ public class Character {
 
     public Character() {
         player = new Sprite(new Texture("playeranimation.png"));
-        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth() / 2, player.getHeight());
+        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
+        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3, player.getHeight());
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
         jump = false;
-        playerAnimation = new Animation(new TextureRegion(player), 2, 0.4f);
+        playerAnimation = new Animation(new TextureRegion(player), 3, 0.4f);
         increaseSpeedCounter = System.currentTimeMillis();
         score = new Score();
     }
