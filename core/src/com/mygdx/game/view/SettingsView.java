@@ -1,13 +1,9 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,8 +18,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.SettingsController;
 import com.mygdx.game.interactiveElements.MenuBtn;
-import com.mygdx.game.model.SettingsModel;
+import com.mygdx.game.model.Settings;
 
+/**
+ * Description
+ */
 public class SettingsView extends SuperView{
     protected SettingsController settingsController;
 
@@ -32,7 +31,7 @@ public class SettingsView extends SuperView{
     private CheckBox checkBox;
     private TextureRegionDrawable checked;
     private TextureRegionDrawable unchecked;
-    private SettingsModel model;
+    private Settings model;
 
     public SettingsView(final SettingsController settingsController) {
 

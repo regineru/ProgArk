@@ -5,9 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
 /**
- * Created by henrikforb on 21. April 2020.
+ * Ground in top of screen for the player to run on
  **/
-
 public class Heaven extends Ground {
 
     public Heaven() {

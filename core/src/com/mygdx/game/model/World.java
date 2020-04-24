@@ -2,48 +2,40 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
-
 import java.util.Random;
 
-/*
-EVERY TEXTURE PRESENT IN THE PLAY VIEW IS CREATED HERE:
-GROUNDS BOTTOM AND TOP, OBSTACLES, GRAPHICS, MUSIC AND PLAYERS
+/**
+ * Model for game environment called from play view
+ * Every texture in the game is created here
  */
-
 public class World {
 
     private Grass grass;
     private Heaven heaven;
     private Music music;
+    private ObstacleFactory obstacleFactory;
+    private Player character;
 
-    // HELP ATTRIBUTES TO KEEP TRACK OF TIME ETC.
-    private long timeCounter; //TODO to increase player speed after x seconds
+    /**
+     *  Help attributes for update-method
+      */
+    private long timeCounter;
     private long lastObstacle;
     private Random obstacle_occurrence;
-
-    // GENERATE OBSTACLES
-    private ObstacleFactory obstacleFactory;
-
-    // PLAYER
-    private Player character;
 
     public World() {
         grass = new Grass();
         heaven = new Heaven();
-
-        timeCounter = System.currentTimeMillis();
-        lastObstacle = System.currentTimeMillis();
-        obstacle_occurrence = new Random();
-
+        obstacleFactory = new ObstacleFactory();
+        character = new Player();
         music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
 
-        obstacleFactory = new ObstacleFactory();
-        character = new Player();
+        lastObstacle = System.currentTimeMillis();
+        obstacle_occurrence = new Random();
+
     }
     public ObstacleFactory getObstacleFactory(){
         return obstacleFactory;
@@ -56,9 +48,6 @@ public class World {
     public Heaven getHeaven() {
         return heaven;
     }
-    public long getTimeCounter(){
-        return timeCounter;
-    }
 
     public Player getCharacter(){
         return character;
@@ -70,41 +59,40 @@ public class World {
 
     public void pauseMusic(){music.pause();}
 
-    /* Might need this to select different backgrounds
-    public void setBackground(Texture background) {
-        this.background = background;
-    }
-
-     */
-
-    /* Might need this to select different backgrounds
-    public void setGround(Texture ground) {
-        this.ground = ground;
-    }
-
+    /**
+     * The update-method in World model is called from the update-method in playView
+     * - Makes sure all assets gets updated
+     * - Increases player speed during the game
+     * - Generates new obstacles
+     * - Checks for collision between player and obstacle
+     *
+     * @param dt delta time
+     * @param camera Orthographic camera defined in SuperView
+     * @param gameController Controller class for playView
      */
 
     public void update(float dt, OrthographicCamera camera, GameController gameController) {
         character.update(dt);
-
-        /** This method increases the speed of the player a small amount every 2 seconds
-         *
-         */
-        if (character.getSpeed() < 500 && System.currentTimeMillis() - timeCounter >= 2000) {
-            timeCounter = System.currentTimeMillis();
-            character.increaseSPEED();
-        }
-
         grass.update(dt, camera);
         heaven.update(dt, camera);
 
+        /**
+         * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
+         * Checks the speed of character to make obstacle occurrence proportional with speed
+         */
+
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
-            obstacleFactory.update(dt, camera, getGrass(), getHeaven());
+            obstacleFactory.update(dt, camera, getCharacter(), getGrass());
             lastObstacle = System.currentTimeMillis();
         }
 
+        /**
+         * Updates all the obstacles and checks for collision with player
+         * ends game if collision is detected
+         */
+
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
-            obstacle.update(dt); //no function in obstacle.update()
+            obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
                 gameController.GameOver();
@@ -115,6 +103,8 @@ public class World {
     public void dispose() {
         character.dispose();
         music.dispose();
+        grass.dispose();
+        heaven.dispose();
         for (Obstacle obstacle : obstacleFactory.getObstacles()) {
             obstacle.dispose();
         }

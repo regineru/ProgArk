@@ -2,7 +2,6 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -17,21 +16,19 @@ import com.mygdx.game.interactiveElements.PauseBtn;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.World;
 
+/**
+ * Description
+ */
 public class PlayView extends SuperView {
 
-    //CONTROLLERS AND STAGE
     protected GameController gameController;
     private PlayerController pc;
     private Stage stage;
     private World world;
 
-    private int touchPos;
-
-    // BUTTONS
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    //  CONSTRUCTOR
     public PlayView(ViewController vc){
 
         this.world = new World();
@@ -39,6 +36,8 @@ public class PlayView extends SuperView {
         this.pc = new PlayerController(vc);
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
+
+        stage = new Stage(new ScreenViewport());
 
         int btnHeight = Gdx.graphics.getHeight() / 10;
         int btnWidth = btnHeight * 2;
@@ -56,21 +55,21 @@ public class PlayView extends SuperView {
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
-        stage = new Stage(new ScreenViewport());
         startListeners();
     }
 
+    /**
+     * Description
+     */
     public void startListeners(){
 
         pauseBtn.getPauseBtn().clearListeners();
         menuBtn.getMenuBtn().clearListeners();
 
-        // Setting up the stage, adding the actors (buttons)
         Gdx.input.setInputProcessor(stage);
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
 
-        // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -119,7 +118,9 @@ public class PlayView extends SuperView {
             pc.touch(world.getCharacter());
         }
     }
-
+    /**
+     * Description
+     */
     public int swipe() {
         if (Gdx.input.justTouched() && (Gdx.input.getDeltaY() > 10 || Gdx.input.getDeltaY() < -10)) {
             return Gdx.input.getDeltaY();
@@ -147,7 +148,7 @@ public class PlayView extends SuperView {
         sb.draw(background.getBackground(), camera.position.x-(camera.viewportWidth/2), 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
 
         for (Obstacle obstacle : world.getObstacleFactory().getObstacles()) {
-            sb.draw(obstacle.getSpikes(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
+            sb.draw(obstacle.getObstacle(), obstacle.getPosition().x, obstacle.getPosition().y, obstacle.getWidth(), obstacle.getHeight());
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
