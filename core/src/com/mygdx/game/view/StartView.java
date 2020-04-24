@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.StartController;
 import com.mygdx.game.interactiveElements.MultiplayerBtn;
-import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.SingleplayerBtn;
 
 public class StartView extends SuperView {
