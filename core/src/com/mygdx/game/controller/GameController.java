@@ -1,6 +1,5 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.model.Player;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.GameOverScreen;
 import com.mygdx.game.view.MenuView;
@@ -25,6 +24,7 @@ public class GameController {
 
     public void pauseGame(){
         world.pauseMusic();
+        //TODO pause score counter
         vc.push(new PauseView(new PauseController(vc, world)));
     }
 

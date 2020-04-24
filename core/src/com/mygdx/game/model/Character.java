@@ -1,6 +1,7 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,7 +13,7 @@ import com.mygdx.game.ImpossibleGravity;
 /**
  * The player containing the interaction logic and movement of player
  */
-public class Player {
+public class Character {
 
     private int SPEED = 100;
     private Sprite player;
@@ -21,25 +22,25 @@ public class Player {
     private boolean jump;
     private float gravity;
     private Vector3 velocity;
-    private int score;
+    private Score score;
 
     /**
      * help attribute for update-method
      */
-    private long timeCounter;
+    private long increaseSpeedCounter;
     private Animation playerAnimation;
 
 
-    public Player() {
-        player = new Sprite(new Texture("playeranimation.png")); // placeholder
+    public Character() {
+        player = new Sprite(new Texture("player.png"));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
         bounds = new Rectangle(position.x, position.y, player.getWidth() / 2, player.getHeight());
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
-        score = 0;
         jump = false;
-        timeCounter = System.currentTimeMillis();
         playerAnimation = new Animation(new TextureRegion(player), 2, 0.4f);
+        increaseSpeedCounter = System.currentTimeMillis();
+        score = new Score();
     }
 
     public int getSpeed() {
@@ -47,7 +48,15 @@ public class Player {
     }
 
     public int getScore() {
-        return this.score;
+        return score.getScore();
+    }
+
+    public BitmapFont getScoreFont(){
+        return score.getScoreFont();
+    }
+
+    public String getScoreString(){
+        return score.getScoreString();
     }
 
     public Vector3 getPosition() {
@@ -104,7 +113,7 @@ public class Player {
 
         playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0);
-        score = ((int) dt);
+        score.update();
 
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
@@ -121,8 +130,8 @@ public class Player {
         }
         this.bounds.setPosition(position.x, position.y); // update bounds to players position
 
-        if (getSpeed() < 500 && System.currentTimeMillis() - timeCounter >= 2000) {
-            timeCounter = System.currentTimeMillis();
+        if (getSpeed() < 500 && System.currentTimeMillis() - increaseSpeedCounter >= 2000) {
+            increaseSpeedCounter = System.currentTimeMillis();
             increaseSPEED();
         }
     }
