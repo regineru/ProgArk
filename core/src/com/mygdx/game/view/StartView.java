@@ -53,6 +53,7 @@ public class StartView extends SuperView {
     @Override
     public void update(float dt) {
         show();
+        background.update(dt);
 
     }
 
