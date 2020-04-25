@@ -82,6 +82,7 @@ public class MenuView extends SuperView{
         stage.addActor(quitBtn.getQuitBtn());
         stage.addActor(startBtn.getStartBtn());
 
+        /*
         // LISTENERS FOR CLICK GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener(){
             @Override
@@ -123,6 +124,8 @@ public class MenuView extends SuperView{
                 menuController.startPressed();
             }
         });
+
+         */
 
         // LISTENERS FOR TOUCH GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
