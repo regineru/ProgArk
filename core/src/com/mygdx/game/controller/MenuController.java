@@ -27,7 +27,7 @@ public class MenuController {
     }
 
     public void helpPressed(){
-        vc.set(new HelpView(new HelpController(vc)));
+        vc.push(new HelpView(new HelpController(vc)));
     }
 
     public boolean multiplayerChecked(){ return vc.multiplayerChecked();}

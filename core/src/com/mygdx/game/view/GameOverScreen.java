@@ -65,6 +65,7 @@ public class GameOverScreen extends SuperView{
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
                 gameOverController.BackToMenu();
+                dispose();
             }
         });
 
@@ -74,6 +75,7 @@ public class GameOverScreen extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameOverController.BackToMenu();
+                dispose();
             }
         });
     }

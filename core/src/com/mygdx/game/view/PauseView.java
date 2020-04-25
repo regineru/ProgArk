@@ -119,6 +119,7 @@ public class PauseView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("continueGame is touched.");
                 pauseController.ContinueGame();
+                dispose();
             }
         });
 
@@ -127,6 +128,7 @@ public class PauseView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 pauseController.BackToMenu();
+                dispose();
             }
         });
 
