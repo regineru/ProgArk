@@ -11,7 +11,6 @@ import io.socket.emitter.Emitter;
 
 import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
-import com.mygdx.game.model.Player;
 import com.mygdx.game.view.MenuView;
 
 import org.json.JSONException;
@@ -22,15 +21,12 @@ import java.util.HashMap;
 public class ImpossibleGravity extends ApplicationAdapter {
 
 	private SpriteBatch batch;
-	private Socket socket;
 
 	public static final int WIDTH = 854; //width of the screen
 	public static final int HEIGHT = 480; //height of the screen
 	public static final String TITLE = "Impossible Gravity";
 
 	public static final float GRAVITY = -1;
-
-	HashMap<String, Player> players;
 
 	private ViewController vc;
 
@@ -40,65 +36,10 @@ public class ImpossibleGravity extends ApplicationAdapter {
 		vc = new ViewController();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		players = new HashMap<String, Player>();
-
-		connectSocket();
-		configSocketEvents();
-
 		vc.push(new MenuView(new MenuController(vc)));
 
 	}
 
-	public void connectSocket() {
-		try {
-			socket = IO.socket("http://localhost:8080");
-			socket.connect();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-
-	public void configSocketEvents() {
-		socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				Gdx.app.log("SocketIO", "Connected");
-			}
-		}).on("socketID", new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				JSONObject data = (JSONObject) args[0];
-				try {
-					String id = data.getString("id");
-					Gdx.app.log("SocketIO", "My ID: " + id);
-				} catch (JSONException e) {
-					Gdx.app.log("SocketIO", "Error getting ID");
-				}
-			}
-		}).on("newPlayer", new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				JSONObject data = (JSONObject) args[0];
-				try {
-					String id = data.getString("id");
-					Gdx.app.log("SocketIO", "New Player Connect: " + id);
-				} catch (JSONException e) {
-					Gdx.app.log("SocketIO", "Error getting New PlayerID");
-				}
-			}
-		}).on("playerDisconnected", new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				JSONObject data = (JSONObject) args[0];
-				try {
-					String id = data.getString("id");
-					Gdx.app.log("SocketIO", "New Player Connect: " + id);
-				} catch (JSONException e) {
-					Gdx.app.log("SocketIO", "Error getting New PlayerID");
-				}
-			}
-		});
-	}
 
 	@Override
 	public void render () {
