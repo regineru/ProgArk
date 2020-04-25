@@ -3,6 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
@@ -25,20 +26,18 @@ public class Character {
      * help attribute for update-method
      */
     private long increaseSpeedCounter;
+    private Animation playerAnimation;
 
     public Character() {
-        player = new Sprite(new Texture("player.png")); // placeholder
-        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth(), player.getHeight());
+        player = new Sprite(new Texture("playeranimation.png"));
+        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
+        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3, player.getHeight());
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
         jump = false;
+        playerAnimation = new Animation(new TextureRegion(player), 3, 0.4f);
         increaseSpeedCounter = System.currentTimeMillis();
         score = new Score();
-    }
-
-    public Sprite getSprite() {
-        return this.player;
     }
 
     public int getSpeed() {
@@ -71,9 +70,9 @@ public class Character {
     public void jump() {
         if (this.velocity.y == 0) {
             if (this.gravity < 0) {
-                this.velocity.add(0, 15, 0);
+                this.velocity.add(0, 18, 0);
             } else if (this.gravity > 0) {
-                this.velocity.add(0, -15, 0);
+                this.velocity.add(0, -18, 0);
             }
         }
     }
@@ -81,12 +80,17 @@ public class Character {
     /**
      * Called from controller based on user input. Makes the player switch gravity if swiped
      */
-    public void switchGravity(int deltaY) {
-        if (deltaY * this.gravity > 0 && this.velocity.y == 0) {
+    public void switchGravity(int direction) {
+        if (direction == 1 && this.gravity < 0) {
             this.gravity = -this.gravity;
-            this.player.flip(false, true);
+            this.playerAnimation.flip();
+        }
+        if (direction == 0 && this.gravity > 0) {
+            this.gravity = -this.gravity;
+            this.playerAnimation.flip();
         }
     }
+
 
     /**
      * Called on condition update-method. Increases player speed
@@ -94,6 +98,11 @@ public class Character {
     public void increaseSPEED() {
         this.SPEED += 10;
     }
+
+
+
+    public TextureRegion getSprite() {return playerAnimation.getFrame();}
+
 
     /**
      * Called from worlds update-method. Makes the player move in game world and makes sure the collision bounds follows and score is updated
@@ -103,6 +112,7 @@ public class Character {
      */
     public void update(float dt) {
 
+        playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0);
         score.update(dt);
 

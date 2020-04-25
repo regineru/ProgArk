@@ -75,10 +75,12 @@ public class World {
         grass.update(dt, camera);
         heaven.update(dt, camera);
 
+
         /**
          * Updates the ObstacleFactory to generate a new obstacle every 0,5 sec + random up tp 2 sec
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
+
         if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
             obstacleFactory.update(dt, camera, getCharacter(), getGrass());
             lastObstacle = System.currentTimeMillis();
