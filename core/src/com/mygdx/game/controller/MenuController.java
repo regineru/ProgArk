@@ -23,14 +23,17 @@ public class MenuController {
     }
 
     public void playGamePressed(){
-        vc.set(new PlayView(vc));
+        vc.set(new PlayView(vc, vc.multiplayerChecked()));
     }
 
     public void helpPressed(){
         vc.set(new HelpView(new HelpController(vc)));
     }
 
-    public void startPressed(){vc.set((new StartView(new StartController(vc))));}
+    public boolean multiplayerChecked(){ return vc.multiplayerChecked();}
 
+    public void toggleMultiplayer() {
+        vc.toggleMultiplayer();
 
+    }
 }

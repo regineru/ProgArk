@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
- * logic for all settings needed: Music enable and volume
+ * Logic for all settings needed: Music enable and volume
  */
 public class Settings {
 
@@ -17,7 +17,7 @@ public class Settings {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = Gdx.graphics.getHeight() / 18;
-        parameter.color = Color.BLACK; // can be changed to orange to match buttons
+        parameter.color = Color.BLACK;
         this.font = generator.generateFont(parameter);
         generator.dispose();
     }

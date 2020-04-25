@@ -1,12 +1,10 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -32,15 +30,21 @@ public class PlayView extends SuperView {
     private CharacterController pc;
     private Stage stage;
     private World world;
+    private boolean multiplayer;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    public PlayView(ViewController vc){
+    public PlayView(ViewController vc, boolean multiplayer){
 
         this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
+
+        //TODO fiks multiplayer
+        this.multiplayer = multiplayer;
+        System.out.println(multiplayer);
+
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
