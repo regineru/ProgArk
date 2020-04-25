@@ -83,8 +83,8 @@ public class PlayView extends SuperView {
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10){world.getCharacter().switchGravity(0);}
-                if (velocityY < -10){world.getCharacter().switchGravity(1);}
+                if (velocityY > 10) { world.getCharacter().switchGravity(0); }
+                if (velocityY < -10) { world.getCharacter().switchGravity(1); }
                 return true;
             }
         }));

@@ -42,7 +42,7 @@ public class ObstacleFactory {
         chosenWidth = chosenHeight * (70/30);
 
         if (chosenObstacle == 0) {
-            return new Lightning(character.getPosition().x + ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT, chosenWidth/4, chosenHeight*4);
+            return new Lightning(character.getPosition().x + ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT, chosenWidth/4, chosenHeight*3);
         } else if (chosenObstacle == 1 || chosenObstacle == 2) {
             return new Cactus(character.getPosition().x + ImpossibleGravity.WIDTH, grass.getGroundHeight()-10, chosenWidth, chosenHeight);
         }
