@@ -78,13 +78,13 @@ public class PlayView extends SuperView {
         multiplexer.addProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
             @Override
             public boolean tap(float x, float y, int count, int button) {
-                world.getCharacter().jump();
+                pc.touch(world.getCharacter());
                 return true;
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10) { world.getCharacter().switchGravity(0); }
-                if (velocityY < -10) { world.getCharacter().switchGravity(1); }
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
                 return true;
             }
         }));

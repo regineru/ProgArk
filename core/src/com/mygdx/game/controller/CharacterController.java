@@ -15,8 +15,8 @@ public class CharacterController {
         character.jump();
     }
 
-    public void swipe(Character character, int deltaY) {
-        character.switchGravity(deltaY);
+    public void swipe(Character character, int direction) {
+        character.switchGravity(direction);
     }
 
     public void gameOver(){
