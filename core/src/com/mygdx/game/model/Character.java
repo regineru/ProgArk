@@ -30,6 +30,7 @@ public class Character {
     private long increaseSpeedCounter;
     private Animation playerAnimation;
 
+    //TODO convert to sprite
 
     public Character() {
         player = new Sprite(new Texture("playeranimation.png"));

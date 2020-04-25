@@ -14,6 +14,13 @@ import com.mygdx.game.interactiveElements.PlayBtn;
 import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
 public class MenuView extends SuperView{
 
     protected MenuController menuController;
@@ -24,6 +31,9 @@ public class MenuView extends SuperView{
     private QuitBtn quitBtn;
     private SettingsBtn settingsBtn;
     private HelpBtn helpBtn;
+    private boolean online;
+
+    private Socket socket;
 
     //Constructor
     public MenuView(final MenuController menuController) {
@@ -33,6 +43,7 @@ public class MenuView extends SuperView{
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
         this.quitBtn = new QuitBtn();
+        this.online = false;
 
         int btnHeight = Gdx.graphics.getHeight() / 6;
         int btnWidth = btnHeight * 2;
@@ -52,6 +63,9 @@ public class MenuView extends SuperView{
                 (float)Gdx.graphics.getHeight() / 5 * 1, Align.center);
 
         this.stage = new Stage(new ScreenViewport());
+        if (online) {
+            // Place connection here
+        }
         startListeners();
 
     }
@@ -59,6 +73,7 @@ public class MenuView extends SuperView{
     @Override
     public void show(){
     }
+
 
     @Override
     public void startListeners() {
@@ -79,7 +94,7 @@ public class MenuView extends SuperView{
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
                 System.out.println("playBtn is clicked.");
-                menuController.playGamePressed();
+                menuController.playGamePressed(online);
             }
         });
 
@@ -113,7 +128,7 @@ public class MenuView extends SuperView{
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("playBtn is touched.");
-                menuController.playGamePressed();
+                menuController.playGamePressed(online);
             }
         });
 

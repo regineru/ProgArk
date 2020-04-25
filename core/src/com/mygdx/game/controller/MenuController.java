@@ -21,8 +21,8 @@ public class MenuController {
         vc.push(new SettingsView(new SettingsController(vc)));
     }
 
-    public void playGamePressed(){
-        vc.set(new PlayView(vc));
+    public void playGamePressed(boolean online){
+        vc.set(new PlayView(vc, online));
     }
 
     public void helpPressed(){
