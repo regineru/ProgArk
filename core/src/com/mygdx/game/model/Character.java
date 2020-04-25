@@ -31,7 +31,7 @@ public class Character {
     public Character() {
         player = new Sprite(new Texture("playeranimation.png"));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight());
+        bounds = new Rectangle(position.x, position.y + 5, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight() - 5);
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
         jump = false;
