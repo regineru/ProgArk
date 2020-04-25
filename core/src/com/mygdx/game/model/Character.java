@@ -70,9 +70,9 @@ public class Character {
     public void jump() {
         if (this.velocity.y == 0) {
             if (this.gravity < 0) {
-                this.velocity.add(0, 18, 0);
+                this.velocity.add(0, 18.5f, 0);
             } else if (this.gravity > 0) {
-                this.velocity.add(0, -18, 0);
+                this.velocity.add(0, -18.5f, 0);
             }
         }
     }
