@@ -142,6 +142,9 @@ public class PauseView extends SuperView{
     @Override
     public void dispose() {
         background.dispose();
+        menuBtn.dispose();
+        playBtn.dispose();
+        settingsBtn.dispose();
         System.out.println("Pause View Disposed");
     }
 }

@@ -22,4 +22,8 @@ public class SingleplayerBtn extends Actor {
     public Image getSingleplayerBtn(){
         return this.singleplayerBtn;
     }
+
+    public void dispose(){
+        singleTexture.dispose();
+    }
 }

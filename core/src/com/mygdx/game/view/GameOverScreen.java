@@ -104,5 +104,6 @@ public class GameOverScreen extends SuperView{
     @Override
     public void dispose() {
         System.out.println("Game Over View Disposed");
+        menuBtn.dispose();
     }
 }

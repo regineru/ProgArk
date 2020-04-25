@@ -67,6 +67,7 @@ public class LoadingScreen extends SuperView{
     @Override
     public void dispose() {
         background.dispose();
+        loadingBar.dispose();
         System.out.println("Loading View Disposed");
     }
 }

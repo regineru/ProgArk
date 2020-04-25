@@ -107,6 +107,7 @@ public class HelpView extends SuperView{
     public void dispose() {
         background.dispose();
         System.out.println("Help View Disposed");
+        menuBtn.dispose();
     }
 
 }
