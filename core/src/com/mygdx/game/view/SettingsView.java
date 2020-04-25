@@ -135,6 +135,7 @@ public class SettingsView extends SuperView{
     @Override
     public void dispose() {
         background.dispose();
+        menuBtn.dispose();
         System.out.println("Settings View Disposed");
     }
 

@@ -12,6 +12,7 @@ public class ViewController {
 
     private Stack<SuperView> views;
     public Settings sm;
+    public boolean multiplayer = false;
 
     public ViewController() {
         sm = new Settings();
@@ -44,5 +45,12 @@ public class ViewController {
         views.peek().render(sb);
     }
 
+    public void toggleMultiplayer(){
+        this.multiplayer = !this.multiplayer;
+    }
+
+    public boolean multiplayerChecked(){
+        return multiplayer;
+    }
 
 }

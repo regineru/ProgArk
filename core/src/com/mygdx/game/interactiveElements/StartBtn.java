@@ -21,5 +21,9 @@ public class StartBtn extends Actor {
         return this.startBtn;
     }
 
+    public void dispose(){
+        startTexture.dispose();
+    }
+
 
 }

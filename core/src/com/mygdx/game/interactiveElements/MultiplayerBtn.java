@@ -20,4 +20,8 @@ public class MultiplayerBtn extends Actor {
     public Image getMultiplayerBtn(){
         return this.multiplayerBtn;
     }
+
+    public void dispose(){
+        multiTexture.dispose();
+    }
 }

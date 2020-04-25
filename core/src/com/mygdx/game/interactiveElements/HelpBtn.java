@@ -20,4 +20,8 @@ public class HelpBtn extends Actor {
     public Image getHelpBtn(){
         return this.helpBtn;
     }
+
+    public void dispose(){
+        helpTexture.dispose();
+    }
 }

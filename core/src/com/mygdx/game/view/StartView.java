@@ -73,6 +73,8 @@ public class StartView extends SuperView {
     public void dispose() {
         stage.dispose();
         background.dispose();
+        multiplayerBtn.dispose();
+        singleplayerBtn.dispose();
         System.out.println("Start View Disposed");
 
     }
