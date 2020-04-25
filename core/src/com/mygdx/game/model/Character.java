@@ -81,13 +81,15 @@ public class Character {
      * Called from controller based on user input. Makes the player switch gravity if swiped
      */
     public void switchGravity(int direction) {
-        if (direction == 1 && this.gravity < 0) {
-            this.gravity = -this.gravity;
-            this.playerAnimation.flip();
-        }
-        if (direction == 0 && this.gravity > 0) {
-            this.gravity = -this.gravity;
-            this.playerAnimation.flip();
+        if (this.velocity.y == 0) {
+            if (direction == 1 && this.gravity < 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
+            if (direction == 0 && this.gravity > 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
         }
     }
 
