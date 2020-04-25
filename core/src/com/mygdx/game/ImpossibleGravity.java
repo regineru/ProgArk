@@ -4,9 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.controller.StartController;
+import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
-import com.mygdx.game.view.StartView;
+import com.mygdx.game.view.MenuView;
 
 public class ImpossibleGravity extends ApplicationAdapter {
 
@@ -25,7 +25,7 @@ public class ImpossibleGravity extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		vc = new ViewController();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		vc.push(new StartView(new StartController(vc)));
+		vc.push(new MenuView(new MenuController(vc)));
 	}
 
 	@Override
