@@ -81,7 +81,7 @@ public class World {
          * Checks the speed of character to make obstacle occurrence proportional with speed
          */
 
-        if (System.currentTimeMillis() - lastObstacle >= 500 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
+        if (System.currentTimeMillis() - lastObstacle >= 900 + obstacle_occurrence.nextInt((2000-character.getSpeed()))) {
             obstacleFactory.update(dt, camera, getCharacter(), getGrass());
             lastObstacle = System.currentTimeMillis();
         }

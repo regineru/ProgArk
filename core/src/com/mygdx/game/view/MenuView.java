@@ -97,9 +97,11 @@ public class MenuView extends SuperView{
         stage.addActor(quitBtn.getQuitBtn());
         stage.addActor(checkBox);
 
+
         /**
          * Listeners for click gestures to make the came work without touch screen
          */
+      /*
         playBtn.getPlayBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
@@ -139,8 +141,10 @@ public class MenuView extends SuperView{
             }
         });
 
+         */
+           
         /**
-         * Listeners for touch gestures to make the came work on touch screen
+         * Listeners for touch gestures to make the game work on touch screen
          */
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
