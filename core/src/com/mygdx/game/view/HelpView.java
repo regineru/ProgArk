@@ -59,15 +59,18 @@ public class HelpView extends SuperView{
 
         Gdx.input.setInputProcessor(stage);
         stage.addActor(menuBtn.getMenuBtn());
-
+        /*
         // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("menuBtn is clicked");
                 helpController.backToMenu();
+                dispose();
             }
         });
+        
+         */
 
         // LISTENERS FOR TAP GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
@@ -75,6 +78,7 @@ public class HelpView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 helpController.backToMenu();
+                dispose();
             }
         });
 
@@ -108,6 +112,7 @@ public class HelpView extends SuperView{
         background.dispose();
         System.out.println("Help View Disposed");
         menuBtn.dispose();
+        helpTexture.dispose();
     }
 
 }

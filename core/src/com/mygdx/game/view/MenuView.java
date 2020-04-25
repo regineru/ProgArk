@@ -151,6 +151,7 @@ public class MenuView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("playBtn is touched.");
                 menuController.playGamePressed();
+                dispose();
             }
         });
 

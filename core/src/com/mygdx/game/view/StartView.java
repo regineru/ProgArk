@@ -99,6 +99,7 @@ public class StartView extends SuperView {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
                 System.out.println("singleplayerBtn is clicked.");
                 startController.singlePlayerPressed();
+                dispose();
             }
         });
 
@@ -107,6 +108,7 @@ public class StartView extends SuperView {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button){
                 System.out.println("multiplayerBtn is clicked.");
                 startController.multiPlayerPressed();
+                dispose();
             }
         });
 
@@ -115,6 +117,7 @@ public class StartView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("singleplayerBtn is touched.");
                 startController.singlePlayerPressed();
+                dispose();
             }
         });
 
@@ -123,6 +126,7 @@ public class StartView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("multiplayerBtn is touched.");
                 startController.multiPlayerPressed();
+                dispose();
             }
         });
 

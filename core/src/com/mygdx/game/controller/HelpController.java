@@ -10,7 +10,7 @@ public class HelpController {
     }
 
     public void backToMenu(){
-        vc.set(new MenuView(new MenuController(vc)));
+        vc.pop();
     }
 
 }

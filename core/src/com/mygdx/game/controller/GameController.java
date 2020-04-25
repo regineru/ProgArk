@@ -28,7 +28,6 @@ public class GameController {
     }
 
     public void quitGame(){
-        world.dispose();
         vc.set(new MenuView(new MenuController(vc)));
     }
 

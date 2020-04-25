@@ -17,6 +17,8 @@ public class PauseController {
 
     public void BackToMenu(){
         world.dispose();
+        vc.pop();
+        vc.peek().dispose();
         vc.set(new MenuView(new MenuController(vc)));
     }
 
