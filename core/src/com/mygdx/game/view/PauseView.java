@@ -31,7 +31,6 @@ public class PauseView extends SuperView{
     // Constructor
     public PauseView(final PauseController pauseController) {
         this.pauseController = pauseController;
-        camera.setToOrtho(false, ImpossibleGravity.WIDTH / 2, ImpossibleGravity.HEIGHT / 2);
 
         this.playBtn = new PlayBtn();
         this.menuBtn = new MenuBtn();
@@ -72,7 +71,7 @@ public class PauseView extends SuperView{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.HEIGHT, ImpossibleGravity.HEIGHT);
+        sb.draw(background.getBackground(), 0, 0, ImpossibleGravity.WIDTH, ImpossibleGravity.HEIGHT);
         sb.end();
         stage.draw();
         stage.act();
@@ -94,7 +93,7 @@ public class PauseView extends SuperView{
         stage.addActor(playBtn.getPlayBtn());
         stage.addActor(menuBtn.getMenuBtn());
         stage.addActor(settingsBtn.getSettingsBtn());
-
+        /*
         // LISTENERS FOR CLICK GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
@@ -111,6 +110,8 @@ public class PauseView extends SuperView{
                 pauseController.BackToMenu();
             }
         });
+
+         */
 
         // LISTENERS FOR TOUCH GESTURES
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
@@ -141,6 +142,9 @@ public class PauseView extends SuperView{
     @Override
     public void dispose() {
         background.dispose();
+        menuBtn.dispose();
+        playBtn.dispose();
+        settingsBtn.dispose();
         System.out.println("Pause View Disposed");
     }
 }

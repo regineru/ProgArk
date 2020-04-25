@@ -10,8 +10,8 @@ public class LoadingController {
         this.vc = vc;
     }
 
-    //TODO Play view launches from here
     public void startGame(){
-        vc.set(new PlayView(vc, false));
+
+        vc.set(new PlayView(vc, vc.multiplayer));
     }
 }

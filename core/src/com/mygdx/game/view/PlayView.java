@@ -1,9 +1,12 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -40,18 +43,27 @@ public class PlayView extends SuperView {
     private CharacterController pc;
     private Stage stage;
     private World world;
+
     private HashMap<String, Character> characters;
-    private boolean online = false;
     private Socket socket;
+
+    private boolean multiplayer;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    public PlayView(ViewController vc, boolean online){
+
+    public PlayView(ViewController vc, boolean multiplayer){
 
         this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
+
+        //TODO fiks multiplayer
+        this.multiplayer = multiplayer;
+        this.multiplayer = true;
+        System.out.println(this.multiplayer);
+
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
@@ -73,7 +85,7 @@ public class PlayView extends SuperView {
                 Gdx.graphics.getHeight() - (float)btnHeight/4,
                 Align.topLeft);
 
-        if (online) {
+        if (this.multiplayer) {
             startOnline();
         }
         startListeners();
@@ -87,10 +99,26 @@ public class PlayView extends SuperView {
         pauseBtn.getPauseBtn().clearListeners();
         menuBtn.getMenuBtn().clearListeners();
 
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
+            @Override
+            public boolean tap(float x, float y, int count, int button) {
+                pc.touch(world.getCharacter());
+                return true;
+            }
+            @Override
+            public boolean fling(float velocityX, float velocityY, int button) {
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
+                return true;
+            }
+        }));
+        Gdx.input.setInputProcessor(multiplexer);
+
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
-
+        /*
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -106,6 +134,8 @@ public class PlayView extends SuperView {
                 gameController.pauseGame();
             }
         });
+
+         */
 
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
@@ -130,24 +160,7 @@ public class PlayView extends SuperView {
      */
     @Override
     protected void handleInput() {
-        int deltaY = swipe();
 
-        if (deltaY != 0) {
-            System.out.println(deltaY);
-            pc.swipe(world.getCharacter(), deltaY);
-        } else if (Gdx.input.justTouched()) {
-            pc.touch(world.getCharacter());
-        }
-    }
-
-    /**
-     * Description
-     */
-    public int swipe() {
-        if (Gdx.input.justTouched() && (Gdx.input.getDeltaY() > 10 || Gdx.input.getDeltaY() < -10)) {
-            return Gdx.input.getDeltaY();
-        }
-        return 0;
     }
 
     public void startOnline() {
@@ -158,7 +171,7 @@ public class PlayView extends SuperView {
 
     public void connectSocket() {
         try {
-            socket = IO.socket("http://localhost:8080");
+            socket = IO.socket("https://progark-server.herokuapp.com/");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
@@ -181,6 +194,7 @@ public class PlayView extends SuperView {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "My ID: " + id);
+                    Gdx.app.log("SocketIO","connected to heroku server");
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting ID");
                 }
@@ -276,6 +290,8 @@ public class PlayView extends SuperView {
     public void dispose(){
         background.dispose();
         world.dispose();
+        menuBtn.dispose();
+        pauseBtn.dispose();
         System.out.println("PlayView Disposed");
     }
 

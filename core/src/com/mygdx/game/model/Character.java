@@ -8,8 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.ImpossibleGravity;
 
-
-//TODO fix score and dt
 /**
  * The player containing the interaction logic and movement of player
  */
@@ -19,7 +17,6 @@ public class Character {
     private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
-    private boolean jump;
     private float gravity;
     private Vector3 velocity;
     private Score score;
@@ -30,16 +27,13 @@ public class Character {
     private long increaseSpeedCounter;
     private Animation playerAnimation;
 
-    //TODO convert to sprite
-
     public Character() {
         player = new Sprite(new Texture("playeranimation.png"));
-        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 2, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth() / 2, player.getHeight());
+        position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
+        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight());
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
-        jump = false;
-        playerAnimation = new Animation(new TextureRegion(player), 2, 0.4f);
+        playerAnimation = new Animation(new TextureRegion(player), 3, 0.4f);
         increaseSpeedCounter = System.currentTimeMillis();
         score = new Score();
     }
@@ -48,7 +42,7 @@ public class Character {
         return SPEED;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score.getScore();
     }
 
@@ -74,9 +68,9 @@ public class Character {
     public void jump() {
         if (this.velocity.y == 0) {
             if (this.gravity < 0) {
-                this.velocity.add(0, 15, 0);
+                this.velocity.add(0, 18.5f, 0);
             } else if (this.gravity > 0) {
-                this.velocity.add(0, -15, 0);
+                this.velocity.add(0, -18.5f, 0);
             }
         }
     }
@@ -84,10 +78,16 @@ public class Character {
     /**
      * Called from controller based on user input. Makes the player switch gravity if swiped
      */
-    public void switchGravity(int deltaY) {
-        if (deltaY * this.gravity > 0 && this.velocity.y == 0) {
-            this.gravity = -this.gravity;
-            this.player.flip(false, true);
+    public void switchGravity(int direction) {
+        if (this.velocity.y == 0) {
+            if (direction == 1 && this.gravity < 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
+            if (direction == 0 && this.gravity > 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
         }
     }
 
@@ -114,7 +114,7 @@ public class Character {
 
         playerAnimation.update(dt);
         position.add(SPEED * dt, 0, 0);
-        score.update();
+        score.update(dt);
 
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
@@ -139,5 +139,6 @@ public class Character {
 
     public void dispose() {
         this.player.getTexture().dispose();
+        score.dispose();
     }
 }

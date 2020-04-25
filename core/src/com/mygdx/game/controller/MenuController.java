@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.mygdx.game.view.HelpView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
+import com.mygdx.game.view.StartView;
 
 public class MenuController {
 
@@ -21,13 +22,19 @@ public class MenuController {
         vc.push(new SettingsView(new SettingsController(vc)));
     }
 
-    public void playGamePressed(boolean online){
-        vc.set(new PlayView(vc, online));
+    public void playGamePressed(){
+        vc.set(new PlayView(vc, vc.multiplayerChecked()));
+
     }
 
     public void helpPressed(){
         vc.set(new HelpView(new HelpController(vc)));
     }
 
+    public boolean multiplayerChecked(){ return vc.multiplayerChecked();}
 
+    public void toggleMultiplayer() {
+        vc.toggleMultiplayer();
+
+    }
 }
