@@ -43,7 +43,7 @@ public class MenuView extends SuperView{
         this.settingsBtn = new SettingsBtn();
         this.helpBtn = new HelpBtn();
         this.quitBtn = new QuitBtn();
-        this.settings = new Settings();
+        this.settings = Settings.getInstance();
 
         int btnHeight = Gdx.graphics.getHeight() / 6;
         int btnWidth = btnHeight * 2;

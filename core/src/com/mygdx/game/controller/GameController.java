@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.model.Settings;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.GameOverScreen;
 import com.mygdx.game.view.MenuView;
@@ -13,7 +14,7 @@ public class GameController {
     public GameController(ViewController vc, World world) {
         this.vc = vc;
         this.world = world;
-        if (vc.sm.gameMusicIsEnabled()) {
+        if (Settings.getInstance().gameMusicIsEnabled()) {
             world.playMusic();
         }
     }
