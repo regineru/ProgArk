@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.model.Settings;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.MenuView;
 import com.mygdx.game.view.PlayView;
@@ -23,7 +24,7 @@ public class PauseController {
     }
 
     public void ContinueGame(){
-        if (vc.sm.gameMusicIsEnabled()){
+        if (Settings.getInstance().gameMusicIsEnabled()){
             world.playMusic();
         }
         vc.pop();
