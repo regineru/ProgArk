@@ -188,6 +188,11 @@ public class MenuView extends SuperView{
 
     @Override
     public void dispose() {
+        playBtn.dispose();
+        quitBtn.dispose();
+        settingsBtn.dispose();
+        helpBtn.dispose();
+        startBtn.dispose();
         stage.dispose();
         background.dispose();
         System.out.println("Menu View Disposed");

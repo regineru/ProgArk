@@ -188,6 +188,8 @@ public class PlayView extends SuperView {
     public void dispose(){
         background.dispose();
         world.dispose();
+        menuBtn.dispose();
+        pauseBtn.dispose();
         System.out.println("PlayView Disposed");
     }
 
