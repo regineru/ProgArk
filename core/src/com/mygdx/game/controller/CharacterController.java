@@ -2,7 +2,7 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Character;
 import com.mygdx.game.view.GameOverView;
-
+ 
 public class CharacterController {
 
     private ViewController vc;
