@@ -16,7 +16,6 @@ import com.mygdx.game.controller.CharacterController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.interactiveElements.MenuBtn;
 import com.mygdx.game.interactiveElements.PauseBtn;
-import com.mygdx.game.model.Enemy;
 import com.mygdx.game.model.Obstacle;
 import com.mygdx.game.model.World;
 
@@ -36,13 +35,12 @@ public class PlayView extends SuperView {
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    public PlayView(ViewController vc, boolean multiplayer, Enemy enemy){
 
-        this.world = new World(enemy);
+    public PlayView(ViewController vc, boolean multiplayer) {
+        this.world = new World();
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
 
-        //TODO fiks multiplayer
         this.multiplayer = multiplayer;
         System.out.println(multiplayer);
 
