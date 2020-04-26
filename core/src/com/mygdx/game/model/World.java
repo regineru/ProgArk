@@ -3,6 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
 import java.util.Random;
 
@@ -28,7 +29,7 @@ public class World {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
-        character = new Character();
+        character = new Character("playeranimation.png");
         music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
         music.setLooping(true);
 

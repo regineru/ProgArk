@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Vector3;
@@ -44,7 +45,8 @@ public class PlayView extends SuperView {
     private Stage stage;
     private World world;
 
-    private HashMap<String, Character> characters;
+    // private HashMap<String, Character> enemyCharacters;
+
     private Socket socket;
 
     private boolean multiplayer;
@@ -164,14 +166,16 @@ public class PlayView extends SuperView {
     }
 
     public void startOnline() {
-        characters = new HashMap<String, Character>();
+        // enemyCharacters = new HashMap<String, Character>();
+
         connectSocket();
         configSocketEvents();
     }
 
     public void connectSocket() {
         try {
-            socket = IO.socket("https://progark-server.herokuapp.com/");
+            // socket = IO.socket("https://progark-server.herokuapp.com/");
+            socket = IO.socket("https://localhost:8080");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
@@ -216,7 +220,7 @@ public class PlayView extends SuperView {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
-                    characters.remove(id);
+                   // enemyCharacters.remove(id);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
                 }
@@ -227,7 +231,7 @@ public class PlayView extends SuperView {
                 JSONArray objects = (JSONArray) args[0];
                 try {
                     for (int i = 0; i < objects.length(); i++) {
-                        Character externalPlayer = new Character();
+                        Character externalPlayer = new Character("playeranimation_multi.png");
                         Vector3 position = new Vector3();
                         position.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
                         position.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
