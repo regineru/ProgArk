@@ -18,6 +18,7 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
+
     private Character enemy;
     private boolean enemyExists = false;
 
@@ -31,15 +32,15 @@ public class World {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
+
         character = new Character("playeranimation.png");
-        // this.enemy = enemy;
+
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
-
         lastObstacle = System.currentTimeMillis();
         obstacle_occurrence = new Random();
-
     }
+
     public ObstacleFactory getObstacleFactory(){
         return obstacleFactory;
     }
@@ -114,7 +115,6 @@ public class World {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
-                character.setDead();
                 //TODO save score to HighScore
                 gameController.GameOver();
             }

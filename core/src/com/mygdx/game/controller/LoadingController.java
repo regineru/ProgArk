@@ -1,7 +1,6 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Character;
-import com.mygdx.game.model.Enemy;
 import com.mygdx.game.view.PlayView;
 
 public class LoadingController {
@@ -14,6 +13,6 @@ public class LoadingController {
 
     public void startGame(){
 
-        vc.set(new PlayView(vc, vc.multiplayer)); //TODO Ememy skal være fra server
+        vc.set(new PlayView(vc, vc.multiplayer));
     }
 }
