@@ -3,10 +3,10 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Vector3;
+
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,12 +44,11 @@ public class PlayView extends SuperView {
     private CharacterController pc;
     private Stage stage;
     private World world;
+    private boolean multiplayer;
 
     // private HashMap<String, Character> enemyCharacters;
 
     private Socket socket;
-
-    private boolean multiplayer;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
@@ -63,6 +62,7 @@ public class PlayView extends SuperView {
 
         //TODO fiks multiplayer
         this.multiplayer = multiplayer;
+
         this.multiplayer = true;
         System.out.println(this.multiplayer);
 
@@ -94,7 +94,7 @@ public class PlayView extends SuperView {
     }
 
     /**
-     * Description
+     * Listeners for touch gestures to notice input from the user
      */
     public void startListeners(){
 
@@ -123,19 +123,21 @@ public class PlayView extends SuperView {
         /*
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                gameController.quitGame();
+            public boolean tap(float x, float y, int count, int button) {
+                pc.touch(world.getCharacter());
+                return true;
             }
-        });
-
-        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
             @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("pauseBtn is clicked");
-                gameController.pauseGame();
+            public boolean fling(float velocityX, float velocityY, int button) {
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
+                return true;
             }
-        });
+        }));
+        Gdx.input.setInputProcessor(multiplexer);
+
+        stage.addActor(pauseBtn.getPauseBtn());
+        stage.addActor(menuBtn.getMenuBtn());
 
          */
 
@@ -152,6 +154,7 @@ public class PlayView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameController.quitGame();
+                dispose();
             }
         });
     }
@@ -162,7 +165,6 @@ public class PlayView extends SuperView {
      */
     @Override
     protected void handleInput() {
-
     }
 
     public void startOnline() {
@@ -244,7 +246,9 @@ public class PlayView extends SuperView {
         });
     }
     /**
-     * Description
+     * Update method handles input from user, calls all textures update-methods and maked camera follow player
+     *
+     * @param dt Delta time
      */
     @Override
     public void update(float dt) {

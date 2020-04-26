@@ -13,17 +13,19 @@ import com.mygdx.game.controller.MenuController;
 import com.mygdx.game.controller.ViewController;
 import com.mygdx.game.view.MenuView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.HashMap;
+/**
+ * Main class to run the application
+ * Defines the dimensions of the game along with the game name "Impossible Gravity"
+ * Creates a ViewController as the supreme controller class and a new MenuView as first screen shown to user
+ */
 
 public class ImpossibleGravity extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
-	public static final int WIDTH = 854; //width of the screen
-	public static final int HEIGHT = 480; //height of the screen
+	public static final int WIDTH = 854;
+	public static final int HEIGHT = 480;
 	public static final String TITLE = "Impossible Gravity";
 
 	public static final float GRAVITY = -1;
