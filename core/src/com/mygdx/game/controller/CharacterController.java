@@ -1,7 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Character;
-import com.mygdx.game.view.GameOverScreen;
+import com.mygdx.game.view.GameOverView;
 
 public class CharacterController {
 
@@ -20,7 +20,7 @@ public class CharacterController {
     }
 
     public void gameOver(){
-        vc.set(new GameOverScreen(new GameOverController(vc)));
+        vc.set(new GameOverView(new GameOverController(vc)));
     }
 
 

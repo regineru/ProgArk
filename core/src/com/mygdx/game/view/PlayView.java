@@ -70,7 +70,7 @@ public class PlayView extends SuperView {
     }
 
     /**
-     * Description
+     * Listeners for touch gestures to notice input from the user
      */
     public void startListeners(){
 
@@ -96,24 +96,6 @@ public class PlayView extends SuperView {
 
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
-        /*
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                gameController.quitGame();
-            }
-        });
-
-        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("pauseBtn is clicked");
-                gameController.pauseGame();
-            }
-        });
-
-         */
 
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
@@ -143,7 +125,9 @@ public class PlayView extends SuperView {
     }
 
     /**
-     * Description
+     * Update method handles input from user, calls all textures update-methods and maked camera follow player
+     *
+     * @param dt Delta time
      */
     @Override
     public void update(float dt) {

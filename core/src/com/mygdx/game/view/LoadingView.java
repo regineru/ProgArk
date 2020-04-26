@@ -9,29 +9,18 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.LoadingController;
-// LoadingScreen can be displayed when a while-loop is true in another controller.
-
-public class LoadingScreen extends SuperView{
+/**
+ * View for loanding screen while waiting to connect with another player in multiplayer mode
+ * LoadingScreen can be displayed when a while-loop is true in another controller
+ */
+public class LoadingView extends SuperView{
 
     protected LoadingController loadingController;
     private Stage stage;
     private Texture loadingBar;
     private Image loadingBarImage;
 
-    @Override
-    public void show(){
-
-    }
-
-    @Override
-    public void startListeners() {
-        Gdx.input.setInputProcessor(stage);
-        stage.addActor(loadingBarImage);
-
-    }
-
-    // Constructor
-    public LoadingScreen(final LoadingController loadingController){
+    public LoadingView(final LoadingController loadingController){
 
         this.loadingController = loadingController;
         this.loadingBar = new Texture("loadingBar.png");
@@ -41,6 +30,21 @@ public class LoadingScreen extends SuperView{
         loadingBarImage.setSize((float) Gdx.graphics.getWidth() / 10 * 7, (float)Gdx.graphics.getHeight() / 2);
         loadingBarImage.setPosition((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
         //startListeners();
+    }
+
+    @Override
+    public void show(){
+
+    }
+
+    /**
+     * Listeners for touch gestures and checkbox to notice input from the user
+     */
+    @Override
+    public void startListeners() {
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(loadingBarImage);
+
     }
 
     @Override
@@ -54,7 +58,6 @@ public class LoadingScreen extends SuperView{
     }
 
     @Override
-    // Draws background, the loading texture.
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();

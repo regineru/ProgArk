@@ -13,17 +13,18 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ImpossibleGravity;
 import com.mygdx.game.controller.GameOverController;
 import com.mygdx.game.interactiveElements.MenuBtn;
-// Here we need the game instance import!
 
-public class GameOverScreen extends SuperView{
+/**
+ * View for game over screen shown when a player loses (hits an obstacle)
+ */
+public class GameOverView extends SuperView{
     protected GameOverController gameOverController;
     private Stage stage;
     private MenuBtn menuBtn;
     private Texture gameOver;
     private Image gameOverImage;
 
-    // Constructor
-    public GameOverScreen(final GameOverController gameOverController) {
+    public GameOverView(final GameOverController gameOverController) {
         this.gameOverController = gameOverController;
         this.menuBtn = new MenuBtn();
 
@@ -50,6 +51,9 @@ public class GameOverScreen extends SuperView{
     public void show(){
     }
 
+    /**
+     * Listeners for touch gestures to notice input from the user
+     */
     @Override
     public void startListeners() {
 
@@ -59,7 +63,6 @@ public class GameOverScreen extends SuperView{
         stage.addActor(menuBtn.getMenuBtn());
         stage.addActor(gameOverImage);
 
-        // LISTENERS FOR CLICK GESTURES
         menuBtn.getMenuBtn().addListener(new ActorGestureListener(){
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -69,7 +72,9 @@ public class GameOverScreen extends SuperView{
             }
         });
 
-        // LISTENERS FOR TAP GESTURES
+        /**
+         * Listeners for touch gestures to make the game work on touch screen
+         */
         menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {

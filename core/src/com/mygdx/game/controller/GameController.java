@@ -2,7 +2,7 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Settings;
 import com.mygdx.game.model.World;
-import com.mygdx.game.view.GameOverScreen;
+import com.mygdx.game.view.GameOverView;
 import com.mygdx.game.view.MenuView;
 import com.mygdx.game.view.PauseView;
 
@@ -20,7 +20,7 @@ public class GameController {
     }
 
     public void GameOver(){
-        vc.set(new GameOverScreen(new GameOverController(vc)));
+        vc.set(new GameOverView(new GameOverController(vc)));
     }
 
     public void pauseGame(){

@@ -21,6 +21,9 @@ import com.mygdx.game.interactiveElements.QuitBtn;
 import com.mygdx.game.interactiveElements.SettingsBtn;
 import com.mygdx.game.model.Settings;
 
+/**
+ * View for menu screen with different buttons to choose action
+ */
 public class MenuView extends SuperView{
 
     protected MenuController menuController;
@@ -82,6 +85,9 @@ public class MenuView extends SuperView{
     public void show(){
     }
 
+    /**
+     * Listeners for touch gestures and checkbox to notice input from the user
+     */
     @Override
     public void startListeners() {
 
@@ -97,55 +103,6 @@ public class MenuView extends SuperView{
         stage.addActor(quitBtn.getQuitBtn());
         stage.addActor(checkBox);
 
-
-        /**
-         * Listeners for click gestures to make the came work without touch screen
-         */
-      /*
-        playBtn.getPlayBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button){
-                System.out.println("playBtn is clicked.");
-                menuController.playGamePressed();
-            }
-        });
-
-        settingsBtn.getSettingsBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("settingsBtn is clicked.");
-                menuController.settingsPressed();
-            }
-        });
-
-        helpBtn.getHelpBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("helpBtn is clicked.");
-                menuController.helpPressed();
-
-            }
-        });
-
-        quitBtn.getQuitBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("quitBtn is clicked");
-                menuController.quit();
-            }
-        });
-
-        checkBox.addListener(new ChangeListener() {
-            public void changed (ChangeEvent event, Actor actor) {
-                menuController.toggleMultiplayer();
-            }
-        });
-
-         */
-           
-        /**
-         * Listeners for touch gestures to make the game work on touch screen
-         */
         playBtn.getPlayBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
@@ -176,6 +133,12 @@ public class MenuView extends SuperView{
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("quitBtn is touched.");
                 menuController.quit();
+            }
+        });
+
+        checkBox.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                menuController.toggleMultiplayer();
             }
         });
 
