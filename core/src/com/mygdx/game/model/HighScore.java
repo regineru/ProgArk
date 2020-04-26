@@ -47,9 +47,6 @@ public class HighScore {
                 Gson gson = new Gson();
                 FileHandle file = Gdx.files.local("highscores.json");
                 String jsonFileString = file.readString();
-                System.out.println("LESE ===================");
-                System.out.println(jsonFileString);
-                System.out.println("LESE ===================");
                 // BufferedReader reader = new BufferedReader(new FileReader());
                 Type highScoreListType = new TypeToken<ArrayList<Double>>(){}.getType();
                 return gson.fromJson(jsonFileString, highScoreListType);
@@ -60,7 +57,6 @@ public class HighScore {
         }
 
         public void writeHighScoreToFile(ArrayList<Double> scores) {
-            System.out.println(scores);
             Gson gson = new Gson();
             try {
                 //BufferedWriter writer = new BufferedWriter(new FileWriter(fileLocation));
@@ -74,7 +70,6 @@ public class HighScore {
         }
 
         public void addScoreToHighScore(Double newScore) {
-            System.out.println(newScore);
             ArrayList<Double> currentScores = loadHighScoreFromFile();
             if (shouldScoreBeAdded(currentScores, newScore)) {
                 int indexToAddOn = -1;
