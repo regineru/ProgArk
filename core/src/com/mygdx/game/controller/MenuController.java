@@ -1,6 +1,8 @@
 package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.model.Character;
+import com.mygdx.game.model.Enemy;
 import com.mygdx.game.view.HelpView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
@@ -23,7 +25,7 @@ public class MenuController {
     }
 
     public void playGamePressed(){
-        vc.set(new PlayView(vc, vc.multiplayerChecked()));
+        vc.set(new PlayView(vc, vc.multiplayerChecked(), new Enemy(new Character()))); //TODO Enemy should be from serber
     }
 
     public void helpPressed(){
