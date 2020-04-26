@@ -29,7 +29,7 @@ public class LoadingView extends SuperView{
 
         loadingBarImage.setSize((float) Gdx.graphics.getWidth() / 10 * 7, (float)Gdx.graphics.getHeight() / 2);
         loadingBarImage.setPosition((float)Gdx.graphics.getWidth() / 2, (float)Gdx.graphics.getHeight() / 5 * 3, Align.center);
-        startListeners();
+        //startListeners();
     }
 
     @Override

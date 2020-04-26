@@ -23,7 +23,7 @@ public final class Settings {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Retro Gaming.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = Gdx.graphics.getHeight() / 18;
-        parameter.color = Color.valueOf("#ff6f00"); // can be changed to orange to match buttons
+        parameter.color = Color.BLACK;
         this.font = generator.generateFont(parameter);
         generator.dispose();
     }
