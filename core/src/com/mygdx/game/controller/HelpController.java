@@ -1,7 +1,5 @@
 package com.mygdx.game.controller;
 
-import com.mygdx.game.view.MenuView;
-
 public class HelpController {
 
     private ViewController vc;
