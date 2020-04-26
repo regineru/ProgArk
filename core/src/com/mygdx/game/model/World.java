@@ -29,7 +29,7 @@ public class World {
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
         character = new Character();
-        music = Gdx.audio.newMusic(Gdx.files.internal("marioTrack.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
 
         lastObstacle = System.currentTimeMillis();
