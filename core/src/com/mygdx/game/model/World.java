@@ -17,6 +17,7 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
+    private Enemy enemy;
 
     /**
      *  Help attributes for update-method
@@ -24,11 +25,12 @@ public class World {
     private long lastObstacle;
     private Random obstacle_occurrence;
 
-    public World() {
+    public World(Enemy enemy) {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
         character = new Character();
+        this.enemy = enemy;
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
 
@@ -50,6 +52,10 @@ public class World {
 
     public Character getCharacter(){
         return character;
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
     }
 
     public void playMusic(){music.play();}
@@ -94,6 +100,7 @@ public class World {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
+                character.setDead();
                 //TODO save score to HighScore
                 gameController.GameOver();
             }

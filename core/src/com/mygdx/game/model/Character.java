@@ -21,6 +21,7 @@ public class Character {
     private float gravity;
     private Vector3 velocity;
     private Score score;
+    private boolean isDead = false;
 
     /**
      * help attribute for update-method
@@ -62,6 +63,14 @@ public class Character {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public void setDead() {
+        isDead = true;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     /**
