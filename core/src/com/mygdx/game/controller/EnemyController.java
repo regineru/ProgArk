@@ -13,7 +13,7 @@ public class EnemyController {
         this.vc = vc;
     }
 
-    public boolean isDead() {
+    public void isDead() {
 
     }
 }

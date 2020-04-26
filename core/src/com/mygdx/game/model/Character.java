@@ -32,7 +32,7 @@ public class Character {
     public Character() {
         player = new Sprite(new Texture("playeranimation.png"));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3, player.getHeight());
+        bounds = new Rectangle(position.x, position.y + 5, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight() - 5);
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
         jump = false;
@@ -79,9 +79,9 @@ public class Character {
     public void jump() {
         if (this.velocity.y == 0) {
             if (this.gravity < 0) {
-                this.velocity.add(0, 18, 0);
+                this.velocity.add(0, 18.5f, 0);
             } else if (this.gravity > 0) {
-                this.velocity.add(0, -18, 0);
+                this.velocity.add(0, -18.5f, 0);
             }
         }
     }
@@ -90,13 +90,15 @@ public class Character {
      * Called from controller based on user input. Makes the player switch gravity if swiped
      */
     public void switchGravity(int direction) {
-        if (direction == 1 && this.gravity < 0) {
-            this.gravity = -this.gravity;
-            this.playerAnimation.flip();
-        }
-        if (direction == 0 && this.gravity > 0) {
-            this.gravity = -this.gravity;
-            this.playerAnimation.flip();
+        if (this.velocity.y == 0) {
+            if (direction == 1 && this.gravity < 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
+            if (direction == 0 && this.gravity > 0) {
+                this.gravity = -this.gravity;
+                this.playerAnimation.flip();
+            }
         }
     }
 

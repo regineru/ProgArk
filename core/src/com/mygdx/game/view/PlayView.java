@@ -1,12 +1,10 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -33,15 +31,21 @@ public class PlayView extends SuperView {
     private CharacterController pc;
     private Stage stage;
     private World world;
+    private boolean multiplayer;
 
     private MenuBtn menuBtn;
     private PauseBtn pauseBtn;
 
-    public PlayView(ViewController vc, Enemy enemy){
+    public PlayView(ViewController vc, boolean multiplayer, Enemy enemy){
 
         this.world = new World(enemy);
         this.gameController = new GameController(vc, world);
         this.pc = new CharacterController(vc);
+
+        //TODO fiks multiplayer
+        this.multiplayer = multiplayer;
+        System.out.println(multiplayer);
+
         this.pauseBtn = new PauseBtn();
         this.menuBtn = new MenuBtn();
 
@@ -67,7 +71,7 @@ public class PlayView extends SuperView {
     }
 
     /**
-     * Description
+     * Listeners for touch gestures to notice input from the user
      */
     public void startListeners(){
 
@@ -79,13 +83,13 @@ public class PlayView extends SuperView {
         multiplexer.addProcessor(new GestureDetector(new GestureDetector.GestureAdapter() {
             @Override
             public boolean tap(float x, float y, int count, int button) {
-                world.getCharacter().jump();
+                pc.touch(world.getCharacter());
                 return true;
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
-                if (velocityY > 10){world.getCharacter().switchGravity(0);}
-                if (velocityY < -10){world.getCharacter().switchGravity(1);}
+                if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
+                if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
                 return true;
             }
         }));
@@ -93,24 +97,6 @@ public class PlayView extends SuperView {
 
         stage.addActor(pauseBtn.getPauseBtn());
         stage.addActor(menuBtn.getMenuBtn());
-        /*
-        menuBtn.getMenuBtn().addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("menuBtn is clicked");
-                gameController.quitGame();
-            }
-        });
-
-        pauseBtn.getPauseBtn().addListener(new ActorGestureListener(){
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("pauseBtn is clicked");
-                gameController.pauseGame();
-            }
-        });
-
-         */
 
         pauseBtn.getPauseBtn().addListener(new ActorGestureListener() {
             @Override
@@ -125,6 +111,7 @@ public class PlayView extends SuperView {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("menuBtn is touched.");
                 gameController.quitGame();
+                dispose();
             }
         });
     }
@@ -139,7 +126,9 @@ public class PlayView extends SuperView {
     }
 
     /**
-     * Description
+     * Update method handles input from user, calls all textures update-methods and maked camera follow player
+     *
+     * @param dt Delta time
      */
     @Override
     public void update(float dt) {
@@ -189,6 +178,8 @@ public class PlayView extends SuperView {
     public void dispose(){
         background.dispose();
         world.dispose();
+        menuBtn.dispose();
+        pauseBtn.dispose();
         System.out.println("PlayView Disposed");
     }
 
