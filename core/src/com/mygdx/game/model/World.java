@@ -17,6 +17,7 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
+    private HighScore highScore = new HighScore();
 
     /**
      *  Help attributes for update-method
@@ -94,6 +95,8 @@ public class World {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
+                double score = character.getScore();
+                highScore.addScoreToHighScore(score);
                 //TODO save score to HighScore
                 gameController.GameOver();
             }

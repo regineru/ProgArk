@@ -2,6 +2,7 @@ package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.view.HelpView;
+import com.mygdx.game.view.HighscoreView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.SettingsView;
 import com.mygdx.game.view.StartView;
@@ -31,6 +32,8 @@ public class MenuController {
     }
 
     public void startPressed(){vc.set((new StartView(new StartController(vc))));}
+
+    public void highscorePressed(){vc.set((new HighscoreView(new HighScoreController(vc))));}
 
 
 }
