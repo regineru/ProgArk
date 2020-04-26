@@ -17,9 +17,11 @@ public class Character {
     private Sprite player;
     private Vector3 position;
     private Rectangle bounds;
+    private boolean jump;
     private float gravity;
     private Vector3 velocity;
     private Score score;
+    private boolean isDead = false;
 
     /**
      * help attribute for update-method
@@ -27,12 +29,13 @@ public class Character {
     private long increaseSpeedCounter;
     private Animation playerAnimation;
 
-    public Character(String texturePath) {
-        player = new Sprite(new Texture(texturePath));
+    public Character() {
+        player = new Sprite(new Texture("playeranimation.png"));
         position = new Vector3(ImpossibleGravity.WIDTH / 2 - player.getWidth() / 3, -ImpossibleGravity.HEIGHT / 2, 0);
-        bounds = new Rectangle(position.x, position.y, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight());
+        bounds = new Rectangle(position.x, position.y + 5, player.getWidth() / 3 - (player.getWidth()/3)/6 , player.getHeight() - 5);
         gravity = ImpossibleGravity.GRAVITY; // set gravity to global value
         velocity = new Vector3(1, 0, 0);
+        jump = false;
         playerAnimation = new Animation(new TextureRegion(player), 3, 0.4f);
         increaseSpeedCounter = System.currentTimeMillis();
         score = new Score();
@@ -60,6 +63,14 @@ public class Character {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public void setDead() {
+        isDead = true;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     /**
