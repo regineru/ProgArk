@@ -3,6 +3,7 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.controller.GameController;
 import java.util.Random;
 
@@ -17,7 +18,10 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
-    private Enemy enemy;
+    private HighScore highScore = new HighScore();
+
+    private Character enemy;
+    private boolean enemyExists = false;
 
     /**
      *  Help attributes for update-method
@@ -25,19 +29,19 @@ public class World {
     private long lastObstacle;
     private Random obstacle_occurrence;
 
-    public World(Enemy enemy) {
+    public World() {
         grass = new Grass();
         heaven = new Heaven();
         obstacleFactory = new ObstacleFactory();
-        character = new Character();
-        this.enemy = enemy;
+
+        character = new Character("playeranimation.png");
+
         music = Gdx.audio.newMusic(Gdx.files.internal("offLimits.wav"));
         music.setLooping(true);
-
         lastObstacle = System.currentTimeMillis();
         obstacle_occurrence = new Random();
-
     }
+
     public ObstacleFactory getObstacleFactory(){
         return obstacleFactory;
     }
@@ -54,8 +58,17 @@ public class World {
         return character;
     }
 
-    public Enemy getEnemy() {
+    public void createEnemy() {
+        this.enemy = new Character("playeranimation_multi.png");
+        this.enemyExists = true;
+    }
+
+    public Character getEnemy() {
         return enemy;
+    }
+
+    public boolean doesEnemyExists() {
+        return this.enemyExists;
     }
 
     public void playMusic(){music.play();}
@@ -78,6 +91,9 @@ public class World {
 
     public void update(float dt, OrthographicCamera camera, GameController gameController) {
         character.update(dt);
+        if (enemyExists) {
+            enemy.update(dt);
+        }
         grass.update(dt, camera);
         heaven.update(dt, camera);
 
@@ -100,7 +116,8 @@ public class World {
             obstacle.update(dt);
             if (obstacle.collides(character.getBounds())) {
                 stopMusic();
-                character.setDead();
+                double score = character.getScore();
+                highScore.addScoreToHighScore(score);
                 //TODO save score to HighScore
                 gameController.GameOver();
             }
@@ -109,6 +126,7 @@ public class World {
 
     public void dispose() {
         character.dispose();
+        enemy.dispose();
         music.dispose();
         grass.dispose();
         heaven.dispose();

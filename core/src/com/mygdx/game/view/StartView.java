@@ -12,10 +12,12 @@ import com.mygdx.game.controller.StartController;
 import com.mygdx.game.interactiveElements.MultiplayerBtn;
 import com.mygdx.game.interactiveElements.SingleplayerBtn;
 
+
 /**
  * View for a start screen shown before the menu screen
  * Not used as of now. Logic for an alternative menu-solution that was changed
  */
+
 public class StartView extends SuperView {
 
     protected StartController startController;
@@ -79,9 +81,11 @@ public class StartView extends SuperView {
 
     }
 
+
     /**
      * Listeners for touch gestures to notice input from the user
      */
+
     @Override
     public void startListeners() {
 
@@ -92,12 +96,14 @@ public class StartView extends SuperView {
         stage.addActor(singleplayerBtn.getSingleplayerBtn());
         stage.addActor(multiplayerBtn.getMultiplayerBtn());
 
+
         singleplayerBtn.getSingleplayerBtn().addListener(new ActorGestureListener() {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 System.out.println("singleplayerBtn is touched.");
                 startController.singlePlayerPressed();
                 dispose();
+
             }
         });
 

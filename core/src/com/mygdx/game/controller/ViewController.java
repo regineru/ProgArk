@@ -9,6 +9,7 @@ import java.util.Stack;
 public class ViewController {
 
     private Stack<SuperView> views;
+
     public boolean multiplayer = false;
 
     public ViewController() {
