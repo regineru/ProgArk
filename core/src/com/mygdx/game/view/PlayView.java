@@ -45,6 +45,7 @@ public class PlayView extends SuperView {
     private Stage stage;
     private World world;
     private boolean multiplayer;
+    private int gameID;
 
     // private HashMap<String, Character> enemyCharacters;
 
@@ -107,12 +108,14 @@ public class PlayView extends SuperView {
             @Override
             public boolean tap(float x, float y, int count, int button) {
                 pc.touch(world.getCharacter());
+                updateServer(0);
                 return true;
             }
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
                 if (velocityY > 10) { pc.swipe(world.getCharacter(), 0); }
                 if (velocityY < -10) { pc.swipe(world.getCharacter(), 1); }
+                updateServer(1);
                 return true;
             }
         }));
@@ -169,7 +172,6 @@ public class PlayView extends SuperView {
 
     public void startOnline() {
         // enemyCharacters = new HashMap<String, Character>();
-
         connectSocket();
         configSocketEvents();
     }
@@ -177,7 +179,7 @@ public class PlayView extends SuperView {
     public void connectSocket() {
         try {
             // socket = IO.socket("https://progark-server.herokuapp.com/");
-            socket = IO.socket("https://localhost:8080");
+            socket = IO.socket("http://localhost:8080");
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);
@@ -227,13 +229,40 @@ public class PlayView extends SuperView {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
                 }
             }
+        }).on("playerMoved", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String playerId = data.getString("id");
+                    if (data.getInt("movement") == 0) {
+                        pc.touch(world.getEnemy());
+                    } else {
+                        //pc.swipe(world.getEnemy(), );
+                    }
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting New PlayerID");
+                }
+                Gdx.app.log("SocketIO", "Player jumped");
+            }
+        }).on("startGame", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    setGameID(data.getInt("gameID"));
+                    world.createEnemy();
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error starting game");
+                }
+            }
         }).on("getPlayers", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONArray objects = (JSONArray) args[0];
                 try {
                     for (int i = 0; i < objects.length(); i++) {
-                        Character externalPlayer = new Character("playeranimation_multi.png");
+
                         Vector3 position = new Vector3();
                         position.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
                         position.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
@@ -244,6 +273,17 @@ public class PlayView extends SuperView {
                 }
             }
         });
+    }
+
+    public void updateServer(int movementType) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("movement", movementType);
+            data.put("gameID", this.gameID);
+            socket.emit("playerMoved", data);
+        } catch (JSONException e) {
+            Gdx.app.log("SocketIO", "Error sending update data");
+        }
     }
     /**
      * Update method handles input from user, calls all textures update-methods and maked camera follow player
@@ -259,6 +299,10 @@ public class PlayView extends SuperView {
 
         camera.position.set(world.getCharacter().getPosition().x + 100, ImpossibleGravity.HEIGHT/2, 0);
         camera.update();
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
     /**
@@ -279,6 +323,9 @@ public class PlayView extends SuperView {
         }
 
         sb.draw(world.getCharacter().getSprite(), world.getCharacter().getPosition().x, world.getCharacter().getPosition().y);
+        if (world.doesEnemyExists()) {
+            sb.draw(world.getEnemy().getSprite(), world.getEnemy().getPosition().x, world.getEnemy().getPosition().y);
+        }
 
         world.getCharacter().getScoreFont().setColor(Color.BLACK);
         world.getCharacter().getScoreFont().draw(sb, world.getCharacter().getScoreString(), camera.position.x+(ImpossibleGravity.WIDTH/3), ImpossibleGravity.HEIGHT-30);

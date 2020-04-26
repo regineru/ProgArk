@@ -18,7 +18,8 @@ public class World {
     private Music music;
     private ObstacleFactory obstacleFactory;
     private Character character;
-    private Enemy enemy;
+    private Character enemy;
+    private boolean enemyExists = false;
 
     /**
      *  Help attributes for update-method
@@ -55,8 +56,17 @@ public class World {
         return character;
     }
 
-    public Enemy getEnemy() {
+    public void createEnemy() {
+        this.enemy = new Character("playeranimation_multi.png");
+        this.enemyExists = true;
+    }
+
+    public Character getEnemy() {
         return enemy;
+    }
+
+    public boolean doesEnemyExists() {
+        return this.enemyExists;
     }
 
     public void playMusic(){music.play();}
@@ -79,6 +89,9 @@ public class World {
 
     public void update(float dt, OrthographicCamera camera, GameController gameController) {
         character.update(dt);
+        if (enemyExists) {
+            enemy.update(dt);
+        }
         grass.update(dt, camera);
         heaven.update(dt, camera);
 
@@ -110,6 +123,7 @@ public class World {
 
     public void dispose() {
         character.dispose();
+        enemy.dispose();
         music.dispose();
         grass.dispose();
         heaven.dispose();
